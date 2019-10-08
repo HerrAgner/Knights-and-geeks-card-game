@@ -1,1 +1,1 @@
-# Knights and Nerds card game
+# Knights and Geeks card game
