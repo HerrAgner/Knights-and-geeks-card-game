@@ -24,18 +24,23 @@ class GameTest {
 
         try {
             game = new Game("", "");
-            assertNull(game);
+            assertNull(game.getPlayers());
         } catch (Exception e) {
             assert (false);
         }
         try {
             game = new Game(null, null);
-            assertNull(game);
+            assertNull(game.getPlayers());
         } catch (Exception e) {
             assert (false);
         }
 
-
+        try {
+            game = new Game("Ted", "Ted");
+            assertNull(game.getPlayers());
+        } catch (Exception e) {
+            assert (false);
+        }
 
 
     }
@@ -106,6 +111,6 @@ class GameTest {
 
     @Test
     void createCardPile(){
-        
+
     }
 }
