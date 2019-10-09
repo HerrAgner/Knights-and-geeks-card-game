@@ -8,7 +8,7 @@ public class Player {
     private int mana;
     private ArrayList<Card> cardsOnHand;
     private ArrayList<Card> cardsOnTable;
-    
+
     public Player(String name) {
         this.name = name;
     }
