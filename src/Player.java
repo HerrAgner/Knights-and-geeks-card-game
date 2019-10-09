@@ -18,6 +18,8 @@ public class Player {
             this.name = name;
             this.health = 30;
             this.mana = 1;
+            this.cardsOnHand = new ArrayList<>();
+            this.cardsOnTable = new ArrayList<>();
         }
             else this.name = null;
     }
@@ -54,7 +56,7 @@ public class Player {
         return cardsOnTable;
     }
 
-    public void setCardsOnTable(ArrayList<Card> cardsOnTable) {
+    public void addCardToTable(Card card) {
         this.cardsOnTable = cardsOnTable;
     }
 }

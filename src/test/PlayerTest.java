@@ -67,9 +67,13 @@ class PlayerTest {
 
 	@Test
 	void getCardsOnTable() {
+		assertNotNull(player.getCardsOnTable());
 	}
 
 	@Test
-	void setCardsOnTable() {
+	void addCardToTable() {
+		final Card testCard = new UnitCard("name", 1, "",1, 1);
+		player.addCardToTable(testCard);
+		assertEquals(testCard, player.getCardsOnHand().get(0));
 	}
 }
