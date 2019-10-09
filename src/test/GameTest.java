@@ -66,4 +66,9 @@ class GameTest {
     @Test
     void initGame() {
     }
+
+    @Test
+    void createCardPile(){
+        
+    }
 }
