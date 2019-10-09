@@ -3,9 +3,6 @@ import cards.UnitCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -60,9 +57,23 @@ class PlayerTest {
 
 	@Test
 	void addCardToHand() {
-		Card testCard = new UnitCard("name", 1, "",1, 1);
+		Card testCard = new UnitCard("name", 1, "test",1, 1);
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.getCardFromHand(testCard.getId()));
+	}
+	@Test
+	void getCardFromHand() {
+		Card testCard = new UnitCard("name", 1, "test",1, 1);
+		player.addCardToHand(testCard);
+		assertNotNull(player.getCardFromHand(testCard.getId()));
+	}
+
+	@Test
+	void removeCardFromHand(){
+		Card testCard = new UnitCard("name", 1, "test",1, 1);
+		player.addCardToHand(testCard);
+		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
+		assertTrue(player.getCardsOnHand().isEmpty());
 	}
 
 	@Test
@@ -72,16 +83,16 @@ class PlayerTest {
 
 	@Test
 	void addCardToTable() {
-		Card testCard = new UnitCard("name", 1, "",1, 1);
+		Card testCard = new UnitCard("namn",1,"test",1,1);
 		player.addCardToTable(testCard);
 		assertEquals(testCard, player.getCardFromTable(testCard.getId()));
 	}
 
 	@Test
 	void removeCardFromTable(){
-		Card testCard = new UnitCard("name", 1, "",1, 1);
-		player.addCardToHand(testCard);
-		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
-		assertTrue(player.getCardsOnHand().isEmpty());
+		Card testCard = new UnitCard("name", 1, "test",1, 1);
+		player.addCardToTable(testCard);
+		assertEquals(testCard, player.removeCardFromTable(testCard.getId()));
+		assertTrue(player.getCardsOnTable().isEmpty());
 	}
 }
