@@ -1,6 +1,16 @@
 import cards.Card;
+import cards.UnitCard;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game {
 
@@ -97,7 +107,8 @@ public class Game {
         return true;
     }
 
-    public boolean createCardPile() {
+    public boolean createCardPile(int amountOfCards) {
+
 
         return true;
     }

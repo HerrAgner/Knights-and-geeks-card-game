@@ -114,11 +114,9 @@ class GameTest {
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
 
-        assertFalse(game.createCardPile(null));
-        assertFalse(game.createCardPile(-1));
         assertFalse(game.createCardPile(101));
         assertFalse(game.createCardPile(49));
-        
+
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
 
