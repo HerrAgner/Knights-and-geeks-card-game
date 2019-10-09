@@ -11,7 +11,7 @@ public class Game {
     private int round;
 
 
-    public Game( Player[] players) {
+    public Game(Player[] players) {
         this.players = players;
     }
 
@@ -82,6 +82,11 @@ public class Game {
     }
 
     public boolean initGame(Player p1, Player p2) {
+
+        return true;
+    }
+
+    public boolean createCardPile() {
 
         return true;
     }
