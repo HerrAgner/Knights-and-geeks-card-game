@@ -37,7 +37,7 @@ class GameTest {
             game = new Game("Ted", "Ted");
             assertNull(game.getPlayers());
         } catch (Exception ignored) {}
-        
+
     }
 
     @Test
@@ -106,6 +106,21 @@ class GameTest {
 
     @Test
     void createCardPile(){
+        Game game = new Game("Ted", "Anton");
+        int amountOfCards = 80;
+
+        assertTrue(game.createCardPile(amountOfCards));
+
+        assertNotNull(game.getCardPile());
+        assertEquals(amountOfCards, game.getCardPile().size());
+
+        assertFalse(game.createCardPile(null));
+        assertFalse(game.createCardPile(-1));
+        assertFalse(game.createCardPile(101));
+        assertFalse(game.createCardPile(49));
+        
+        assertTrue(game.createCardPile(50));
+        assertTrue(game.createCardPile(100));
 
     }
 }
