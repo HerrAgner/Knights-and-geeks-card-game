@@ -7,7 +7,7 @@ public class CLI {
         createPlayers();
     }
 
-    private boolean createPlayers() {
+    private void createPlayers() {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Enter name for player 1");
@@ -23,7 +23,6 @@ public class CLI {
             playerTwoName = scan.nextLine();
         }
         new Game(playerOneName, playerTwoName);
-        return true;
     }
 
     private boolean gameloop() {
