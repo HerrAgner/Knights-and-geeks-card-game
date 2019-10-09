@@ -5,19 +5,25 @@ import java.util.ArrayList;
 public class Game {
 
     private ArrayList<Card> cardPile;
-    private ArrayList<Card> trashPile;
+    private ArrayList<Card> trashPile = new ArrayList<>();
     private Player[] players;
     private int activePlayer;
     private int round;
 
 
     public Game(String player1, String player2) {
+        if (player1 == null || player2 == null) {
+            return;
+        }
         if (player1.isEmpty() || player2.isEmpty()) {
+            return;
+        }
+        if (player1.equals(player2)) {
             return;
         }
         this.players = new Player[]{new Player(player1), new Player(player2)};
         this.round = 1;
-        this.activePlayer = 1;
+        this.activePlayer = 0;
     }
 
     public int getRound() {

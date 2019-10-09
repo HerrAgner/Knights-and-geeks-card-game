@@ -14,7 +14,7 @@ class GameTest {
         Game game = new Game("Ted", "Anton");
 
         assertNotNull(game.getPlayers());
-        assertEquals(1, game.getActivePlayer());
+        assertEquals(0, game.getActivePlayer());
         assertEquals(1, game.getRound());
         assertEquals(2, game.getPlayers().length);
 
@@ -25,21 +25,18 @@ class GameTest {
         try {
             game = new Game("", "");
             assertNull(game.getPlayers());
-        } catch (Exception e) {
-            assert (false);
+        } catch (Exception ignored) {
         }
         try {
             game = new Game(null, null);
             assertNull(game.getPlayers());
-        } catch (Exception e) {
-            assert (false);
+        } catch (Exception ignored) {
         }
 
         try {
             game = new Game("Ted", "Ted");
             assertNull(game.getPlayers());
-        } catch (Exception e) {
-            assert (false);
+        } catch (Exception ignored) {
         }
 
 
