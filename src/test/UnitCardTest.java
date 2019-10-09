@@ -17,10 +17,10 @@ class UnitCardTest {
 
     @Test
     void superConstructorTest() {
-        assertNull(new Card().getName());
-        assertNull(new Card().getType());
-        assertNull(new Card().getId());
-        assertEquals(new Card().getCost(), 0);
+        assertNull(new UnitCard().getName());
+        assertNull(new UnitCard().getType());
+        assertNull(new UnitCard().getId());
+        assertEquals(new UnitCard().getCost(), 0);
 
         assertNotNull(card.getId());
         assertNotEquals(card.getId(), card2.getId());
