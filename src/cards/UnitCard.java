@@ -15,7 +15,7 @@ public class UnitCard extends Card {
     }
 
     public boolean setHp(int hp) {
-        if (hp > 0 && hp < 10) {
+        if (hp >= 0 && hp <= 10) {
             this.hp = hp;
             return true;
         } else {
@@ -24,7 +24,7 @@ public class UnitCard extends Card {
     }
 
     public boolean setAttack(int attack) {
-        if (attack > 0 && attack < 10) {
+        if (attack > 0 && attack <= 10) {
             this.attack = attack;
             return true;
         } else {
