@@ -21,25 +21,23 @@ class GameTest {
         assertEquals("Ted", game.getPlayers()[0].getName());
         assertEquals("Anton", game.getPlayers()[1].getName());
         assertNotEquals(game.getPlayers()[0], game.getPlayers()[1]);
+        assertEquals(0, game.getTrashPile().size());
 
         try {
             game = new Game("", "");
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
+
         try {
             game = new Game(null, null);
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
         try {
             game = new Game("Ted", "Ted");
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {
-        }
-
-
+        } catch (Exception ignored) {}
+        
     }
 
     @Test
