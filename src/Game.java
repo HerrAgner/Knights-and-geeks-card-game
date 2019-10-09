@@ -1,4 +1,5 @@
 import cards.Card;
+import cards.UnitCard;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class Game {
         return true;
     }
 
-    public boolean attackCard(Card playedCard, Card enemyCard) {
+    public boolean attackCard(UnitCard playedCard, UnitCard enemyCard) {
 
         return true;
     }
