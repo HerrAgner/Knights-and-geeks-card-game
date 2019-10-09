@@ -62,7 +62,7 @@ class PlayerTest {
 	void addCardToHand() {
 		final Card testCard = new UnitCard("name", 1, "",1, 1);
 		player.addCardToHand(testCard);
-		assertEquals(testCard, player.getCardsOnHand().get(testCard.getId()));
+		assertEquals(testCard, player.getCardFromHand(testCard.getId()));
 	}
 
 	@Test
@@ -74,6 +74,14 @@ class PlayerTest {
 	void addCardToTable() {
 		final Card testCard = new UnitCard("name", 1, "",1, 1);
 		player.addCardToTable(testCard);
-		assertEquals(testCard, player.getCardsOnTable().get(testCard.getId()));
+		assertEquals(testCard, player.getCardFromTable(testCard.getId()));
+	}
+
+	@Test
+	void removeCardFromHand(){
+		final Card testCard = new UnitCard("name", 1, "",1, 1);
+		player.addCardToHand(testCard);
+		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
+		assertTrue(player.getCardsOnHand().isEmpty());
 	}
 }
