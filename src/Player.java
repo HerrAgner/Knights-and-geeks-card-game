@@ -39,7 +39,7 @@ public class Player {
     }
 
     public void changeMana(int mana) {
-        this.mana = mana;
+        this.mana = this.mana + mana;
     }
 
     public ArrayList<Card> getCardsOnHand() {

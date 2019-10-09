@@ -1,4 +1,5 @@
 import cards.Card;
+import cards.UnitCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,11 +55,14 @@ class PlayerTest {
 
 	@Test
 	void getCardsOnHand() {
+		assertNotNull(player.getCardsOnHand());
 	}
 
 	@Test
-	void setCardsOnHand() {
-
+	void addCardToHand() {
+		final Card testCard = new UnitCard("name", 1, "",1, 1);
+		player.addCardToHand(testCard);
+		assertEquals(testCard, player.getCardsOnHand().get(0));
 	}
 
 	@Test
