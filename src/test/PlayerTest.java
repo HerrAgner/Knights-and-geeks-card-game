@@ -34,8 +34,8 @@ class PlayerTest {
 
 	@Test
 	void setHealth() {
-		final int hpCurrent = player.getHealth();
-		final int hpChange = 5;
+		int hpCurrent = player.getHealth();
+		int hpChange = 5;
 		player.changeHealth(hpChange);
 		assertEquals(hpCurrent + hpChange, player.getHealth());
 	}
@@ -47,8 +47,8 @@ class PlayerTest {
 
 	@Test
 	void changeMana() {
-		final int manaCurrent = player.getMana();
-		final int manaChange = 1;
+		int manaCurrent = player.getMana();
+		int manaChange = 1;
 		player.changeMana(manaChange);
 		assertEquals(manaCurrent + manaChange, player.getMana());
 	}
@@ -60,7 +60,7 @@ class PlayerTest {
 
 	@Test
 	void addCardToHand() {
-		final Card testCard = new UnitCard("name", 1, "",1, 1);
+		Card testCard = new UnitCard("name", 1, "",1, 1);
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.getCardFromHand(testCard.getId()));
 	}
@@ -72,14 +72,14 @@ class PlayerTest {
 
 	@Test
 	void addCardToTable() {
-		final Card testCard = new UnitCard("name", 1, "",1, 1);
+		Card testCard = new UnitCard("name", 1, "",1, 1);
 		player.addCardToTable(testCard);
 		assertEquals(testCard, player.getCardFromTable(testCard.getId()));
 	}
 
 	@Test
-	void removeCardFromHand(){
-		final Card testCard = new UnitCard("name", 1, "",1, 1);
+	void removeCardFromTable(){
+		Card testCard = new UnitCard("name", 1, "",1, 1);
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
 		assertTrue(player.getCardsOnHand().isEmpty());
