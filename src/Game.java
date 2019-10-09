@@ -10,12 +10,8 @@ public class Game {
     private int round;
 
 
-    public Game(ArrayList<Card> cardPile, ArrayList<Card> trashPile, Player[] players, int activePlayer, int round) {
-        this.cardPile = cardPile;
-        this.trashPile = trashPile;
+    public Game( Player[] players) {
         this.players = players;
-        this.activePlayer = activePlayer;
-        this.round = round;
     }
 
     public int getRound() {
@@ -36,6 +32,22 @@ public class Game {
 
     public Player[] getPlayers() {
         return players;
+    }
+
+    public void setCardPile(ArrayList<Card> cardPile) {
+        this.cardPile = cardPile;
+    }
+
+    public void setTrashPile(ArrayList<Card> trashPile) {
+        this.trashPile = trashPile;
+    }
+
+    public void setActivePlayer(int activePlayer) {
+        this.activePlayer = activePlayer;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     public boolean drawCard() {
