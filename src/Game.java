@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import cards.UnitCard;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -82,7 +83,7 @@ public class Game {
         return true;
     }
 
-    public boolean attackCard(Card playedCard, Card enemyCard) {
+    public boolean attackCard(UnitCard playedCard, UnitCard enemyCard) {
 
         return true;
     }

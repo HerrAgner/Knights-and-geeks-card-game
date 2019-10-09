@@ -1,4 +1,5 @@
 import cards.Card;
+import cards.UnitCard;
 import org.junit.jupiter.api.*;
 
 import java.lang.reflect.Array;
@@ -86,6 +87,15 @@ class GameTest {
 
     @Test
     void attackCard() {
+        Game game = new Game("eric", "nisse");
+        UnitCard card1 = new UnitCard("Krigaren", 3, "Warrior", 5, 3);
+        UnitCard card2 = new UnitCard("Hästen", 4, "Horse", 9, 2);
+
+        assertTrue(game.attackCard(card1, card2));
+
+
+
+
     }
 
     @Test
