@@ -6,12 +6,24 @@ public class Game {
     private ArrayList<Card> cardPile;
     private ArrayList<Card> trashPile;
     private final Player players[];
+    private int activePlayer;
+    private int round;
 
 
-    public Game(ArrayList<Card> cardPile, ArrayList<Card> trashPile, Player[] players) {
+    public Game(ArrayList<Card> cardPile, ArrayList<Card> trashPile, Player[] players, int activePlayer, int round) {
         this.cardPile = cardPile;
         this.trashPile = trashPile;
         this.players = players;
+        this.activePlayer = activePlayer;
+        this.round = round;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public int getActivePlayer() {
+        return activePlayer;
     }
 
     public ArrayList<Card> getCardPile() {
