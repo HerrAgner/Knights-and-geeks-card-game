@@ -1,22 +1,18 @@
 import cards.Card;
 import cards.UnitCard;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
-import cards.UnitCard;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class Game {
 
-    private ArrayList<Card> cardPile;
-    private ArrayList<Card> trashPile = new ArrayList<>();
+    private ArrayList<UnitCard> cardPile;
+    private ArrayList<UnitCard> trashPile = new ArrayList<>();
     private Player[] players;
     private int activePlayer;
     private int round;
@@ -45,11 +41,11 @@ public class Game {
         return activePlayer;
     }
 
-    public ArrayList<Card> getCardPile() {
+    public ArrayList getCardPile() {
         return cardPile;
     }
 
-    public ArrayList<Card> getTrashPile() {
+    public ArrayList getTrashPile() {
         return trashPile;
     }
 
@@ -57,11 +53,11 @@ public class Game {
         return players;
     }
 
-    public void setCardPile(ArrayList<Card> cardPile) {
+    public void setCardPile(ArrayList cardPile) {
         this.cardPile = cardPile;
     }
 
-    public void setTrashPile(ArrayList<Card> trashPile) {
+    public void setTrashPile(ArrayList trashPile) {
         this.trashPile = trashPile;
     }
 
@@ -109,7 +105,25 @@ public class Game {
     }
 
     public boolean createCardPile(int amountOfCards) {
+        if (amountOfCards < 50 || amountOfCards > 100) return false;
+        cardPile = new ArrayList<>();
 
+        String path = "src/cards.json";
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
+        List<UnitCard> cards = gson.fromJson(br, collectionType);
+
+
+        for (int i = 0; i < amountOfCards; i++) {
+            cardPile.add(cards.get(i));
+        }
 
         return true;
     }
