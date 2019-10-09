@@ -93,6 +93,10 @@ class GameTest {
 
         assertTrue(game.attackCard(card1, card2));
 
+        try{
+
+        } catch()
+
 
 
 
