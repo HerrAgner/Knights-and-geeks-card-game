@@ -41,10 +41,15 @@ class PlayerTest {
 
 	@Test
 	void getMana() {
+		assertTrue(player.getMana() > -1);
 	}
 
 	@Test
-	void setMana() {
+	void changeMana() {
+		final int manaCurrent = player.getMana();
+		final int manaChange = 1;
+		player.changeMana(manaChange);
+		assertEquals(manaCurrent + manaChange, player.getMana());
 	}
 
 	@Test

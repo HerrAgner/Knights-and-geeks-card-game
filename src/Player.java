@@ -38,7 +38,7 @@ public class Player {
         return mana;
     }
 
-    public void setMana(int mana) {
+    public void changeMana(int mana) {
         this.mana = mana;
     }
 
