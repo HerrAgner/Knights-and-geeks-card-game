@@ -35,7 +35,7 @@ class PlayerTest {
 	void setHealth() {
 		final int hpCurrent = player.getHealth();
 		final int hpChange = 5;
-		player.setHealth(hpChange);
+		player.changeHealth(hpChange);
 		assertEquals(hpCurrent + hpChange, player.getHealth());
 	}
 

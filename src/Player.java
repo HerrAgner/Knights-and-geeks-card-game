@@ -30,8 +30,8 @@ public class Player {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void changeHealth(int hpChange) {
+        this.health = health + hpChange;
     }
 
     public int getMana() {
@@ -45,7 +45,7 @@ public class Player {
     public ArrayList<Card> getCardsOnHand() {
         return cardsOnHand;
     }
-    
+
     public void addCardToHand(Card card){
         cardsOnHand.add(card);
     }
