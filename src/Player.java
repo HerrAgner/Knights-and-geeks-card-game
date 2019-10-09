@@ -9,8 +9,17 @@ public class Player {
     private ArrayList<Card> cardsOnHand;
     private ArrayList<Card> cardsOnTable;
 
+    public Player(){
+        this("");
+    }
+
     public Player(String name) {
-        this.name = name;
+        if (name.length() > 0) {
+            this.name = name;
+            this.health = 30;
+            this.mana = 1;
+        }
+            else this.name = null;
     }
 
     public String getName() {
@@ -36,9 +45,9 @@ public class Player {
     public ArrayList<Card> getCardsOnHand() {
         return cardsOnHand;
     }
-
-    public void setCardsOnHand(ArrayList<Card> cardsOnHand) {
-        this.cardsOnHand = cardsOnHand;
+    
+    public void addCardToHand(Card card){
+        cardsOnHand.add(card);
     }
 
     public ArrayList<Card> getCardsOnTable() {
