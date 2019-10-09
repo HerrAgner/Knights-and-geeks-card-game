@@ -3,6 +3,7 @@ import cards.Card;
 import java.util.ArrayList;
 
 public class Game {
+
     private ArrayList<Card> cardPile;
     private ArrayList<Card> trashPile;
     private final Player players[];
