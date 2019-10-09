@@ -9,13 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class CLITest {
     @Test
     void createPlayers() {
-        CLI cli = new CLI();
         String input = "Anton\nKalle\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertTrue(cli.createPlayers());
+        CLI cli = new CLI();
         assertFalse(cli.getPlayerOneName().isEmpty() && cli.getPlayerTwoName().isEmpty());
-        assertTrue(cli.getPlayerOneName() != cli.getPlayerTwoName());
+        assertNotSame(cli.getPlayerOneName(), cli.getPlayerTwoName());
         assertTrue(cli.getPlayerOneName().length() < 10 && cli.getPlayerTwoName().length() < 10);
     }
 

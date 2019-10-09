@@ -4,9 +4,10 @@ public class CLI {
     private String playerOneName, playerTwoName;
 
     public CLI() {
+        createPlayers();
     }
 
-    public boolean createPlayers() {
+    private boolean createPlayers() {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Enter name for player 1");
