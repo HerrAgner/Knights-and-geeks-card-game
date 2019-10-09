@@ -6,13 +6,14 @@ public class Game {
 
     private ArrayList<Card> cardPile;
     private ArrayList<Card> trashPile;
-    private final Player players[];
+    private final Player[] players;
     private int activePlayer;
     private int round;
 
 
-    public Game(Player[] players) {
-        this.players = players;
+    public Game(String player1, String player2) {
+        this.players = new Player[]{new Player(player1), new Player(player2)};
+
     }
 
     public int getRound() {
