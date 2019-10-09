@@ -1,13 +1,16 @@
 import cards.Card;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Player {
     private final String name;
     private int health;
     private int mana;
-    private ArrayList<Card> cardsOnHand;
-    private ArrayList<Card> cardsOnTable;
+    private Map<UUID, Card> cardsOnHand;
+    private Map<UUID, Card> cardsOnTable;
 
     public Player(){
         this("");
@@ -18,8 +21,8 @@ public class Player {
             this.name = name;
             this.health = 30;
             this.mana = 1;
-            this.cardsOnHand = new ArrayList<>();
-            this.cardsOnTable = new ArrayList<>();
+            this.cardsOnHand = new ConcurrentHashMap<>();
+            this.cardsOnTable = new ConcurrentHashMap<>();
         }
             else this.name = null;
     }
@@ -44,19 +47,26 @@ public class Player {
         this.mana = this.mana + mana;
     }
 
-    public ArrayList<Card> getCardsOnHand() {
+    public Map<UUID, Card> getCardsOnHand() {
         return cardsOnHand;
     }
 
     public void addCardToHand(Card card){
-        cardsOnHand.add(card);
+        cardsOnHand.put(card.getId(), card);
     }
 
-    public ArrayList<Card> getCardsOnTable() {
+    public Card getCardFromHand(UUID id){
+        return cardsOnHand.get(id);
+    }
+
+    public Map<UUID, Card> getCardsOnTable() {
         return cardsOnTable;
     }
 
     public void addCardToTable(Card card) {
-        this.cardsOnTable = cardsOnTable;
+        cardsOnTable.put(card.getId(), card);
     }
+
+
+
 }
