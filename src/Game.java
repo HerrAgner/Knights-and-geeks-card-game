@@ -73,7 +73,7 @@ public class Game {
         return true;
     }
 
-    public boolean attackCard(UnitCard playedCard, UnitCard enemyCard) {
+    public boolean attackCard(Card playedCard, Card enemyCard) {
 
         return true;
     }
