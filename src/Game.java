@@ -75,9 +75,8 @@ public class Game {
         return true;
     }
 
-    public boolean playCard() {
-
-        return true;
+    public void playCard(UUID id) {
+        getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
     }
 
     public boolean attackCard(Card playedCard, Card enemyCard) {
