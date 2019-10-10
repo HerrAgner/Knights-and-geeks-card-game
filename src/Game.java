@@ -107,7 +107,7 @@ public class Game {
 
     public boolean createCardPile(int amountOfCards) {
         if (amountOfCards < 50 || amountOfCards > 100) return false;
-        
+
         cardPile = new ArrayList<>();
 
         CardGenerator cg = new CardGenerator();
@@ -118,7 +118,6 @@ public class Game {
         for (int i = 0; i < amountOfCards/2; i++) {
             cardPile.add(cards.get(i));
             cardPile.add(cards.get(i));
-            System.out.println(cards.get(i).getName());
         }
 
         if (amountOfCards % 2 == 1) {
