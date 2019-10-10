@@ -151,7 +151,6 @@ class GameTest {
     void attackCard() {
         Game game = new Game("eric", "nisse");
         Player players[] = game.getPlayers();
-        int defendingPlayer = game.getActivePlayer() == 0 ? 1 : 0;
 
         UnitCard attackingCard = new UnitCard("Krigaren", 3, 5, 6);
         UnitCard defendingCard = new UnitCard("Hästen", 4, 5, 4);
@@ -160,7 +159,7 @@ class GameTest {
         fatiugeCard.setFatigue(true);
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
-        players[defendingPlayer].addCardToTable(defendingCard);
+        game.getDefendingPlayer().addCardToTable(defendingCard);
         // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
@@ -169,7 +168,7 @@ class GameTest {
         assertEquals(attackingCard.getHp(), 1);
         assertEquals(defendingCard.getHp(), -1);
         assertTrue(game.getTrashPile().size() >= 1);
-        assertNull(players[defendingPlayer].getCardFromTable(defendingCard.getId()));
+        assertNull(game.getDefendingPlayer().getCardFromTable(defendingCard.getId()));
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
         assertTrue(game.getTrashPile().contains(defendingCard));
         assertFalse(game.getTrashPile().contains(attackingCard));

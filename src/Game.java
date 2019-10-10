@@ -96,16 +96,13 @@ public class Game {
         if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
         if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
 
-
-        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
-
         defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
         attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
         defendingCard.setFatigue(true);
         attackingCard.setFatigue(true);
 
         if (defendingCard.getHp() < 1) {
-            getPlayers()[defendingPlayer].removeCardFromTable(defendingCard.getId());
+            getDefendingPlayer().removeCardFromTable(defendingCard.getId());
             trashPile.add(defendingCard);
         }
         if (attackingCard.getHp() < 1) {
