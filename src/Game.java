@@ -91,8 +91,25 @@ public class Game {
         return false;
     }
 
-    public boolean attackCard(Card playedCard, Card enemyCard) {
+    public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
 
+        if (attackingCard == defendingCard) return false;
+        if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
+
+        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
+
+        defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
+        attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
+
+        if (defendingCard.getHp() < 1) {
+            getPlayers()[defendingPlayer].removeCardFromTable(defendingCard.getId());
+            trashPile.add(defendingCard);
+        }
+        if (attackingCard.getHp() < 1) {
+            players[activePlayer].removeCardFromHand(attackingCard.getId());
+            trashPile.add(attackingCard);
+
+        }
         return true;
     }
 
@@ -126,11 +143,12 @@ public class Game {
         cardPile = new ArrayList<>();
 
         CardGenerator cg = new CardGenerator();
-        Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
+        Type collectionType = new TypeToken<List<UnitCard>>() {
+        }.getType();
         List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
         // Two of each card
-        for (int i = 0; i < amountOfCards/2; i++) {
+        for (int i = 0; i < amountOfCards / 2; i++) {
             cardPile.add(cards.get(i));
             cardPile.add(cards.get(i));
         }
