@@ -3,6 +3,7 @@ package cards;
 public class UnitCard extends Card {
     private int hp;
     private int attack;
+    private boolean fatigue;
 
     public UnitCard() {
         this("", 0, "", 0, 0);
@@ -12,6 +13,7 @@ public class UnitCard extends Card {
         super(name, cost, type);
         this.hp = hp;
         this.attack = attack;
+        this.fatigue = false;
     }
 
     public boolean setHp(int hp) {
@@ -38,5 +40,13 @@ public class UnitCard extends Card {
 
     public int getAttack() {
         return attack;
+    }
+
+    public boolean isFatigue() {
+        return fatigue;
+    }
+
+    public void setFatigue(boolean fatigue) {
+        this.fatigue = fatigue;
     }
 }
