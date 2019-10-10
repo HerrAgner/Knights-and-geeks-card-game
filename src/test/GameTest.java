@@ -64,7 +64,7 @@ class GameTest {
 
     @Test
     void getTrashPile() {
-        assertNotNull(game.getCardPile());
+        assertNotNull(game.getTrashPile());
     }
 
     @Test
@@ -148,6 +148,9 @@ class GameTest {
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
+
+        assertTrue(game.createCardPile(51));
+        assertEquals(51, game.getCardPile().size());
 
         assertFalse(game.createCardPile(101));
         assertFalse(game.createCardPile(49));

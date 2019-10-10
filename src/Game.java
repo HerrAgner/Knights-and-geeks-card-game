@@ -127,7 +127,6 @@ public class Game {
         for (int i = 0; i < amountOfCards/2; i++) {
             cardPile.add(cards.get(i));
             cardPile.add(cards.get(i));
-            System.out.println(cards.get(i).getName());
         }
 
         Collections.shuffle(cardPile);
