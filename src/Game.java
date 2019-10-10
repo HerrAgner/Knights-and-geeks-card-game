@@ -76,6 +76,7 @@ public class Game {
     }
 
     public void playCard(UUID id) {
+//      getActivePlayer().addCardToTable(getActivePlayer().removeCardFromHand(id));
         getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
     }
 
