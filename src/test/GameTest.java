@@ -171,6 +171,8 @@ class GameTest {
         assertTrue(game.getTrashPile().size() >= 1);
         assertNull(players[defendingPlayer].getCardFromTable(defendingCard.getId()));
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
+        assertTrue(game.getTrashPile().contains(defendingCard));
+        assertFalse(game.getTrashPile().contains(attackingCard));
     }
 
     @Test
