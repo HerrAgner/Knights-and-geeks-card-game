@@ -108,22 +108,20 @@ class GameTest {
         Game game = new Game("Anton", "Ted");
         game.createCardPile(80);
         ArrayList cardPile = game.getCardPile();
-        Player[] players = game.getPlayers();
 
-        assertTrue(players.length == 2);
         assertEquals(cardPile.size(), 80);
 
-        int activePlayer = game.getActivePlayer();
+        Player activePlayer = game.getActivePlayer();
 
         game.drawCard();
         assertEquals(cardPile.size(), 79);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 1);
+        assertEquals(game.getActivePlayer().getCardsOnHand().size(), 1);
         game.drawCard();
         assertEquals(cardPile.size(), 78);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
+        assertEquals(game.getActivePlayer().getCardsOnHand().size(), 2);
         game.drawCard();
         assertEquals(cardPile.size(), 77);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 3);
+        assertEquals(game.getActivePlayer().getCardsOnHand().size(), 3);
 
 
     }
@@ -131,7 +129,7 @@ class GameTest {
     @Test
     void playCard() {
         Card card = new UnitCard("name", 1, "type", 1, 1);
-        game.getPlayers()[game.getActivePlayer()].addCardToTable(card);
+        game.getActivePlayer().addCardToTable(card);
     }
 
    /* @Test

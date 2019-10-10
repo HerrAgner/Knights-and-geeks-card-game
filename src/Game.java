@@ -38,8 +38,8 @@ public class Game {
         return round;
     }
 
-    public int getActivePlayer() {
-        return activePlayer;
+    public Player getActivePlayer() {
+        return players[activePlayer];
     }
 
     public ArrayList<Card> getCardPile() {
@@ -71,8 +71,8 @@ public class Game {
     }
 
     public boolean drawCard() {
-        cardPile.remove(0);
-
+        Card card = cardPile.remove(0);
+        getActivePlayer().addCardToHand(card);
         return true;
     }
 

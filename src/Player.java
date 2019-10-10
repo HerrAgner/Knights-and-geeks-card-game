@@ -52,6 +52,7 @@ public class Player {
     }
 
     public void addCardToHand(Card card){
+        System.out.println(card.getId());
         cardsOnHand.put(card.getId(), card);
     }
 
