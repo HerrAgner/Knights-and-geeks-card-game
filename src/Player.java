@@ -1,9 +1,6 @@
 import cards.Card;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Player {
@@ -48,6 +45,8 @@ public class Player {
         this.mana = this.mana + mana;
     }
 
+
+
     public Collection<Card> getCardsOnHand() {
         return cardsOnHand.values();
     }
@@ -64,6 +63,8 @@ public class Player {
         return cardsOnHand.remove(id);
     }
 
+
+
     public Collection<Card> getCardsOnTable() {
         return cardsOnTable.values();
     }
@@ -75,6 +76,7 @@ public class Player {
     public Card getCardFromTable(UUID id) {
         return cardsOnTable.get(id);
     }
+
     public Card removeCardFromTable(UUID id){
         return cardsOnTable.remove(id);
     }
