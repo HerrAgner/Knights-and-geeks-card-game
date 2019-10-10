@@ -35,10 +35,6 @@ public abstract class Card {
         return cost;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public String getType() {
         return type;
     }
