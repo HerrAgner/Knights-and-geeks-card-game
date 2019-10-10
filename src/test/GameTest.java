@@ -59,6 +59,8 @@ class GameTest {
 
     @Test
     void getCardPile() {
+        Game game = new Game("Ted", "Anton");
+        game.createCardPile(80);
         assertNotNull(game.getCardPile());
     }
 
@@ -128,15 +130,15 @@ class GameTest {
 
     @Test
     void finishTurn() {
-    }
-
-    @Test
-    void finishGame() {
         Game game = new Game("Ted", "Anton");
 
         assertEquals(0, game.getActivePlayer());
         assertTrue(game.finishTurn());
         assertEquals(1, game.getActivePlayer());
+    }
+
+    @Test
+    void finishGame() {
 
     }
 
