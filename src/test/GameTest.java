@@ -12,7 +12,7 @@ class GameTest {
     Game game;
 
     @BeforeEach
-    void init () {
+    void init() {
         game = new Game("Ted", "Anton");
     }
 
@@ -52,12 +52,12 @@ class GameTest {
 
     @Test
     void getRound() {
-        assertEquals(1,game.getRound());
+        assertEquals(1, game.getRound());
     }
 
     @Test
     void getActivePlayer() {
-        assertEquals(0,game.getActivePlayer());
+        assertEquals(0, game.getActivePlayer());
     }
 
     @Test
@@ -115,7 +115,37 @@ class GameTest {
 
     @Test
     void attackCard() {
-        
+        Game game = new Game("eric", "nisse");
+        Player players[] = game.getPlayers();
+        int defendingPlayer = game.getActivePlayer() == 0 ? 1 : 0;
+
+        Card active = new UnitCard("Krigaren", 3, 5, 6);
+        Card passive = new UnitCard("Hästen", 4, 5, 4);
+
+        players[game.getActivePlayer()].addCardToHand(active);
+        players[defendingPlayer].addCardToHand(passive);
+
+        //Check so the cards played are not null and they have more than 0hp
+        assertNotNull(players[game.getActivePlayer()].getCardFromHand(active.getId()));
+        assertNotNull(players[defendingPlayer].getCardFromHand(passive.getId()));
+        assertTrue(((UnitCard) active).getHp() > 0);
+        assertTrue(((UnitCard) passive).getHp() > 0);
+
+        ((UnitCard) active).setHp(((UnitCard) active).getHp() - ((UnitCard) passive).getAttack());
+        ((UnitCard) passive).setHp(((UnitCard) passive).getHp() - ((UnitCard) active).getAttack());
+
+        //Check so damage went through
+        assertEquals(((UnitCard) active).getHp(), 1);
+        assertEquals(((UnitCard) passive).getHp(), -1);
+
+        //If one of the cards dies -> check so its removed from hand
+        if (((UnitCard) active).getHp() < 1) {
+            players[game.getActivePlayer()].removeCardFromHand(active.getId());
+            assertNull(players[game.getActivePlayer()].getCardFromHand(active.getId()));
+        } else if (((UnitCard) passive).getHp() < 1) {
+            players[defendingPlayer].removeCardFromHand(passive.getId());
+            assertNull(players[defendingPlayer].getCardFromHand(passive.getId()));
+        }
     }
 
     @Test
