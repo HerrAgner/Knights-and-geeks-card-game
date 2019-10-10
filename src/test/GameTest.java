@@ -93,9 +93,6 @@ class GameTest {
 
         assertTrue(game.attackCard(card1, card2));
 
-        try{
-
-        } catch()
 
 
 
@@ -124,6 +121,7 @@ class GameTest {
         int amountOfCards = 80;
 
         assertTrue(game.createCardPile(amountOfCards));
+        assertEquals(40, game.getCardPile().stream().distinct().count());
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
@@ -133,6 +131,7 @@ class GameTest {
 
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
+
 
     }
 }

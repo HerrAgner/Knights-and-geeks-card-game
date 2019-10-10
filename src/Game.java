@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -41,7 +42,7 @@ public class Game {
         return activePlayer;
     }
 
-    public ArrayList getCardPile() {
+    public ArrayList<UnitCard> getCardPile() {
         return cardPile;
     }
 
@@ -120,10 +121,16 @@ public class Game {
         Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
         List<UnitCard> cards = gson.fromJson(br, collectionType);
 
+        Collections.shuffle(cards);
 
-        for (int i = 0; i < amountOfCards; i++) {
+        // Two of each card
+        for (int i = 0; i < amountOfCards/2; i++) {
             cardPile.add(cards.get(i));
+            cardPile.add(cards.get(i));
+            System.out.println(cards.get(i).getName());
         }
+
+        Collections.shuffle(cardPile);
 
         return true;
     }
