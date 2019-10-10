@@ -22,10 +22,6 @@ class GameTest {
     void constructorTest() {
         Game game = new Game("Ted", "Anton");
 
-        assertNotNull(game.getPlayers());
-        assertEquals(0, game.getActivePlayer());
-        assertEquals(1, game.getRound());
-        assertEquals(2, game.getPlayers().length);
 
         assertEquals("Ted", game.getPlayers()[0].getName());
         assertEquals("Anton", game.getPlayers()[1].getName());
@@ -148,29 +144,36 @@ class GameTest {
         Card card = new UnitCard("name", 1, 1, 1);
         game.getPlayers()[0].addCardToHand(card);
         game.playCard(card.getId());
-        assertSame(game.getPlayers()[game.getActivePlayer()].getCardFromTable(card.getId()), card);
+        assertSame(card, game.getCurrentPlayer().getCardFromTable(card.getId()));
     }
 
     @Test
     void attackCard() {
         Game game = new Game("eric", "nisse");
         Player players[] = game.getPlayers();
-        int defendingPlayer = game.getActivePlayer() == 0 ? 1 : 0;
 
         UnitCard attackingCard = new UnitCard("Krigaren", 3, 5, 6);
         UnitCard defendingCard = new UnitCard("Hästen", 4, 5, 4);
+        UnitCard fatiugeCard = new UnitCard("Fail", 4, 5, 2);
+
+        fatiugeCard.setFatigue(true);
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
-        players[defendingPlayer].addCardToTable(defendingCard);
+        game.getDefendingPlayer().addCardToTable(defendingCard);
         // SET UP -----------------------------------------------
 
+        assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
         assertFalse(game.attackCard(attackingCard, attackingCard));
         assertEquals(attackingCard.getHp(), 1);
         assertEquals(defendingCard.getHp(), -1);
         assertTrue(game.getTrashPile().size() >= 1);
-        assertNull(players[defendingPlayer].getCardFromTable(defendingCard.getId()));
+        assertNull(game.getDefendingPlayer().getCardFromTable(defendingCard.getId()));
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
+        assertTrue(game.getTrashPile().contains(defendingCard));
+        assertFalse(game.getTrashPile().contains(attackingCard));
+        assertTrue(attackingCard.getFatigue());
+        assertTrue(defendingCard.getFatigue());
     }
 
     @Test
@@ -186,8 +189,11 @@ class GameTest {
         assertTrue(game.attackPlayer(card3));
 
         game.setActivePlayer(1);
+        assertFalse(card.getFatigue());
         assertTrue(game.attackPlayer(card));
         assertEquals(25, game.getPlayers()[0].getHealth());
+        assertTrue(card.getFatigue());
+
     }
 
     @Test
@@ -208,6 +214,12 @@ class GameTest {
 
     @Test
     void initGame() {
+        assertNotNull(game.getPlayers());
+        assertEquals(0, game.getActivePlayer());
+        assertEquals(1, game.getRound());
+        assertEquals(2, game.getPlayers().length);
+        assertEquals(5, game.getPlayers()[0].getCardsOnHand().size());
+        assertEquals(5, game.getPlayers()[1].getCardsOnHand().size());
     }
 
     @Test

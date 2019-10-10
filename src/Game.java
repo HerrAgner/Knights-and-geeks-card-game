@@ -1,13 +1,9 @@
 import cards.Card;
 import cards.UnitCard;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -29,9 +25,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        this.players = new Player[]{new Player(player1), new Player(player2)};
-        this.round = 1;
-        this.activePlayer = 0;
+        initGame(player1, player2, 50);
     }
 
     public int getRound() {
@@ -40,6 +34,14 @@ public class Game {
 
     public int getActivePlayer() {
         return activePlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return players[activePlayer];
+    }
+
+    public Player getDefendingPlayer() {
+        return players[activePlayer == 0 ? 1 : 0];
     }
 
     public ArrayList<Card> getCardPile() {
@@ -71,7 +73,7 @@ public class Game {
     }
 
     public boolean drawCard() {
-        if(cardPile.size()==0){
+        if (cardPile.size() == 0) {
 
             return false;
         }
@@ -81,28 +83,26 @@ public class Game {
     }
 
     public boolean playCard(UUID id) {
-//      getActivePlayer().addCardToTable(getActivePlayer().removeCardFromHand(id));
-        try {
-            getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
-            if (getPlayers()[getActivePlayer()].getCardFromTable(id) != null) return true;
-        } catch (Exception e){
-            return false;
+        if (getCurrentPlayer().getMana() >= getCurrentPlayer().getCardFromHand(id).getCost() &&
+                getCurrentPlayer().getCardsOnTable().size() < 7) {
+            getCurrentPlayer().addCardToTable(getCurrentPlayer().removeCardFromHand(id));
         }
-        return false;
+        return getCurrentPlayer().getCardFromTable(id) != null;
     }
 
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
 
         if (attackingCard == defendingCard) return false;
         if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
-
-        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
+        if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
 
         defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
         attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
+        defendingCard.setFatigue(true);
+        attackingCard.setFatigue(true);
 
         if (defendingCard.getHp() < 1) {
-            getPlayers()[defendingPlayer].removeCardFromTable(defendingCard.getId());
+            getDefendingPlayer().removeCardFromTable(defendingCard.getId());
             trashPile.add(defendingCard);
         }
         if (attackingCard.getHp() < 1) {
@@ -117,6 +117,7 @@ public class Game {
         int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
 
         getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
+        card.setFatigue(true);
         if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
 
         return false;
@@ -128,14 +129,32 @@ public class Game {
         return true;
     }
 
-    public boolean finishGame() {
+    public boolean finishGame() throws Exception {
+        String winner = players[activePlayer].getName();
+        int round = getRound();
+        HttpGet httpGet = new HttpGet(winner, round);
+        httpGet.sendGet();
+
 
         return true;
     }
 
-    public boolean initGame(Player p1, Player p2) {
-
-        return true;
+    public boolean initGame(String p1, String p2, int cardAmount) {
+        try {
+            this.players = new Player[]{new Player(p1), new Player(p2)};
+            this.round = 1;
+            this.activePlayer = 0;
+            createCardPile(cardAmount);
+            Random rnd = new Random();
+            while (players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
+                players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+                players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean createCardPile(int amountOfCards) {
