@@ -27,17 +27,20 @@ class GameTest {
         try {
             game = new Game("", "");
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             game = new Game(null, null);
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             game = new Game("Ted", "Ted");
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
     }
 
@@ -92,18 +95,27 @@ class GameTest {
         UnitCard card2 = new UnitCard("Hästen", 4, "Horse", 9, 2);
 
         assertTrue(game.attackCard(card1, card2));
-
-        try{
-
-        } catch()
-
-
+//
+//        try{
+//
+//        } catch()
 
 
     }
 
     @Test
     void attackPlayer() {
+        Game game = new Game("Eric", "Ted");
+        UnitCard card = new UnitCard("Pelle", 5, "melee", 9, 5);
+        UnitCard card2 = new UnitCard("Håkan", 5, "ranged", 5, 10);
+
+        game.getPlayers()[1].changeHealth(-25);
+        assertFalse(game.attackPlayer(card2));
+
+        game.getPlayers()[1].changeHealth(25);
+        assertTrue(game.attackPlayer(card));
+
+
     }
 
     @Test
@@ -119,7 +131,7 @@ class GameTest {
     }
 
     @Test
-    void createCardPile(){
+    void createCardPile() {
         Game game = new Game("Ted", "Anton");
         int amountOfCards = 80;
 

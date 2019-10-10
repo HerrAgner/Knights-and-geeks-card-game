@@ -84,9 +84,8 @@ public class Game {
         return true;
     }
 
-    public boolean attackPlayer(Card card) {
-
-        return true;
+    public boolean attackPlayer(UnitCard card) {
+        return false;
     }
 
     public boolean finishTurn() {
@@ -117,7 +116,8 @@ public class Game {
         }
 
         Gson gson = new Gson();
-        Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
+        Type collectionType = new TypeToken<List<UnitCard>>() {
+        }.getType();
         List<UnitCard> cards = gson.fromJson(br, collectionType);
 
 
