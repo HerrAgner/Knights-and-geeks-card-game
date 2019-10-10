@@ -14,7 +14,7 @@ class GameTest {
     Game game;
 
     @BeforeEach
-    void init () {
+    void init() {
         game = new Game("Ted", "Anton");
     }
 
@@ -35,28 +35,31 @@ class GameTest {
         try {
             game = new Game("", "");
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             game = new Game(null, null);
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             game = new Game("Ted", "Ted");
             assertNull(game.getPlayers());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
     }
 
     @Test
     void getRound() {
-        assertEquals(1,game.getRound());
+        assertEquals(1, game.getRound());
     }
 
     @Test
     void getActivePlayer() {
-        assertEquals(0,game.getActivePlayer());
+        assertEquals(0, game.getActivePlayer());
     }
 
     @Test
@@ -105,19 +108,23 @@ class GameTest {
         Game game = new Game("Anton", "Ted");
         game.createCardPile(80);
         ArrayList cardPile = game.getCardPile();
-        Player[]players = game.getPlayers();
+        Player[] players = game.getPlayers();
 
         assertTrue(players.length == 2);
         assertEquals(cardPile.size(), 80);
 
-        int activePlayer=game.getActivePlayer();
+        int activePlayer = game.getActivePlayer();
 
         game.drawCard();
         assertEquals(cardPile.size(), 79);
-        assertEquals(activePlayer, 0);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 1);
         game.drawCard();
         assertEquals(cardPile.size(), 78);
-        assertEquals(activePlayer, 1);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
+        game.drawCard();
+        assertEquals(cardPile.size(), 77);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 3);
+
 
     }
 
@@ -158,7 +165,7 @@ class GameTest {
     }
 
     @Test
-    void createCardPile(){
+    void createCardPile() {
         Game game = new Game("Ted", "Anton");
         int amountOfCards = 80;
 

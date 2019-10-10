@@ -71,6 +71,7 @@ public class Game {
     }
 
     public boolean drawCard() {
+        cardPile.remove(0);
 
         return true;
     }
