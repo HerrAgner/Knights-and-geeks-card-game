@@ -63,8 +63,6 @@ public class Player {
         return cardsOnHand.remove(id);
     }
 
-
-
     public Collection<Card> getCardsOnTable() {
         return cardsOnTable.values();
     }

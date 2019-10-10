@@ -1,12 +1,7 @@
 import cards.Card;
 import cards.UnitCard;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -40,6 +35,14 @@ public class Game {
         return activePlayer;
     }
 
+    public Player getCurrentPlayer() {
+        return players[activePlayer];
+    }
+
+    public Player getDefendingPlayer(){
+        return players[activePlayer == 0 ? 1 : 0];
+    }
+
     public ArrayList<Card> getCardPile() {
         return cardPile;
     }
@@ -69,7 +72,7 @@ public class Game {
     }
 
     public boolean drawCard() {
-        if(cardPile.size()==0){
+        if (cardPile.size() == 0) {
 
             return false;
         }
@@ -79,12 +82,10 @@ public class Game {
     }
 
     public boolean playCard(UUID id) {
-//      getActivePlayer().addCardToTable(getActivePlayer().removeCardFromHand(id));
-        try {
-            getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
-            if (getPlayers()[getActivePlayer()].getCardFromTable(id) != null) return true;
-        } catch (Exception e){
-            return false;
+        if (getCurrentPlayer().getMana() >= getCurrentPlayer().getCardFromHand(id).getCost() &&
+                getCurrentPlayer().getCardsOnTable().size() < 7) {
+            getCurrentPlayer().addCardToTable(getCurrentPlayer().removeCardFromHand(id));
+            if (getCurrentPlayer().getCardFromTable(id) != null) return true;
         }
         return false;
     }
@@ -139,12 +140,14 @@ public class Game {
             this.activePlayer = 0;
             createCardPile(cardAmount);
             Random rnd = new Random();
-            while(players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
+            while (players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
                 players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
                 players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
             }
             return true;
-        } catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
