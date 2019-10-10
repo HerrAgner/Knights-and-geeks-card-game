@@ -40,7 +40,7 @@ public class Game {
         return players[activePlayer];
     }
 
-    public Player getDefendingPlayer(){
+    public Player getDefendingPlayer() {
         return players[activePlayer == 0 ? 1 : 0];
     }
 
@@ -83,14 +83,11 @@ public class Game {
     }
 
     public boolean playCard(UUID id) {
-//      getActivePlayer().addCardToTable(getActivePlayer().removeCardFromHand(id));
-        try {
-            getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
-            if (getPlayers()[getActivePlayer()].getCardFromTable(id) != null) return true;
-        } catch (Exception e) {
-            return false;
+        if (getCurrentPlayer().getMana() >= getCurrentPlayer().getCardFromHand(id).getCost() &&
+                getCurrentPlayer().getCardsOnTable().size() < 7) {
+            getCurrentPlayer().addCardToTable(getCurrentPlayer().removeCardFromHand(id));
         }
-        return false;
+        return getCurrentPlayer().getCardFromTable(id) != null;
     }
 
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {

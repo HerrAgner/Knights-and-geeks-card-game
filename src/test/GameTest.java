@@ -144,7 +144,7 @@ class GameTest {
         Card card = new UnitCard("name", 1, 1, 1);
         game.getPlayers()[0].addCardToHand(card);
         game.playCard(card.getId());
-        assertSame(game.getCurrentPlayer().getCardFromTable(card.getId()), card);
+        assertSame(card, game.getCurrentPlayer().getCardFromTable(card.getId()));
     }
 
     @Test
