@@ -62,6 +62,8 @@ class GameTest {
 
     @Test
     void getCardPile() {
+        Game game = new Game("Ted", "Anton");
+        game.createCardPile(80);
         assertNotNull(game.getCardPile());
     }
 
@@ -107,15 +109,15 @@ class GameTest {
 
     @Test
     void playCard() {
-        Card card = new UnitCard("name", 1, "type", 1, 1);
+        Card card = new UnitCard("name", 1, 1, 1);
         game.getPlayers()[game.getActivePlayer()].addCardToTable(card);
     }
 
     @Test
     void attackCard() {
         Game game = new Game("eric", "nisse");
-        UnitCard card1 = new UnitCard("Krigaren", 3, "Warrior", 5, 3);
-        UnitCard card2 = new UnitCard("Hästen", 4, "Horse", 9, 2);
+        UnitCard card1 = new UnitCard("Krigaren", 3, 5, 3);
+        UnitCard card2 = new UnitCard("Hästen", 4, 9, 2);
 
         assertTrue(game.attackCard(card1, card2));
 //
@@ -143,10 +145,16 @@ class GameTest {
 
     @Test
     void finishTurn() {
+        Game game = new Game("Ted", "Anton");
+
+        assertEquals(0, game.getActivePlayer());
+        assertTrue(game.finishTurn());
+        assertEquals(1, game.getActivePlayer());
     }
 
     @Test
     void finishGame() {
+
     }
 
     @Test
