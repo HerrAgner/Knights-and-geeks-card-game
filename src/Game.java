@@ -54,11 +54,11 @@ public class Game {
         return players;
     }
 
-    public void setCardPile(ArrayList cardPile) {
+    public void setCardPile(ArrayList<Card> cardPile) {
         this.cardPile = cardPile;
     }
 
-    public void setTrashPile(ArrayList trashPile) {
+    public void setTrashPile(ArrayList<Card> trashPile) {
         this.trashPile = trashPile;
     }
 
@@ -134,6 +134,11 @@ public class Game {
         }
 
         Collections.shuffle(cardPile);
+
+        return true;
+    }
+
+    public boolean shuffleTrashPile() {
 
         return true;
     }

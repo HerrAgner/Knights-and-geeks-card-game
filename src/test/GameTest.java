@@ -64,6 +64,8 @@ class GameTest {
 
     @Test
     void getCardPile() {
+        Game game = new Game("Ted", "Anton");
+        game.createCardPile(80);
         assertNotNull(game.getCardPile());
     }
 
@@ -143,34 +145,74 @@ class GameTest {
 
     @Test
     void playCard() {
-        Card card = new UnitCard("name", 1, "type", 1, 1);
+        Card card = new UnitCard("name", 1, 1, 1);
         game.getPlayers()[game.getActivePlayer()].addCardToTable(card);
     }
 
-   /* @Test
+    @Test
     void attackCard() {
         Game game = new Game("eric", "nisse");
-        UnitCard card1 = new UnitCard("Krigaren", 3, "Warrior", 5, 3);
-        UnitCard card2 = new UnitCard("Hästen", 4, "Horse", 9, 2);
+        Player players[] = game.getPlayers();
+        int defendingPlayer = game.getActivePlayer() == 0 ? 1 : 0;
 
-        assertTrue(game.attackCard(card1, card2));
+        Card active = new UnitCard("Krigaren", 3, 5, 6);
+        Card passive = new UnitCard("Hästen", 4, 5, 4);
 
+        players[game.getActivePlayer()].addCardToTable(active);
+        players[defendingPlayer].addCardToTable(passive);
 
+        //Check so the cards played are not null and they have more than 0hp
+        assertNotNull(players[game.getActivePlayer()].getCardFromTable(active.getId()));
+        assertNotNull(players[defendingPlayer].getCardFromTable(passive.getId()));
+        assertTrue(((UnitCard) active).getHp() > 0);
+        assertTrue(((UnitCard) passive).getHp() > 0);
 
+        ((UnitCard) active).setHp(((UnitCard) active).getHp() - ((UnitCard) passive).getAttack());
+        ((UnitCard) passive).setHp(((UnitCard) passive).getHp() - ((UnitCard) active).getAttack());
 
+        //Check so damage went through
+        assertEquals(((UnitCard) active).getHp(), 1);
+        assertEquals(((UnitCard) passive).getHp(), -1);
 
-    }*/
+        //If one of the cards dies -> check so its removed from hand
+        if (((UnitCard) active).getHp() < 1) {
+            players[game.getActivePlayer()].removeCardFromHand(active.getId());
+            assertNull(players[game.getActivePlayer()].getCardFromHand(active.getId()));
+        } else if (((UnitCard) passive).getHp() < 1) {
+            players[defendingPlayer].removeCardFromHand(passive.getId());
+            assertNull(players[defendingPlayer].getCardFromHand(passive.getId()));
+        }
+    }
 
     @Test
     void attackPlayer() {
+        Game game = new Game("Eric", "Ted");
+        UnitCard card = new UnitCard("Pelle", 5, 9, 5);
+        UnitCard card2 = new UnitCard("Håkan", 5, 5, 10);
+        UnitCard card3 = new UnitCard("Anton", 5, 3, 4);
+
+        game.getPlayers()[1].changeHealth(-25);
+        assertFalse(game.attackPlayer(card2));
+        game.getPlayers()[1].changeHealth(10);
+        assertTrue(game.attackPlayer(card3));
+
+        game.setActivePlayer(1);
+        assertTrue(game.attackPlayer(card));
+        assertEquals(25, game.getPlayers()[0].getHealth());
     }
 
     @Test
     void finishTurn() {
+        Game game = new Game("Ted", "Anton");
+
+        assertEquals(0, game.getActivePlayer());
+        assertTrue(game.finishTurn());
+        assertEquals(1, game.getActivePlayer());
     }
 
     @Test
     void finishGame() {
+
     }
 
     @Test
@@ -197,6 +239,24 @@ class GameTest {
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
 
+
+    }
+
+    @Test
+    void shuffleTrashPile() {
+        Game game = new Game("Anton", "Ted");
+        game.createCardPile(80);
+
+        assertEquals(0, game.getTrashPile().size());
+        game.setTrashPile(new ArrayList<>(game.getCardPile()));
+        game.getCardPile().clear();
+
+        assertEquals(0, game.getCardPile().size());
+        assertEquals(80, game.getTrashPile().size());
+
+        assertTrue(game.shuffleTrashPile());
+        assertEquals(80, game.getCardPile().size());
+        assertEquals(0, game.getTrashPile().size());
 
     }
 }
