@@ -22,10 +22,6 @@ class GameTest {
     void constructorTest() {
         Game game = new Game("Ted", "Anton");
 
-        assertNotNull(game.getPlayers());
-        assertEquals(0, game.getActivePlayer());
-        assertEquals(1, game.getRound());
-        assertEquals(2, game.getPlayers().length);
 
         assertEquals("Ted", game.getPlayers()[0].getName());
         assertEquals("Anton", game.getPlayers()[1].getName());
@@ -219,6 +215,12 @@ class GameTest {
 
     @Test
     void initGame() {
+        assertNotNull(game.getPlayers());
+        assertEquals(0, game.getActivePlayer());
+        assertEquals(1, game.getRound());
+        assertEquals(2, game.getPlayers().length);
+        assertEquals(5, game.getPlayers()[0].getCardsOnHand().size());
+        assertEquals(5, game.getPlayers()[1].getCardsOnHand().size());
     }
 
     @Test

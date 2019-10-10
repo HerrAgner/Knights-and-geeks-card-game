@@ -29,9 +29,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        this.players = new Player[]{new Player(player1), new Player(player2)};
-        this.round = 1;
-        this.activePlayer = 0;
+        initGame(player1, player2, 50);
     }
 
     public int getRound() {
@@ -115,9 +113,20 @@ public class Game {
         return true;
     }
 
-    public boolean initGame(Player p1, Player p2) {
-
-        return true;
+    public boolean initGame(String p1, String p2, int cardAmount) {
+        try {
+            this.players = new Player[]{new Player(p1), new Player(p2)};
+            this.round = 1;
+            this.activePlayer = 0;
+            createCardPile(cardAmount);
+            Random rnd = new Random();
+            while(players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
+                players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+                players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+            }
+            return true;
+        } catch (Exception e){e.printStackTrace();}
+        return false;
     }
 
     public boolean createCardPile(int amountOfCards) {
