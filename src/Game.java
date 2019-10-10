@@ -30,9 +30,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        this.players = new Player[]{new Player(player1), new Player(player2)};
-        this.round = 1;
-        this.activePlayer = 0;
+        initGame(player1, player2, 50);
     }
 
     public int getRound() {
@@ -92,8 +90,29 @@ public class Game {
         return false;
     }
 
-    public boolean attackCard(Card playedCard, Card enemyCard) {
+    public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
 
+        if (attackingCard == defendingCard) return false;
+        if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
+        if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
+
+
+        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
+
+        defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
+        attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
+        defendingCard.setFatigue(true);
+        attackingCard.setFatigue(true);
+
+        if (defendingCard.getHp() < 1) {
+            getPlayers()[defendingPlayer].removeCardFromTable(defendingCard.getId());
+            trashPile.add(defendingCard);
+        }
+        if (attackingCard.getHp() < 1) {
+            players[activePlayer].removeCardFromHand(attackingCard.getId());
+            trashPile.add(attackingCard);
+
+        }
         return true;
     }
 
@@ -101,6 +120,7 @@ public class Game {
         int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
 
         getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
+        card.setFatigue(true);
         if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
 
         return false;
@@ -108,6 +128,7 @@ public class Game {
 
     public boolean finishTurn() {
         this.setActivePlayer(getActivePlayer() == 0 ? 1 : 0);
+        this.round++;
         return true;
     }
 
@@ -121,9 +142,20 @@ public class Game {
         return true;
     }
 
-    public boolean initGame(Player p1, Player p2) {
-
-        return true;
+    public boolean initGame(String p1, String p2, int cardAmount) {
+        try {
+            this.players = new Player[]{new Player(p1), new Player(p2)};
+            this.round = 1;
+            this.activePlayer = 0;
+            createCardPile(cardAmount);
+            Random rnd = new Random();
+            while(players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
+                players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+                players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+            }
+            return true;
+        } catch (Exception e){e.printStackTrace();}
+        return false;
     }
 
     public boolean createCardPile(int amountOfCards) {
