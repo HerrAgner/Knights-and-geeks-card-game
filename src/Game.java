@@ -3,6 +3,7 @@ import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -82,10 +83,12 @@ public class Game {
     }
 
     public boolean playCard(UUID id) {
-        if (getCurrentPlayer().getMana() >= getCurrentPlayer().getCardFromHand(id).getCost() &&
-                getCurrentPlayer().getCardsOnTable().size() < 7) {
-            getCurrentPlayer().addCardToTable(getCurrentPlayer().removeCardFromHand(id));
-            if (getCurrentPlayer().getCardFromTable(id) != null) return true;
+//      getActivePlayer().addCardToTable(getActivePlayer().removeCardFromHand(id));
+        try {
+            getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
+            if (getPlayers()[getActivePlayer()].getCardFromTable(id) != null) return true;
+        } catch (Exception e) {
+            return false;
         }
         return false;
     }
@@ -94,11 +97,15 @@ public class Game {
 
         if (attackingCard == defendingCard) return false;
         if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
+        if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
+
 
         int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
 
         defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
         attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
+        defendingCard.setFatigue(true);
+        attackingCard.setFatigue(true);
 
         if (defendingCard.getHp() < 1) {
             getPlayers()[defendingPlayer].removeCardFromTable(defendingCard.getId());
@@ -128,7 +135,12 @@ public class Game {
         return true;
     }
 
-    public boolean finishGame() {
+    public boolean finishGame() throws Exception {
+        String winner = players[activePlayer].getName();
+        int round = getRound();
+        HttpGet httpGet = new HttpGet(winner, round);
+        httpGet.sendGet();
+
 
         return true;
     }
