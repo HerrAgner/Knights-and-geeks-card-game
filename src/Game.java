@@ -6,13 +6,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
 public class Game {
 
-    private ArrayList<UnitCard> cardPile;
-    private ArrayList<UnitCard> trashPile = new ArrayList<>();
+    private ArrayList<Card> cardPile;
+    private ArrayList<Card> trashPile = new ArrayList<>();
     private Player[] players;
     private int activePlayer;
     private int round;
@@ -41,7 +42,7 @@ public class Game {
         return activePlayer;
     }
 
-    public ArrayList getCardPile() {
+    public ArrayList<Card> getCardPile() {
         return cardPile;
     }
 
@@ -110,25 +111,25 @@ public class Game {
 
     public boolean createCardPile(int amountOfCards) {
         if (amountOfCards < 50 || amountOfCards > 100) return false;
+        
         cardPile = new ArrayList<>();
 
-        String path = "src/cards.json";
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        CardGenerator cg = new CardGenerator();
+        Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
+        List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
-        Gson gson = new Gson();
-        Type collectionType = new TypeToken<List<UnitCard>>() {
-        }.getType();
-        List<UnitCard> cards = gson.fromJson(br, collectionType);
-
-
-        for (int i = 0; i < amountOfCards; i++) {
+        // Two of each card
+        for (int i = 0; i < amountOfCards/2; i++) {
             cardPile.add(cards.get(i));
+            cardPile.add(cards.get(i));
+            System.out.println(cards.get(i).getName());
         }
+
+        if (amountOfCards % 2 == 1) {
+            cardPile.add(cards.get(0));
+        }
+
+        Collections.shuffle(cardPile);
 
         return true;
     }

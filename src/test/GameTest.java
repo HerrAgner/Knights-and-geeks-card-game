@@ -9,6 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class GameTest {
+    Game game;
+
+    @BeforeEach
+    void init () {
+        game = new Game("Ted", "Anton");
+    }
 
     @Test
     void constructorTest() {
@@ -46,38 +52,53 @@ class GameTest {
 
     @Test
     void getRound() {
+        assertEquals(1,game.getRound());
     }
 
     @Test
     void getActivePlayer() {
+        assertEquals(0,game.getActivePlayer());
     }
 
     @Test
     void getCardPile() {
+        assertNotNull(game.getCardPile());
     }
 
     @Test
     void getTrashPile() {
+        assertNotNull(game.getTrashPile());
     }
 
     @Test
     void getPlayers() {
+        assertNotNull(game.getPlayers());
     }
 
     @Test
     void setCardPile() {
+        ArrayList<Card> testList = new ArrayList<>();
+        game.setCardPile(testList);
+        assertSame(testList, game.getCardPile());
     }
 
     @Test
     void setTrashPile() {
+        ArrayList<Card> testList = new ArrayList<>();
+        game.setTrashPile(testList);
+        assertSame(testList, game.getTrashPile());
     }
 
     @Test
     void setActivePlayer() {
+        game.setActivePlayer(1);
+        assertEquals(1, game.getActivePlayer());
     }
 
     @Test
     void setRound() {
+        game.setRound(2);
+        assertEquals(2, game.getRound());
     }
 
     @Test
@@ -86,6 +107,8 @@ class GameTest {
 
     @Test
     void playCard() {
+        Card card = new UnitCard("name", 1, "type", 1, 1);
+        game.getPlayers()[game.getActivePlayer()].addCardToTable(card);
     }
 
     @Test
@@ -99,6 +122,11 @@ class GameTest {
 //        try{
 //
 //        } catch()
+
+
+        } catch()
+
+
 
 
     }
@@ -138,15 +166,20 @@ class GameTest {
         int amountOfCards = 80;
 
         assertTrue(game.createCardPile(amountOfCards));
+        assertEquals(40, game.getCardPile().stream().distinct().count());
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
+
+        assertTrue(game.createCardPile(51));
+        assertEquals(51, game.getCardPile().size());
 
         assertFalse(game.createCardPile(101));
         assertFalse(game.createCardPile(49));
 
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
+
 
     }
 }
