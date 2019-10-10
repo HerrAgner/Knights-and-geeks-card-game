@@ -4,6 +4,8 @@ import org.junit.jupiter.api.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -173,6 +175,24 @@ class GameTest {
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
 
+
+    }
+
+    @Test
+    void shuffleTrashPile() {
+        Game game = new Game("Anton", "Ted");
+        game.createCardPile(80);
+
+        assertEquals(0, game.getTrashPile().size());
+        game.setTrashPile(new ArrayList<>(game.getCardPile()));
+        game.getCardPile().clear();
+
+        assertEquals(0, game.getCardPile().size());
+        assertEquals(80, game.getTrashPile().size());
+
+        assertTrue(game.shuffleTrashPile());
+        assertEquals(80, game.getCardPile().size());
+        assertEquals(0, game.getTrashPile().size());
 
     }
 }
