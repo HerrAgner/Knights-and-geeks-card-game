@@ -18,7 +18,6 @@ class UnitCardTest {
     @Test
     void superConstructorTest() {
         assertNull(new UnitCard().getName());
-        assertNull(new UnitCard().getId());
         assertEquals(new UnitCard().getCost(), 0);
 
         assertNotNull(card.getId());

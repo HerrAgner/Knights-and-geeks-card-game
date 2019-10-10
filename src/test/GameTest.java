@@ -129,9 +129,9 @@ class GameTest {
     @Test
     void attackPlayer() {
         Game game = new Game("Eric", "Ted");
-        UnitCard card = new UnitCard("Pelle", 5, "melee", 9, 5);
-        UnitCard card2 = new UnitCard("Håkan", 5, "ranged", 5, 10);
-        UnitCard card3 = new UnitCard("Anton", 5, "type", 3, 4);
+        UnitCard card = new UnitCard("Pelle", 5, 9, 5);
+        UnitCard card2 = new UnitCard("Håkan", 5, 5, 10);
+        UnitCard card3 = new UnitCard("Anton", 5, 3, 4);
 
         game.getPlayers()[1].changeHealth(-25);
         assertFalse(game.attackPlayer(card2));
