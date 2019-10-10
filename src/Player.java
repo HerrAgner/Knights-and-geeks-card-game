@@ -73,7 +73,7 @@ public class Player {
         cardsOnTable.put(card.getId(), card);
     }
 
-    public Card getCardFromTable(UUID id) {
+        public Card getCardFromTable(UUID id) {
         return cardsOnTable.get(id);
     }
 
