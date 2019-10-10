@@ -71,6 +71,10 @@ public class Game {
     }
 
     public boolean drawCard() {
+        if(cardPile.size()==0){
+
+            return false;
+        }
         Card card = cardPile.remove(0);
         players[activePlayer].addCardToHand(card);
         return true;
@@ -86,13 +90,17 @@ public class Game {
         return true;
     }
 
-    public boolean attackPlayer(Card card) {
+    public boolean attackPlayer(UnitCard card) {
+        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
 
-        return true;
+        getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
+        if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
+
+        return false;
     }
 
     public boolean finishTurn() {
-
+        this.setActivePlayer(getActivePlayer() == 0 ? 1 : 0);
         return true;
     }
 
@@ -108,21 +116,12 @@ public class Game {
 
     public boolean createCardPile(int amountOfCards) {
         if (amountOfCards < 50 || amountOfCards > 100) return false;
+
         cardPile = new ArrayList<>();
 
-        String path = "src/cards.json";
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
+        CardGenerator cg = new CardGenerator();
         Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
-        List<UnitCard> cards = gson.fromJson(br, collectionType);
-
-        Collections.shuffle(cards);
+        List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
         // Two of each card
         for (int i = 0; i < amountOfCards/2; i++) {

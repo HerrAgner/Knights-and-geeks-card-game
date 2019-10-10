@@ -12,14 +12,8 @@ public abstract class Card {
 
     }
 
-    public Card(String name, int cost, String type) {
-       /* if (name.length() <= 0 || type.length() <= 0) {
-            this.name = null;
-            this.cost = 0;
-            this.type = null;
-            this.id = null;
+    public Card(String name, int cost) {
 
-        } else {*/
             this.name = name;
             this.cost = cost;
             this.type = type;

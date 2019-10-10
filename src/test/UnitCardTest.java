@@ -11,15 +11,13 @@ class UnitCardTest {
     private UnitCard card2;
     @BeforeEach
     void init(){
-        card = new UnitCard("Eric", 4, "Warrior", 10, 3);
-        card2 = new UnitCard("Eric", 4, "Warrior", 10, 3);
+        card = new UnitCard("Eric", 4, 10, 3);
+        card2 = new UnitCard("Eric", 4, 10, 3);
     }
 
     @Test
     void superConstructorTest() {
         assertNull(new UnitCard().getName());
-        assertNull(new UnitCard().getType());
-        assertNull(new UnitCard().getId());
         assertEquals(new UnitCard().getCost(), 0);
 
         assertNotNull(card.getId());
@@ -34,9 +32,7 @@ class UnitCardTest {
         assertEquals(card.getHp(), 10);
         assertEquals(card.getCost(), 4);
         assertEquals(card.getName(), "Eric");
-        assertEquals(card.getType(), "Warrior");
         assertNull(new UnitCard().getName());
-        assertNull(new UnitCard().getType());
     }
 
     @Test
