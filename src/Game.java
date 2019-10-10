@@ -11,8 +11,8 @@ import java.util.*;
 
 public class Game {
 
-    private ArrayList<UnitCard> cardPile;
-    private ArrayList<UnitCard> trashPile = new ArrayList<>();
+    private ArrayList<Card> cardPile;
+    private ArrayList<Card> trashPile = new ArrayList<>();
     private Player[] players;
     private int activePlayer;
     private int round;
