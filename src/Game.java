@@ -85,6 +85,10 @@ public class Game {
     }
 
     public boolean attackPlayer(UnitCard card) {
+        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
+
+        getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
+        if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
 
         return false;
     }

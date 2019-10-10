@@ -108,16 +108,16 @@ class GameTest {
         Game game = new Game("Eric", "Ted");
         UnitCard card = new UnitCard("Pelle", 5, "melee", 9, 5);
         UnitCard card2 = new UnitCard("Håkan", 5, "ranged", 5, 10);
+        UnitCard card3 = new UnitCard("Anton", 5, "type", 3, 4);
 
         game.getPlayers()[1].changeHealth(-25);
         assertFalse(game.attackPlayer(card2));
-
-        game.getPlayers()[1].changeHealth(25);
-        assertTrue(game.attackPlayer(card));
-        assertEquals(20, game.getPlayers()[1].getHealth());
+        game.getPlayers()[1].changeHealth(10);
+        assertTrue(game.attackPlayer(card3));
 
         game.setActivePlayer(1);
-        assertEquals(1, game.getActivePlayer());
+        assertTrue(game.attackPlayer(card));
+        assertEquals(25, game.getPlayers()[0].getHealth());
     }
 
     @Test
