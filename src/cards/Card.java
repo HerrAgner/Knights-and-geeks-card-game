@@ -12,6 +12,7 @@ public abstract class Card {
     }
 
     public Card(String name, int cost) {
+
         if (name.length() <= 0) {
             this.name = null;
             this.cost = 0;
@@ -20,6 +21,7 @@ public abstract class Card {
             this.name = name;
             this.cost = cost;
             this.id = UUID.randomUUID();
+
         }
     }
 

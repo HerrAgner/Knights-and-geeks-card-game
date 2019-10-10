@@ -71,7 +71,12 @@ public class Game {
     }
 
     public boolean drawCard() {
+        if(cardPile.size()==0){
 
+            return false;
+        }
+        Card card = cardPile.remove(0);
+        players[activePlayer].addCardToHand(card);
         return true;
     }
 
