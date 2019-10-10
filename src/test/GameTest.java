@@ -207,8 +207,10 @@ class GameTest {
     void finishTurn() {
         Game game = new Game("Ted", "Anton");
 
+        assertEquals(1, game.getRound());
         assertEquals(0, game.getActivePlayer());
         assertTrue(game.finishTurn());
+        assertEquals(2, game.getRound());
         assertEquals(1, game.getActivePlayer());
     }
 
