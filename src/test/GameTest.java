@@ -9,6 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class GameTest {
+    Game game;
+
+    @BeforeEach
+    void init () {
+        game = new Game("Ted", "Anton");
+    }
 
     @Test
     void constructorTest() {
@@ -43,38 +49,53 @@ class GameTest {
 
     @Test
     void getRound() {
+        assertEquals(1,game.getRound());
     }
 
     @Test
     void getActivePlayer() {
+        assertEquals(0,game.getActivePlayer());
     }
 
     @Test
     void getCardPile() {
+        assertNotNull(game.getCardPile());
     }
 
     @Test
     void getTrashPile() {
+        assertNotNull(game.getCardPile());
     }
 
     @Test
     void getPlayers() {
+        assertNotNull(game.getPlayers());
     }
 
     @Test
     void setCardPile() {
+        ArrayList<Card> testList = new ArrayList<>();
+        game.setCardPile(testList);
+        assertSame(testList, game.getCardPile());
     }
 
     @Test
     void setTrashPile() {
+        ArrayList<Card> testList = new ArrayList<>();
+        game.setTrashPile(testList);
+        assertSame(testList, game.getTrashPile());
     }
 
     @Test
     void setActivePlayer() {
+        game.setActivePlayer(1);
+        assertEquals(1, game.getActivePlayer());
     }
 
     @Test
     void setRound() {
+        game.setRound(2);
+        assertEquals(2, game.getRound());
     }
 
     @Test
@@ -83,6 +104,8 @@ class GameTest {
 
     @Test
     void playCard() {
+        Card card = new UnitCard("name", 1, "type", 1, 1);
+        game.getPlayers()[game.getActivePlayer()].addCardToTable(card);
     }
 
     @Test
@@ -92,14 +115,6 @@ class GameTest {
         UnitCard card2 = new UnitCard("Hästen", 4, "Horse", 9, 2);
 
         assertTrue(game.attackCard(card1, card2));
-
-        try{
-
-        } catch()
-
-
-
-
     }
 
     @Test
