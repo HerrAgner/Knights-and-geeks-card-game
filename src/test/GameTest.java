@@ -186,8 +186,11 @@ class GameTest {
         assertTrue(game.attackPlayer(card3));
 
         game.setActivePlayer(1);
+        assertFalse(card.getFatigue());
         assertTrue(game.attackPlayer(card));
         assertEquals(25, game.getPlayers()[0].getHealth());
+        assertTrue(card.getFatigue());
+
     }
 
     @Test
