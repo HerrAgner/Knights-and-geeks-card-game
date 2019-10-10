@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -71,7 +72,7 @@ public class Game {
     }
 
     public boolean drawCard() {
-        if(cardPile.size()==0){
+        if (cardPile.size() == 0) {
 
             return false;
         }
@@ -85,7 +86,7 @@ public class Game {
         try {
             getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
             if (getPlayers()[getActivePlayer()].getCardFromTable(id) != null) return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return false;
@@ -110,7 +111,12 @@ public class Game {
         return true;
     }
 
-    public boolean finishGame() {
+    public boolean finishGame() throws Exception {
+        String winner = players[activePlayer].getName();
+        int round = getRound();
+        HttpGet httpGet = new HttpGet(winner, round);
+        httpGet.sendGet();
+
 
         return true;
     }
@@ -126,11 +132,12 @@ public class Game {
         cardPile = new ArrayList<>();
 
         CardGenerator cg = new CardGenerator();
-        Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
+        Type collectionType = new TypeToken<List<UnitCard>>() {
+        }.getType();
         List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
         // Two of each card
-        for (int i = 0; i < amountOfCards/2; i++) {
+        for (int i = 0; i < amountOfCards / 2; i++) {
             cardPile.add(cards.get(i));
             cardPile.add(cards.get(i));
         }
