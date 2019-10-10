@@ -124,12 +124,12 @@ class GameTest {
         Card active = new UnitCard("Krigaren", 3, 5, 6);
         Card passive = new UnitCard("Hästen", 4, 5, 4);
 
-        players[game.getActivePlayer()].addCardToHand(active);
-        players[defendingPlayer].addCardToHand(passive);
+        players[game.getActivePlayer()].addCardToTable(active);
+        players[defendingPlayer].addCardToTable(passive);
 
         //Check so the cards played are not null and they have more than 0hp
-        assertNotNull(players[game.getActivePlayer()].getCardFromHand(active.getId()));
-        assertNotNull(players[defendingPlayer].getCardFromHand(passive.getId()));
+        assertNotNull(players[game.getActivePlayer()].getCardFromTable(active.getId()));
+        assertNotNull(players[defendingPlayer].getCardFromTable(passive.getId()));
         assertTrue(((UnitCard) active).getHp() > 0);
         assertTrue(((UnitCard) passive).getHp() > 0);
 
