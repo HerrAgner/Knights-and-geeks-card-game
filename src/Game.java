@@ -42,7 +42,7 @@ public class Game {
         return activePlayer;
     }
 
-    public ArrayList<UnitCard> getCardPile() {
+    public ArrayList<Card> getCardPile() {
         return cardPile;
     }
 
