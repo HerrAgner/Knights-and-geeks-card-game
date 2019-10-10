@@ -129,6 +129,10 @@ public class Game {
             cardPile.add(cards.get(i));
         }
 
+        if (amountOfCards % 2 == 1) {
+            cardPile.add(cards.get(0));
+        }
+
         Collections.shuffle(cardPile);
 
         return true;
