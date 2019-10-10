@@ -63,4 +63,18 @@ class UnitCardTest {
         assertFalse(card.setAttack(-4));
     }
 
+    @Test
+    void setFatigue(){
+        card.setFatigue(true);
+        assertTrue(card.getFatigue());
+
+        card.setFatigue(false);
+        assertFalse(card.getFatigue());
+    }
+
+    @Test
+    void getFatigue(){
+        assertNotNull(card.getFatigue());
+    }
+
 }
