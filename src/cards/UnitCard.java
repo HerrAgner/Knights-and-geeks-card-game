@@ -17,7 +17,7 @@ public class UnitCard extends Card {
     }
 
     public boolean setHp(int hp) {
-        if (hp >= 0 && hp <= 10) {
+        if (hp <= 10) {
             this.health = hp;
             return true;
         } else {
