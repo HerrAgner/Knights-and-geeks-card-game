@@ -110,7 +110,8 @@ class GameTest {
     @Test
     void playCard() {
         Card card = new UnitCard("name", 1, 1, 1);
-        game.getPlayers()[game.getActivePlayer()].addCardToTable(card);
+        game.playCard(card);
+        assertSame(game.getPlayers()[game.getActivePlayer()].getCardFromTable(card.getId()), card);
     }
 
     @Test
