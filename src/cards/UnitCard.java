@@ -42,7 +42,7 @@ public class UnitCard extends Card {
         return attack;
     }
 
-    public boolean isFatigue() {
+    public boolean getFatigue() {
         return fatigue;
     }
 
