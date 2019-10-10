@@ -124,6 +124,7 @@ public class Game {
 
     public boolean finishTurn() {
         this.setActivePlayer(getActivePlayer() == 0 ? 1 : 0);
+        this.round++;
         return true;
     }
 
