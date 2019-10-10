@@ -139,6 +139,9 @@ public class Game {
     }
 
     public boolean shuffleTrashPile() {
+        this.cardPile = new ArrayList<>(trashPile);
+        trashPile.clear();
+        Collections.shuffle(this.cardPile);
 
         return true;
     }
