@@ -114,8 +114,10 @@ class GameTest {
 
         game.getPlayers()[1].changeHealth(25);
         assertTrue(game.attackPlayer(card));
+        assertEquals(20, game.getPlayers()[1].getHealth());
 
-
+        game.setActivePlayer(1);
+        assertEquals(1, game.getActivePlayer());
     }
 
     @Test
