@@ -80,9 +80,15 @@ public class Game {
         return true;
     }
 
-    public void playCard(UUID id) {
+    public boolean playCard(UUID id) {
 //      getActivePlayer().addCardToTable(getActivePlayer().removeCardFromHand(id));
-        getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
+        try {
+            getPlayers()[getActivePlayer()].addCardToTable(getPlayers()[getActivePlayer()].removeCardFromHand(id));
+            if (getPlayers()[getActivePlayer()].getCardFromTable(id) != null) return true;
+        } catch (Exception e){
+            return false;
+        }
+        return false;
     }
 
     public boolean attackCard(Card playedCard, Card enemyCard) {
