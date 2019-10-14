@@ -190,9 +190,21 @@ class GameTest {
 
         assertTrue(game.useSpellOnCard(healer, receiver));
         assertEquals(receiver.getHp(), 7);
+        assertTrue(game.getTrashPile().contains(healer));
 
         game.useSpellOnCard(attacker, receiver);
         assertEquals(receiver.getHp(), 5);
+        assertTrue(game.getTrashPile().contains(attacker));
+    }
+
+    @Test
+    void useSpellOnPlayer(){
+        Game game = new Game("eric", "nisse");
+        Player players[] = game.getPlayers();
+        SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
+        SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        UnitCard receiver = new UnitCard("Krigaren", 3, 5, 6);
+
 
     }
 

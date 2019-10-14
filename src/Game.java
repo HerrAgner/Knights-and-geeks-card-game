@@ -115,15 +115,32 @@ public class Game {
     }
 
     public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
-
-        if(usedCard.getType().equals("Healer")){
-            receivingCard.setHp(usedCard.getValue() + receivingCard.getHp());
+        if(!usedCard.isMany()){
+            if(usedCard.getType().equals("Healer")){
+                receivingCard.setHp(usedCard.getValue() + receivingCard.getHp());
+                trashPile.add(usedCard);
+            } else if (usedCard.getType().equals("Attacker")){
+                receivingCard.setHp(receivingCard.getHp() + usedCard.getValue());
+                trashPile.add(usedCard);
+            }
+        } else if(usedCard.isMany()){
+            if (usedCard.getType().equals("Healer")){
+                for (Card card : getCurrentPlayer().getCardsOnTable()){
+                    var unitCard = (UnitCard) card;
+                    unitCard.setHp(usedCard.getValue() + unitCard.getHp());
+                }
+            } else if(usedCard.getType().equals("Attacker")){
+                for (Card card : getDefendingPlayer().getCardsOnTable()){
+                    var unitCard = (UnitCard) card;
+                    unitCard.setHp(unitCard.getHp() + usedCard.getValue());
+                }
+            }
             trashPile.add(usedCard);
-        } else if (usedCard.getType().equals("Attacker")){
-            receivingCard.setHp(receivingCard.getHp() + usedCard.getValue());
-            trashPile.add(usedCard);
-
         }
+        return true;
+    }
+
+    public boolean useSpellOnPlayer(SpellCard usedCard){
 
         return true;
     }

@@ -19,8 +19,6 @@ class SpellCardTest {
         assertNotNull(healer);
         assertNotNull(attacker);
 
-
-
     }
 
     @Test
