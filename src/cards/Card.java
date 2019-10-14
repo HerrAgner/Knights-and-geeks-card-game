@@ -37,8 +37,5 @@ public abstract class Card {
     public UUID getId() {
         return id;
     }
-
-    public UUID getId(){
-        return  id;
-    }
+    
 }
