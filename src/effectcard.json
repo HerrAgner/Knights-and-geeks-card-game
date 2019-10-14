@@ -2,121 +2,121 @@
   {
     "name": "Crippled sword",
     "cost": 1,
-    "type": "debuffAtk",
-    "effectValue": 1
+    "type": "Atk",
+    "effectValue": -1
   },
   {
     "name": "Demonic Burst",
     "cost": 2,
-    "type": "debuffAtk",
-    "effectValue": 2
+    "type": "Atk",
+    "effectValue": -2
   },
   {
     "name": "Flare of Storms",
     "cost": 3,
-    "type": "debuffAtk",
-    "effectValue": 3
+    "type": "Atk",
+    "effectValue": -3
   },
   {
     "name": "Shadow Beam",
     "cost": 4,
-    "type": "debuffAtk",
-    "effectValue": 4
+    "type": "Atk",
+    "effectValue": -4
   },
   {
     "name": "Demoralizing of Strength",
     "cost": 5,
-    "type": "debuffAtk",
-    "effectValue": 5
+    "type": "Atk",
+    "effectValue": -5
   },
   {
     "name": "Frostfire Burn",
     "cost": 1,
-    "type": "debuffHp",
-    "effectValue": 1
+    "type": "Hp",
+    "effectValue": -1
   },
   {
     "name": "Sunlight Surge",
     "cost": 2,
-    "type": "debuffHp",
-    "effectValue": 2
+    "type": "Hp",
+    "effectValue": -2
   },
   {
     "name": "Cloud Mind",
     "cost": 3,
-    "type": "debuffHp",
-    "effectValue": 3
+    "type": "Hp",
+    "effectValue": -3
   },
   {
     "name": "Purity of Reason",
     "cost": 4,
-    "type": "debuffHp",
-    "effectValue": 4
+    "type": "Hp",
+    "effectValue": -4
   },
   {
     "name": "Distraction of Doom",
     "cost": 5,
-    "type": "debuffHp",
-    "effectValue": 5
+    "type": "Hp",
+    "effectValue": -5
   },
   {
     "name": "Nether Blaze",
     "cost": 1,
-    "type": "buffAtk",
+    "type": "Atk",
     "effectValue": 1
   },
   {
     "name": "Invocation",
     "cost": 2,
-    "type": "buffAtk",
+    "type": "Atk",
     "effectValue": 2
   },
   {
     "name": "Ice Rage",
     "cost": 3,
-    "type": "buffAtk",
+    "type": "Atk",
     "effectValue": 3
   },
   {
     "name": "Conjuration of Spectral Energy",
     "cost": 4,
-    "type": "buffAtk",
+    "type": "Atk",
     "effectValue": 4
   },
   {
     "name": "Ferocity of Sight",
     "cost": 5,
-    "type": "buffAtk",
+    "type": "Atk",
     "effectValue": 5
   },
   {
     "name": "Solar Hail",
     "cost": 1,
-    "type": "buffHp",
+    "type": "Hp",
     "effectValue": 1
   },
   {
     "name": "Rain of Guardian Spirits",
     "cost": 2,
-    "type": "buffHp",
+    "type": "Hp",
     "effectValue": 2
   },
   {
     "name": "Ice Shield",
     "cost": 3,
-    "type": "buffHp",
+    "type": "Hp",
     "effectValue": 3
   },
   {
     "name": "Moonlight Shower",
     "cost": 4,
-    "type": "buffHp",
+    "type": "Hp",
     "effectValue": 4
   },
   {
     "name": "Wave of Clarity",
     "cost": 5,
-    "type": "buffHp",
+    "type": "Hp",
     "effectValue": 5
   }
 ]
