@@ -35,6 +35,9 @@ public class Player {
 
     public void changeHealth(int hpChange) {
         this.health = health + hpChange;
+        if (this.health > 30){
+            this.health = 30;
+        }
     }
 
     public int getMana() {

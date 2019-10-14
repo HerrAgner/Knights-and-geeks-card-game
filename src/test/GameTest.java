@@ -189,8 +189,8 @@ class GameTest {
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
         assertFalse(game.attackCard(attackingCard, attackingCard));
-        assertEquals(attackingCard.getHp(), 1);
-        assertEquals(defendingCard.getHp(), -1);
+        assertEquals(attackingCard.getCurrentHealth(), 1);
+        assertEquals(defendingCard.getCurrentHealth(), -1);
         assertTrue(game.getTrashPile().size() >= 1);
         assertNull(game.getDefendingPlayer().getCardFromTable(defendingCard.getId()));
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
@@ -223,19 +223,22 @@ class GameTest {
         //SETUP ------------------------------------
 
         assertTrue(game.useSpellOnCard(healer, receiver));
-        assertEquals(receiver.getHp(), 7);
+        assertEquals(receiver.getCurrentHealth(), 5);
         assertTrue(game.getTrashPile().contains(healer));
 
         game.useSpellOnCard(attacker, receiver);
-        assertEquals(receiver.getHp(), 5);
+        assertEquals(receiver.getCurrentHealth(), 3);
         assertTrue(game.getTrashPile().contains(attacker));
         assertNull(game.getCurrentPlayer().getCardFromHand(healer.getId()));
         assertNull(game.getCurrentPlayer().getCardFromHand(attacker.getId()));
 
+        receiver2.setCurrentHealth(2);
+        receiver3.setCurrentHealth(1);
+
         assertTrue(game.useSpellOnCard(healerMany, receiver));
-        assertEquals(receiver.getHp(), 7);
-        assertEquals(receiver2.getHp(), 9);
-        assertEquals(receiver3.getHp(), 6);
+        assertEquals(receiver.getCurrentHealth(), 5);
+        assertEquals(receiver2.getCurrentHealth(), 4);
+        assertEquals(receiver3.getCurrentHealth(), 3);
         assertTrue(game.getTrashPile().contains(healerMany));
     }
 
