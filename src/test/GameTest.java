@@ -265,7 +265,7 @@ class GameTest {
 
     @Test
     void useEffectCard() {
-        EffectCard card = new EffectCard("Sl", 2,"buff", 2, 0 );
-        game.useEffectCard(card.getId());
+        EffectCard card = new EffectCard("card", 2, "debuffAtk", 2 );
+        assertTrue(game.useEffectCard(card));
     }
 }

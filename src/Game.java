@@ -1,9 +1,9 @@
 import cards.Card;
+import cards.EffectCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -90,8 +90,8 @@ public class Game {
         return getCurrentPlayer().getCardFromTable(id) != null;
     }
 
-    public void useEffectCard(UUID id){
-
+    public boolean useEffectCard(EffectCard card){
+        return false;
     }
 
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
