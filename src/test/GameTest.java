@@ -153,7 +153,6 @@ class GameTest {
         };
         game.getPlayers()[0].addCardToHand(testCards[0]);
         Response[] res = game.playCard(testCards[0].getId());
-        System.out.println(res[0] + " - " + res[1]);
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[1]);
