@@ -129,7 +129,7 @@ public class Game {
         return true;
     }
 
-    public boolean finishGame() throws Exception {
+    public boolean finishGame() {
         String winner = players[activePlayer].getName();
         int round = getRound();
         HttpGet httpGet = new HttpGet(winner, round);

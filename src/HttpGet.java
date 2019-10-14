@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLOutput;
 
 public class HttpGet {
     private String name;
@@ -12,7 +13,8 @@ public class HttpGet {
         this.round = round;
     }
 
-    public void sendGet() throws Exception {
+    public void sendGet() {
+        try{
         String url = "http://artii.herokuapp.com/make?text=" + name + "+won+the+game+in+" + round +"+rounds";
         URL obj = new URL(url);
 
@@ -29,7 +31,10 @@ public class HttpGet {
             System.out.println(inputLine);
             response.append(inputLine);
         }
-        in.close();
+        in.close();}
+        catch (Exception e){
+            System.out.println(name + " won the game in " + round +" rounds");
+        }
 
     }
 }
