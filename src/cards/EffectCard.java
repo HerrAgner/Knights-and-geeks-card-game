@@ -5,6 +5,10 @@ public class EffectCard extends Card {
     private int health;
     private int attack;
 
+    public EffectCard() {
+        this("", 0, "", 0, 0);
+    }
+
     public EffectCard(String name, int cost, String type, int health, int attack) {
         super(name, cost);
         this.type = type;
