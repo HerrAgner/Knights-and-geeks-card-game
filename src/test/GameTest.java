@@ -1,4 +1,5 @@
 import cards.Card;
+import cards.EffectCard;
 import cards.UnitCard;
 import org.junit.jupiter.api.*;
 
@@ -129,12 +130,11 @@ class GameTest {
         assertEquals(cardPile.size(), 76);
         assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
 
-        while(cardPile.size()!=0){
+        while (cardPile.size() != 0) {
             game.drawCard();
         }
         game.drawCard();
         assertEquals(cardPile.size(), 0);
-
 
 
     }
@@ -261,5 +261,11 @@ class GameTest {
         assertEquals(80, game.getCardPile().size());
         assertEquals(0, game.getTrashPile().size());
 
+    }
+
+    @Test
+    void useEffectCard() {
+        EffectCard card = new EffectCard("Sl", 2,"buff", 2, 0 );
+        game.useEffectCard(card.getId());
     }
 }

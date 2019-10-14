@@ -90,6 +90,10 @@ public class Game {
         return getCurrentPlayer().getCardFromTable(id) != null;
     }
 
+    public void useEffectCard(UUID id){
+
+    }
+
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
 
         if (attackingCard == defendingCard) return false;
