@@ -222,19 +222,19 @@ class GameTest {
         //SETUP ------------------------------------
 
         assertTrue(game.useSpellOnCard(healer, receiver));
-        assertEquals(receiver.getCurrentHealth(), 7);
+        assertEquals(receiver.getCurrentHealth(), 5);
         assertTrue(game.getTrashPile().contains(healer));
 
         game.useSpellOnCard(attacker, receiver);
-        assertEquals(receiver.getCurrentHealth(), 5);
+        assertEquals(receiver.getCurrentHealth(), 3);
         assertTrue(game.getTrashPile().contains(attacker));
         assertNull(game.getCurrentPlayer().getCardFromHand(healer.getId()));
         assertNull(game.getCurrentPlayer().getCardFromHand(attacker.getId()));
 
         assertTrue(game.useSpellOnCard(healerMany, receiver));
-        assertEquals(receiver.getCurrentHealth(), 7);
-        assertEquals(receiver2.getCurrentHealth(), 9);
-        assertEquals(receiver3.getCurrentHealth(), 6);
+        assertEquals(receiver.getCurrentHealth(), 5);
+        assertEquals(receiver2.getCurrentHealth(), 7);
+        assertEquals(receiver3.getCurrentHealth(), 4);
         assertTrue(game.getTrashPile().contains(healerMany));
     }
 
