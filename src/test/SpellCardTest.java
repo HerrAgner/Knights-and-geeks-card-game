@@ -10,8 +10,8 @@ class SpellCardTest {
 
     @BeforeEach
     void innit() {
-        healer = new SpellCard("Heal", false, 0, 2, "Eric", 2);
-        attacker = new SpellCard("Attack", false, 5, 0, "Ted", 2);
+        healer = new SpellCard("Heal", false, 2, "Eric", 2);
+        attacker = new SpellCard("Attack", false, -2, "Ted", 2);
     }
 
     @Test
@@ -19,8 +19,7 @@ class SpellCardTest {
         assertNotNull(healer);
         assertNotNull(attacker);
 
-        assertEquals(healer.getDmg(), 0);
-        assertEquals(attacker.getHeal(), 0);
+
 
     }
 
@@ -32,5 +31,5 @@ class SpellCardTest {
         assertNotEquals(healer.getId(), attacker.getId());
 
     }
-    
+
 }

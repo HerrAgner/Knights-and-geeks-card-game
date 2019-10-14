@@ -1,4 +1,5 @@
 import cards.Card;
+import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
@@ -110,6 +111,20 @@ public class Game {
             trashPile.add(attackingCard);
 
         }
+        return true;
+    }
+
+    public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
+
+        if(usedCard.getType().equals("Healer")){
+            receivingCard.setHp(usedCard.getValue() + receivingCard.getHp());
+            trashPile.add(usedCard);
+        } else if (usedCard.getType().equals("Attacker")){
+            receivingCard.setHp(receivingCard.getHp() + usedCard.getValue());
+            trashPile.add(usedCard);
+
+        }
+
         return true;
     }
 

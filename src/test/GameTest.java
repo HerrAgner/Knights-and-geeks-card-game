@@ -1,4 +1,5 @@
 import cards.Card;
+import cards.SpellCard;
 import cards.UnitCard;
 import org.junit.jupiter.api.*;
 
@@ -174,6 +175,25 @@ class GameTest {
         assertFalse(game.getTrashPile().contains(attackingCard));
         assertTrue(attackingCard.getFatigue());
         assertTrue(defendingCard.getFatigue());
+    }
+
+    @Test
+    void useSpellOnCard(){
+        Game game = new Game("eric", "nisse");
+        Player players[] = game.getPlayers();
+        SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
+        SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        UnitCard receiver = new UnitCard("Krigaren", 3, 5, 6);
+
+        players[game.getActivePlayer()].addCardToHand(healer);
+        game.getDefendingPlayer().addCardToHand(attacker);
+
+        assertTrue(game.useSpellOnCard(healer, receiver));
+        assertEquals(receiver.getHp(), 7);
+
+        game.useSpellOnCard(attacker, receiver);
+        assertEquals(receiver.getHp(), 5);
+
     }
 
     @Test
