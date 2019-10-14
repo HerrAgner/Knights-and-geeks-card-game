@@ -149,10 +149,9 @@ public class Game {
             this.round = 1;
             this.activePlayer = 0;
             createCardPile(cardAmount);
-            Random rnd = new Random();
             while (players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
-                players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
-                players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+                players[0].addCardToHand(cardPile.remove(0));
+                players[1].addCardToHand(cardPile.remove(0));
             }
             return true;
         } catch (Exception e) {
