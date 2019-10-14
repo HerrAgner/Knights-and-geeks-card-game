@@ -18,7 +18,7 @@ public class Player {
         if (name.length() > 0) {
             this.name = name;
             this.health = 30;
-            this.mana = 1;
+            this.mana = 0;
             this.cardsOnHand = new ConcurrentHashMap<>();
             this.cardsOnTable = new ConcurrentHashMap<>();
         }
@@ -80,5 +80,9 @@ public class Player {
 
     public Card removeCardFromTable(UUID id){
         return cardsOnTable.remove(id);
+    }
+
+    public void setCardsOnTable(Map<UUID, Card> cardsOnTable) {
+        this.cardsOnTable = cardsOnTable;
     }
 }
