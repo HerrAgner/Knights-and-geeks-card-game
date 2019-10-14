@@ -10,25 +10,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class EffectCardTest {
     private EffectCard card;
     private EffectCard card2;
+    private EffectCard card3;
 
     @BeforeEach
     void init() {
         card = new EffectCard("Anton", 2, "debuff", 2, 3);
         card2 = new EffectCard("Pelle", 3, "buff", 4, 2);
+        card3 = new EffectCard("Eric", 1, "buff", 0,5);
     }
 
     @Test
     void constructorTest() {
+        assertNull(new EffectCard().getName());
         assertNotNull(card);
-        assertEquals(card.getHealth(), 2);
-        assertTrue(card.getHealth() > 0 && card.getAttack() == 0);
     }
 
     @Test
     void superConstructorTest() {
         assertNull(new UnitCard().getName());
         assertEquals(new UnitCard().getCost(), 0);
-
         assertNotNull(card.getId());
         assertNotEquals(card.getId(), card2.getId());
     }
@@ -38,12 +38,7 @@ class EffectCardTest {
         assertEquals(card.getType(), "debuff");
     }
 
-    @Test
-    void getHealth() {
-        assertEquals(card.getHealth(), 2);
-    }
+    @Test void getEffectValue(){
 
-    @Test
-    void getAttack() {
     }
 }

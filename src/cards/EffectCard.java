@@ -2,8 +2,7 @@ package cards;
 
 public class EffectCard extends Card {
     private String type;
-    private int health;
-    private int attack;
+    private int effectValue;
 
     public EffectCard() {
         this("", 0, "", 0, 0);
@@ -15,24 +14,13 @@ public class EffectCard extends Card {
 //        this.health = health;
 //        this.attack = attack;
 
-        if(health > 0){
-            this.attack = 0;
-            this.health = health;
-        } else if (attack > 0){
-            this.health = 0;
-            this.attack = attack;
-        }
     }
 
     public String getType() {
         return type;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public int getAttack() {
-        return attack;
+    public int getEffectValue() {
+        return effectValue;
     }
 }
