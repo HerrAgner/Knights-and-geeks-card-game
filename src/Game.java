@@ -1,12 +1,9 @@
 import cards.Card;
 import cards.UnitCard;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -28,9 +25,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        this.players = new Player[]{new Player(player1), new Player(player2)};
-        this.round = 1;
-        this.activePlayer = 0;
+        initGame(player1, player2, 50);
     }
 
     public int getRound() {
@@ -41,7 +36,15 @@ public class Game {
         return activePlayer;
     }
 
-    public ArrayList getCardPile() {
+    public Player getCurrentPlayer() {
+        return players[activePlayer];
+    }
+
+    public Player getDefendingPlayer() {
+        return players[activePlayer == 0 ? 1 : 0];
+    }
+
+    public ArrayList<Card> getCardPile() {
         return cardPile;
     }
 
@@ -53,11 +56,11 @@ public class Game {
         return players;
     }
 
-    public void setCardPile(ArrayList cardPile) {
+    public void setCardPile(ArrayList<Card> cardPile) {
         this.cardPile = cardPile;
     }
 
-    public void setTrashPile(ArrayList trashPile) {
+    public void setTrashPile(ArrayList<Card> trashPile) {
         this.trashPile = trashPile;
     }
 
@@ -70,60 +73,119 @@ public class Game {
     }
 
     public boolean drawCard() {
+        if (cardPile.size() == 0) {
 
+            return false;
+        }
+        Card card = cardPile.remove(0);
+        players[activePlayer].addCardToHand(card);
         return true;
     }
 
-    public boolean playCard() {
+    public boolean playCard(UUID id) {
+        if (getCurrentPlayer().getMana() >= getCurrentPlayer().getCardFromHand(id).getCost() &&
+                getCurrentPlayer().getCardsOnTable().size() < 7) {
+            getCurrentPlayer().addCardToTable(getCurrentPlayer().removeCardFromHand(id));
+        }
+        return getCurrentPlayer().getCardFromTable(id) != null;
+    }
 
+    public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
+
+        if (attackingCard == defendingCard) return false;
+        if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
+        if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
+
+        defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
+        attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
+        defendingCard.setFatigue(true);
+        attackingCard.setFatigue(true);
+
+        if (defendingCard.getHp() < 1) {
+            getDefendingPlayer().removeCardFromTable(defendingCard.getId());
+            trashPile.add(defendingCard);
+        }
+        if (attackingCard.getHp() < 1) {
+            players[activePlayer].removeCardFromHand(attackingCard.getId());
+            trashPile.add(attackingCard);
+
+        }
         return true;
     }
 
-    public boolean attackCard(Card playedCard, Card enemyCard) {
+    public boolean attackPlayer(UnitCard card) {
+        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
 
-        return true;
-    }
+        getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
+        card.setFatigue(true);
+        if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
 
-    public boolean attackPlayer(Card card) {
-
-        return true;
+        return false;
     }
 
     public boolean finishTurn() {
-
+        this.setActivePlayer(getActivePlayer() == 0 ? 1 : 0);
+        this.round++;
         return true;
     }
 
     public boolean finishGame() {
+        String winner = players[activePlayer].getName();
+        int round = getRound();
+        HttpGet httpGet = new HttpGet(winner, round);
+        httpGet.sendGet();
+
 
         return true;
     }
 
-    public boolean initGame(Player p1, Player p2) {
-
-        return true;
+    public boolean initGame(String p1, String p2, int cardAmount) {
+        try {
+            this.players = new Player[]{new Player(p1), new Player(p2)};
+            this.round = 1;
+            this.activePlayer = 0;
+            createCardPile(cardAmount);
+            Random rnd = new Random();
+            while (players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
+                players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+                players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean createCardPile(int amountOfCards) {
         if (amountOfCards < 50 || amountOfCards > 100) return false;
+
         cardPile = new ArrayList<>();
 
-        String path = "src/cards.json";
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        CardGenerator cg = new CardGenerator();
+        Type collectionType = new TypeToken<List<UnitCard>>() {
+        }.getType();
+        List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
-        Gson gson = new Gson();
-        Type collectionType = new TypeToken<List<UnitCard>>(){}.getType();
-        List<UnitCard> cards = gson.fromJson(br, collectionType);
-
-
-        for (int i = 0; i < amountOfCards; i++) {
+        // Two of each card
+        for (int i = 0; i < amountOfCards / 2; i++) {
+            cardPile.add(cards.get(i));
             cardPile.add(cards.get(i));
         }
+
+        if (amountOfCards % 2 == 1) {
+            cardPile.add(cards.get(0));
+        }
+
+        Collections.shuffle(cardPile);
+
+        return true;
+    }
+
+    public boolean shuffleTrashPile() {
+        this.cardPile = new ArrayList<>(trashPile);
+        trashPile.clear();
+        Collections.shuffle(this.cardPile);
 
         return true;
     }

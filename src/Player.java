@@ -63,8 +63,6 @@ public class Player {
         return cardsOnHand.remove(id);
     }
 
-
-
     public Collection<Card> getCardsOnTable() {
         return cardsOnTable.values();
     }
@@ -73,7 +71,7 @@ public class Player {
         cardsOnTable.put(card.getId(), card);
     }
 
-    public Card getCardFromTable(UUID id) {
+        public Card getCardFromTable(UUID id) {
         return cardsOnTable.get(id);
     }
 
