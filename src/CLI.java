@@ -57,8 +57,8 @@ public class CLI {
                     "3. Attack with card\n" +
                     "4. End turn\n");
             int input = scan.nextInt();
-            int chosenCard = -1;
-            int chosenDefendingCard = -1;
+            int chosenCard;
+            int chosenDefendingCard;
 
             switch (input) {
                 case 1:
@@ -75,42 +75,45 @@ public class CLI {
                     //TODO Need validation for correct int here
                     chosenCard = scan.nextInt();
 
-                    String Enum = "unit";
+                    if (chosenCard > cardsOnHand.toArray().length) {
+                        System.out.println("Number too high.");
+                        break;
+                    }
 
-                    switch (Enum) {
-                        case "heal":
-                            System.out.println("Which card do you want to heal? (0 to heal you)");
-                            printCards(cardsOnTable);
-                            break;
-                        case "attack":
-                            System.out.println("Which card do you want to attack? (0 to attack player)");
-                            printCards(enemyCardsOnTable);
-                            break;
-                        case "buff":
-                            System.out.println("Which card do you want to buff?");
-                            printCards(cardsOnTable);
-                            break;
-                        case "debuff":
-                            System.out.println("Which card do you want to debuff?");
-                            printCards(enemyCardsOnTable);
-                            break;
-                        case "unit":
-                            System.out.println("Played card");
-                            // Play card here
-                            if (chosenCard > cardsOnHand.toArray().length) {
-                                System.out.println("Number too high.");
+                    var unitCard = (Card) cardsOnHand.toArray()[chosenCard - 1];
+
+                    Response[] response = game.playCard(unitCard.getId());
+
+                    if (response[0] == Response.OK) {
+                        switch (response[1]) {
+                            case SPELL_CARD:
+                                System.out.println("Which card do you want to heal? (0 to heal you)");
+                                printCards(cardsOnTable);
+                                System.out.println("Which card do you want to attack? (0 to attack player)");
+                                printCards(enemyCardsOnTable);
                                 break;
-                            }
-                            var unitCard = (UnitCard) cardsOnHand.toArray()[chosenCard - 1];
-                            game.playCard(unitCard.getId());
-                            printCards(activePlayer.getCardsOnTable());
-                            break;
-                        case "error":
-                            // Choose again
-                            break;
-                        default:
-                            // Crazy place! How did you get here?
-                            break;
+                            case EFFECT_CARD:
+                                System.out.println("Which card do you want to buff?");
+                                printCards(cardsOnTable);
+                                System.out.println("Which card do you want to debuff?");
+                                printCards(enemyCardsOnTable);
+                                break;
+                            case UNIT_CARD:
+                                System.out.println("Played card " + unitCard.getName());
+                                // Play card here
+                                printCards(activePlayer.getCardsOnTable());
+                                break;
+                            default:
+                                // Crazy place! How did you get here?
+                                break;
+                        }
+                    } else if (response[0] == Response.ERROR) {
+                        switch (response[1]) {
+                            case TABLE_FULL:
+                                break;
+                            case COST:
+                                break;
+                        }
                     }
                     break;
                 case 3:
@@ -120,7 +123,7 @@ public class CLI {
                     printCards(cardsOnTable);
                     // enter number on card
                     chosenCard = scan.nextInt();
-                    var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard -1];
+                    var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
                     System.out.println("Attack card or player (0 for player): ");
                     // print cards on defending player table
                     printCards(enemyCardsOnTable);
@@ -130,7 +133,7 @@ public class CLI {
                     if (chosenDefendingCard == 0) {
                         game.attackPlayer(attackingCard);
                     } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
-                        var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard -1];
+                        var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                         game.attackCard(attackingCard, defendingCard);
                     }
                     break;

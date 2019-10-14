@@ -4,9 +4,7 @@ import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
-import javax.swing.*;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -77,11 +75,11 @@ public class Game {
 
     public boolean drawCard() {
         if (cardPile.size() == 0) {
-
+            System.out.println("WHAAAT");
             return false;
         }
         Card card = cardPile.remove(0);
-        players[activePlayer].addCardToHand(card);
+        getCurrentPlayer().addCardToHand(card);
         return true;
     }
 
@@ -96,6 +94,7 @@ public class Game {
         } else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
+            System.out.println(c.getName());
             if(c instanceof UnitCard){
                 res[1] = Response.UNIT_CARD;
                 getCurrentPlayer().addCardToTable(c);
@@ -114,7 +113,11 @@ public class Game {
         return res;
     }
 
-    public void useEffectCard(UUID id){
+    public boolean useEffectCard(EffectCard card) {
+        if (card.getType() == "Atk" || card.getType() == "Hp") {
+            return true;
+        }
+        return false;
     }
 
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
@@ -123,16 +126,16 @@ public class Game {
         if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
         if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
 
-        defendingCard.setHp(defendingCard.getHp() - attackingCard.getAttack());
-        attackingCard.setHp(attackingCard.getHp() - defendingCard.getAttack());
+        defendingCard.setCurrentHealth(defendingCard.getCurrentHealth() - attackingCard.getAttack());
+        attackingCard.setCurrentHealth(attackingCard.getCurrentHealth() - defendingCard.getAttack());
         defendingCard.setFatigue(true);
         attackingCard.setFatigue(true);
 
-        if (defendingCard.getHp() < 1) {
+        if (defendingCard.getCurrentHealth() < 1) {
             getDefendingPlayer().removeCardFromTable(defendingCard.getId());
             trashPile.add(defendingCard);
         }
-        if (attackingCard.getHp() < 1) {
+        if (attackingCard.getCurrentHealth() < 1) {
             players[activePlayer].removeCardFromHand(attackingCard.getId());
             trashPile.add(attackingCard);
 
@@ -143,10 +146,10 @@ public class Game {
     public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
         if (!usedCard.isMany()) {
             if (usedCard.getType().equals("Healer")) {
-                receivingCard.setHp(usedCard.getValue() + receivingCard.getHp());
+                receivingCard.setCurrentHealth(usedCard.getValue() + receivingCard.getCurrentHealth());
                 trashPile.add(usedCard);
             } else if (usedCard.getType().equals("Attacker")) {
-                receivingCard.setHp(receivingCard.getHp() + usedCard.getValue());
+                receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + usedCard.getValue());
                 trashPile.add(usedCard);
             }
             getCurrentPlayer().removeCardFromHand(usedCard.getId());
@@ -154,12 +157,12 @@ public class Game {
             if (usedCard.getType().equals("Healer")) {
                 for (Card card : getCurrentPlayer().getCardsOnTable()) {
                     var unitCard = (UnitCard) card;
-                    unitCard.setHp(usedCard.getValue() + unitCard.getHp());
+                    unitCard.setCurrentHealth(usedCard.getValue() + unitCard.getCurrentHealth());
                 }
             } else if (usedCard.getType().equals("Attacker")) {
                 for (Card card : getDefendingPlayer().getCardsOnTable()) {
                     var unitCard = (UnitCard) card;
-                    unitCard.setHp(unitCard.getHp() + usedCard.getValue());
+                    unitCard.setCurrentHealth(unitCard.getCurrentHealth() + usedCard.getValue());
                 }
             }
             getCurrentPlayer().removeCardFromHand(usedCard.getId());
@@ -213,7 +216,7 @@ public class Game {
             createCardPile(cardAmount);
             for (int i = 0; i < 5; i++) {
                 players[0].addCardToHand(cardPile.remove(0));
-                players[1].addCardToHand(cardPile.remove(0));
+                players[1].addCardToHand(cardPile.remove(5));
             }
             return true;
         } catch (Exception e) {
@@ -232,15 +235,10 @@ public class Game {
         }.getType();
         List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
-        // Two of each card
-        for (int i = 0; i < amountOfCards / 2; i++) {
-            cardPile.add(cards.get(i));
+        for (int i = 0; i < amountOfCards; i++) {
             cardPile.add(cards.get(i));
         }
 
-        if (amountOfCards % 2 == 1) {
-            cardPile.add(cards.get(0));
-        }
 
         Collections.shuffle(cardPile);
 
@@ -252,6 +250,16 @@ public class Game {
         trashPile.clear();
         Collections.shuffle(this.cardPile);
 
+        return true;
+    }
+
+    public boolean startTurn() {
+        getCurrentPlayer().changeMana(1);
+        drawCard();
+        getCurrentPlayer().getCardsOnTable().forEach(card -> {
+            UnitCard tempCard = (UnitCard) card;
+            tempCard.setFatigue(false);
+        });
         return true;
     }
 }

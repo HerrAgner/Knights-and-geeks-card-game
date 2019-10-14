@@ -2,37 +2,25 @@ package cards;
 
 public class EffectCard extends Card {
     private String type;
-    private int health;
-    private int attack;
+    private int effectValue;
 
     public EffectCard() {
-        this("", 0, "", 0, 0);
+        this("", 0, "", 0);
     }
 
-    public EffectCard(String name, int cost, String type, int health, int attack) {
+    public EffectCard(String name, int cost, String type, int effectValue) {
         super(name, cost);
         this.type = type;
-//        this.health = health;
-//        this.attack = attack;
+        this.effectValue = effectValue;
 
-        if(health > 0){
-            this.attack = 0;
-            this.health = health;
-        } else if (attack > 0){
-            this.health = 0;
-            this.attack = attack;
-        }
+
     }
 
     public String getType() {
         return type;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public int getAttack() {
-        return attack;
+    public int getEffectValue() {
+        return effectValue;
     }
 }

@@ -10,40 +10,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class EffectCardTest {
     private EffectCard card;
     private EffectCard card2;
+    private EffectCard card3;
 
     @BeforeEach
     void init() {
-        card = new EffectCard("Anton", 2, "debuff", 2, 3);
-        card2 = new EffectCard("Pelle", 3, "buff", 4, 2);
+        card = new EffectCard("Anton", 2, "debuffHp", 2);
+        card2 = new EffectCard("Pelle", 3, "buffAtk", 4);
+        card3 = new EffectCard("Eric", 1, "buffAtk", 3);
     }
 
     @Test
     void constructorTest() {
+        assertNull(new EffectCard().getName());
         assertNotNull(card);
-        assertEquals(card.getHealth(), 2);
-        assertTrue(card.getHealth() > 0 && card.getAttack() == 0);
+        assertEquals(card3.getName(), "Eric");
+        assertEquals(card3.getEffectValue(), 3);
+        assertEquals(card3.getCost(), 1);
     }
 
     @Test
     void superConstructorTest() {
         assertNull(new UnitCard().getName());
         assertEquals(new UnitCard().getCost(), 0);
-
         assertNotNull(card.getId());
         assertNotEquals(card.getId(), card2.getId());
     }
 
     @Test
     void getType() {
-        assertEquals(card.getType(), "debuff");
+        assertEquals(card.getType(), "debuffHp");
     }
 
-    @Test
-    void getHealth() {
-        assertEquals(card.getHealth(), 2);
-    }
-
-    @Test
-    void getAttack() {
+    @Test void getEffectValue(){
+        assertEquals(card2.getEffectValue(), 4);
     }
 }
