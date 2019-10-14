@@ -17,8 +17,8 @@ class EffectCardTest {
     @Test
     void constructorTest(){
     assertNotNull(card);
-    assertEquals(card.getAttack(), 3);
-    assertTrue(card.getAttack()>0 && card.getHealth()==0);
+    assertEquals(card.getHealth(), 2);
+    assertTrue(card.getHealth()>0 && card.getAttack()==0);
     }
 
     @Test
@@ -28,10 +28,12 @@ class EffectCardTest {
 
     @Test
     void getType() {
+        assertEquals(card.getType(), "debuff");
     }
 
     @Test
     void getHealth() {
+        assertEquals(card.getHealth(), 2);
     }
 
     @Test

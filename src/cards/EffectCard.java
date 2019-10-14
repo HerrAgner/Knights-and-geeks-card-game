@@ -8,8 +8,16 @@ public class EffectCard extends Card {
     public EffectCard(String name, int cost, String type, int health, int attack) {
         super(name, cost);
         this.type = type;
-        this.health = health;
-        this.attack = attack;
+//        this.health = health;
+//        this.attack = attack;
+
+        if(health > 0){
+            this.attack = 0;
+            this.health = health;
+        } else if (attack > 0){
+            this.health = 0;
+            this.attack = attack;
+        }
     }
 
     public String getType() {
