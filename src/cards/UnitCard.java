@@ -2,6 +2,7 @@ package cards;
 
 public class UnitCard extends Card {
     private int health;
+    private int currentHealth;
     private int attack;
     private boolean fatigue;
 
@@ -14,6 +15,7 @@ public class UnitCard extends Card {
         this.health = hp;
         this.attack = attack;
         this.fatigue = false;
+        this.currentHealth = hp;
     }
 
     public boolean setHp(int hp) {
@@ -22,6 +24,17 @@ public class UnitCard extends Card {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+        if(this.currentHealth > health){
+            this.currentHealth = health;
         }
     }
 
