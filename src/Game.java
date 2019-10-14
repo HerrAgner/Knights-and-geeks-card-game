@@ -254,6 +254,13 @@ public class Game {
     }
 
     public boolean startTurn() {
+        getCurrentPlayer().changeMana(1);
+        System.out.println(getCurrentPlayer().getCardsOnHand().size());
+        drawCard();
+        getCurrentPlayer().getCardsOnTable().forEach(card -> {
+            UnitCard tempCard = (UnitCard) card;
+            tempCard.setFatigue(false);
+        });
         return true;
     }
 }
