@@ -15,14 +15,17 @@ class EffectCardTest {
     @BeforeEach
     void init() {
         card = new EffectCard("Anton", 2, "debuffHp", 2);
-        card2 = new EffectCard("Pelle", 3, "buff", 4);
-        card3 = new EffectCard("Eric", 1, "buff", 3);
+        card2 = new EffectCard("Pelle", 3, "buffAtk", 4);
+        card3 = new EffectCard("Eric", 1, "buffAtk", 3);
     }
 
     @Test
     void constructorTest() {
         assertNull(new EffectCard().getName());
         assertNotNull(card);
+        assertEquals(card3.getName(), "Eric");
+        assertEquals(card3.getEffectValue(), 3);
+        assertEquals(card3.getCost(), 1);
     }
 
     @Test
@@ -35,7 +38,7 @@ class EffectCardTest {
 
     @Test
     void getType() {
-        assertEquals(card.getType(), "debuff");
+        assertEquals(card.getType(), "debuffHp");
     }
 
     @Test void getEffectValue(){
