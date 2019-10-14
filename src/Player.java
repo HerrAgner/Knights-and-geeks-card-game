@@ -78,4 +78,8 @@ public class Player {
     public Card removeCardFromTable(UUID id){
         return cardsOnTable.remove(id);
     }
+
+    public void setCardsOnTable(Map<UUID, Card> cardsOnTable) {
+        this.cardsOnTable = cardsOnTable;
+    }
 }

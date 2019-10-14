@@ -4,9 +4,7 @@ import cards.UnitCard;
 import org.junit.jupiter.api.*;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -116,19 +114,19 @@ class GameTest {
 
         game.drawCard();
         assertEquals(cardPile.size(), 79);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 1);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
         game.setActivePlayer(1);
         game.drawCard();
         assertEquals(cardPile.size(), 78);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 1);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
         game.setActivePlayer(0);
         game.drawCard();
         assertEquals(cardPile.size(), 77);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
         game.setActivePlayer(1);
         game.drawCard();
         assertEquals(cardPile.size(), 76);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
 
         while (cardPile.size() != 0) {
             game.drawCard();
@@ -265,8 +263,16 @@ class GameTest {
 
     @Test
     void useEffectCard() {
-        EffectCard card = new EffectCard("card", 2, "Atk", 2 );
+        EffectCard card = new EffectCard("card", 2, "Atk", 2);
         EffectCard card2 = new EffectCard("cardio", 2, "LAJS", 3);
+        UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
+        Player player = game.getCurrentPlayer();
+        Player defPlayer = game.getDefendingPlayer();
+        Collection<Card> cardOnTable = defPlayer.getCardsOnTable();
+        cardOnTable.add(unitCard);
+        System.out.println(cardOnTable);
+
+
         assertTrue(game.useEffectCard(card));
         assertFalse(game.useEffectCard(card2));
     }
