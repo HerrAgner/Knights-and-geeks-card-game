@@ -1,7 +1,4 @@
-import cards.Card;
-import cards.EffectCard;
-import cards.SpellCard;
-import cards.UnitCard;
+import cards.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -141,31 +138,33 @@ class GameTest {
         }
         game.drawCard();
         assertEquals(cardPile.size(), 0);
-
-
     }
 
     @Test
     void playCard() {
         Game game = new Game("Ted", "Anton");
+        game.getCurrentPlayer().changeMana(9);
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1),
                 new UnitCard("UnitCard", 11, 1, 1),
                 new EffectCard("EffectCard", 1, "type", 1, 1),
                 new EffectCard("EffectCard", 11, "type", 1, 1)
         };
+        Response[] res;
         game.getPlayers()[0].addCardToHand(testCards[0]);
-        Response[] res = game.playCard(testCards[0].getId());
+        game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[1]);
+        game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[2]);
         res = game.playCard(testCards[2].getId());
-        assertTrue(res[1] == Response.EFFECT_CARD);
+        assertSame(res[1], Response.EFFECT_CARD);
 
         game.getPlayers()[0].addCardToHand(testCards[3]);
+        game.playCard(testCards[3].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[3].getId()));
     }
 

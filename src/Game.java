@@ -101,6 +101,8 @@ public class Game {
                 getCurrentPlayer().addCardToTable(c);
             } else if(c instanceof EffectCard){
                 res[1] = Response.EFFECT_CARD;
+
+
             }
             else if(c instanceof SpellCard) {
                 res[1] = Response.SPELL_CARD;
