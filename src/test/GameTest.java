@@ -151,19 +151,21 @@ class GameTest {
                 new EffectCard("EffectCard", 11, "type", 1, 1)
         };
         game.getPlayers()[0].addCardToHand(testCards[0]);
-        System.out.println(game.playCard(testCards[0].getId()));
+        Response[] res = game.playCard(testCards[0].getId());
+        System.out.println(res[0] + " - " + res[1]);
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[1]);
-        System.out.println(game.playCard(testCards[1].getId()));
+        res = game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[2]);
-        System.out.println(game.playCard(testCards[2].getId()));
-        assertSame(testCards[2], game.getCurrentPlayer().getCardFromTable(testCards[2].getId()));
+        res = game.playCard(testCards[2].getId());
+        assertTrue(res[1] == Response.EFFECT_CARD);
 
         game.getPlayers()[0].addCardToHand(testCards[3]);
-        System.out.println(game.playCard(testCards[3].getId()));
+        res = game.playCard(testCards[3].getId());
+        System.out.println(res[0] + " - " + res[1]);
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[3].getId()));
     }
 
