@@ -250,7 +250,7 @@ class GameTest {
 
 
         assertTrue(game.useSpellOnPlayer(healer));
-        assertEquals(game.getCurrentPlayer().getHealth(), 32);
+        assertEquals(game.getCurrentPlayer().getHealth(), 30);
         assertTrue(game.getTrashPile().contains(healer));
 
         assertTrue(game.useSpellOnPlayer(attacker));
