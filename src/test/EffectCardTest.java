@@ -1,3 +1,4 @@
+import cards.Card;
 import cards.EffectCard;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,13 +11,14 @@ class EffectCardTest {
 
     @BeforeEach
     void init(){
-    card = new EffectCard("Anton", 2, "debuff", 0, 3);
+    card = new EffectCard("Anton", 2, "debuff", 2, 3);
     }
 
     @Test
     void constructorTest(){
     assertNotNull(card);
     assertEquals(card.getAttack(), 3);
+    assertTrue(card.getAttack()>0 && card.getHealth()==0);
     }
 
     @Test
