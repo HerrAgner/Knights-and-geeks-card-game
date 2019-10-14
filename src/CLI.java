@@ -57,6 +57,8 @@ public class CLI {
                     "3. Attack with card\n" +
                     "4. End turn\n");
             int input = scan.nextInt();
+            int chosenCard = -1;
+            int chosenDefendingCard = -1;
 
             switch (input) {
                 case 1:
@@ -71,7 +73,7 @@ public class CLI {
                     // enter number on card
 
                     //TODO Need validation for correct int here
-                    int chosenCard = scan.nextInt();
+                    chosenCard = scan.nextInt();
 
                     String Enum = "unit";
 
@@ -103,7 +105,7 @@ public class CLI {
                             game.playCard(unitCard.getId());
                             printCards(activePlayer.getCardsOnTable());
                             break;
-                        case "false":
+                        case "error":
                             // Choose again
                             break;
                         default:
@@ -115,11 +117,22 @@ public class CLI {
                     //Attack with card
                     System.out.println("Choose card: ");
                     // Print cards on your table
+                    printCards(cardsOnTable);
                     // enter number on card
-                    System.out.println("Attack card: ");
+                    chosenCard = scan.nextInt();
+                    var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard -1];
+                    System.out.println("Attack card or player (0 for player): ");
                     // print cards on defending player table
+                    printCards(enemyCardsOnTable);
                     // Enter number
-                    // game.attackCard(card, card)
+                    chosenDefendingCard = scan.nextInt();
+
+                    if (chosenDefendingCard == 0) {
+                        game.attackPlayer(attackingCard);
+                    } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
+                        var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard -1];
+                        game.attackCard(attackingCard, defendingCard);
+                    }
                     break;
                 case 4:
                     // End turn
