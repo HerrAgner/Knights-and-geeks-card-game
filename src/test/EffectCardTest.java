@@ -14,9 +14,9 @@ class EffectCardTest {
 
     @BeforeEach
     void init() {
-        card = new EffectCard("Anton", 2, "debuff", 2, 3);
-        card2 = new EffectCard("Pelle", 3, "buff", 4, 2);
-        card3 = new EffectCard("Eric", 1, "buff", 0,5);
+        card = new EffectCard("Anton", 2, "debuffHp", 2);
+        card2 = new EffectCard("Pelle", 3, "buff", 4);
+        card3 = new EffectCard("Eric", 1, "buff", 3);
     }
 
     @Test
@@ -39,6 +39,6 @@ class EffectCardTest {
     }
 
     @Test void getEffectValue(){
-
+        assertEquals(card2.getEffectValue(), 4);
     }
 }
