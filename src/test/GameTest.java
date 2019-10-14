@@ -16,12 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class GameTest {
-    Game game;
-
-    @BeforeEach
-    void init() {
-        game = new Game("Ted", "Anton");
-    }
 
     @Test
     void constructorTest() {
@@ -55,11 +49,13 @@ class GameTest {
 
     @Test
     void getRound() {
+        Game game = new Game("Ted", "Anton");
         assertEquals(1, game.getRound());
     }
 
     @Test
     void getActivePlayer() {
+        Game game = new Game("Ted", "Anton");
         assertEquals(0, game.getActivePlayer());
     }
 
@@ -72,16 +68,19 @@ class GameTest {
 
     @Test
     void getTrashPile() {
+        Game game = new Game("Ted", "Anton");
         assertNotNull(game.getTrashPile());
     }
 
     @Test
     void getPlayers() {
+        Game game = new Game("Ted", "Anton");
         assertNotNull(game.getPlayers());
     }
 
     @Test
     void setCardPile() {
+        Game game = new Game("Ted", "Anton");
         ArrayList<Card> testList = new ArrayList<>();
         game.setCardPile(testList);
         assertSame(testList, game.getCardPile());
@@ -89,6 +88,7 @@ class GameTest {
 
     @Test
     void setTrashPile() {
+        Game game = new Game("Ted", "Anton");
         ArrayList<Card> testList = new ArrayList<>();
         game.setTrashPile(testList);
         assertSame(testList, game.getTrashPile());
@@ -96,12 +96,14 @@ class GameTest {
 
     @Test
     void setActivePlayer() {
+        Game game = new Game("Ted", "Anton");
         game.setActivePlayer(1);
         assertEquals(1, game.getActivePlayer());
     }
 
     @Test
     void setRound() {
+        Game game = new Game("Ted", "Anton");
         game.setRound(2);
         assertEquals(2, game.getRound());
     }
@@ -120,19 +122,19 @@ class GameTest {
 
         game.drawCard();
         assertEquals(cardPile.size(), 79);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 1);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
         game.setActivePlayer(1);
         game.drawCard();
         assertEquals(cardPile.size(), 78);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 1);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
         game.setActivePlayer(0);
         game.drawCard();
         assertEquals(cardPile.size(), 77);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
         game.setActivePlayer(1);
         game.drawCard();
         assertEquals(cardPile.size(), 76);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 2);
+        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
 
         while (cardPile.size() != 0) {
             game.drawCard();
@@ -145,6 +147,7 @@ class GameTest {
 
     @Test
     void playCard() {
+        Game game = new Game("Ted", "Anton");
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1),
                 new UnitCard("UnitCard", 11, 1, 1),
@@ -156,7 +159,6 @@ class GameTest {
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[1]);
-        res = game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[2]);
@@ -164,8 +166,6 @@ class GameTest {
         assertTrue(res[1] == Response.EFFECT_CARD);
 
         game.getPlayers()[0].addCardToHand(testCards[3]);
-        res = game.playCard(testCards[3].getId());
-        System.out.println(res[0] + " - " + res[1]);
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[3].getId()));
     }
 
@@ -294,6 +294,7 @@ class GameTest {
 
     @Test
     void initGame() {
+        Game game = new Game("Ted", "Anton");
         assertNotNull(game.getPlayers());
         assertEquals(0, game.getActivePlayer());
         assertEquals(1, game.getRound());
@@ -345,6 +346,7 @@ class GameTest {
 
     @Test
     void useEffectCard() {
+        Game game = new Game("Ted", "Anton");
         EffectCard card = new EffectCard("Sl", 2,"buff", 2, 0 );
         game.useEffectCard(card.getId());
     }

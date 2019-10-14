@@ -209,7 +209,7 @@ public class Game {
             this.round = 1;
             this.activePlayer = 0;
             createCardPile(cardAmount);
-            while (players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
+            for (int i = 0; i < 5; i++) {
                 players[0].addCardToHand(cardPile.remove(0));
                 players[1].addCardToHand(cardPile.remove(0));
             }
