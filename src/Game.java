@@ -90,7 +90,10 @@ public class Game {
         return getCurrentPlayer().getCardFromTable(id) != null;
     }
 
-    public boolean useEffectCard(EffectCard card){
+    public boolean useEffectCard(EffectCard card) {
+        if(card.getType()=="Atk" || card.getType()=="Hp"){
+            return true;
+        }
         return false;
     }
 

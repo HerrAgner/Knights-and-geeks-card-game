@@ -265,7 +265,9 @@ class GameTest {
 
     @Test
     void useEffectCard() {
-        EffectCard card = new EffectCard("card", 2, "debuffAtk", 2 );
+        EffectCard card = new EffectCard("card", 2, "Atk", 2 );
+        EffectCard card2 = new EffectCard("cardio", 2, "LAJS", 3);
         assertTrue(game.useEffectCard(card));
+        assertFalse(game.useEffectCard(card2));
     }
 }
