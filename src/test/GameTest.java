@@ -183,10 +183,23 @@ class GameTest {
         Player players[] = game.getPlayers();
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        SpellCard healerMany = new SpellCard("Healer", true, 2, "Hasse", 2);
         UnitCard receiver = new UnitCard("Krigaren", 3, 5, 6);
+        UnitCard receiver2 = new UnitCard("Asd", 3, 7, 6);
+        UnitCard receiver3 = new UnitCard("dsa", 5, 4, 5);
+
+
 
         players[game.getActivePlayer()].addCardToHand(healer);
+        players[game.getActivePlayer()].addCardToHand(attacker);
+
+        game.getCurrentPlayer().addCardToTable(receiver);
+        game.getCurrentPlayer().addCardToTable(receiver3);
+        game.getCurrentPlayer().addCardToTable(receiver2);
+
+
         game.getDefendingPlayer().addCardToHand(attacker);
+
 
         assertTrue(game.useSpellOnCard(healer, receiver));
         assertEquals(receiver.getHp(), 7);
@@ -195,6 +208,11 @@ class GameTest {
         game.useSpellOnCard(attacker, receiver);
         assertEquals(receiver.getHp(), 5);
         assertTrue(game.getTrashPile().contains(attacker));
+        assertNull(game.getCurrentPlayer().getCardFromHand(healer.getId()));
+        assertNull(game.getCurrentPlayer().getCardFromHand(attacker.getId()));
+
+        game.useSpellOnCard(healerMany, receiver);
+        assertEquals(receiver2.getHp(), 9);
     }
 
     @Test
