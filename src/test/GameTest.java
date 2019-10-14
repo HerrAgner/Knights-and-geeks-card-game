@@ -7,10 +7,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.lang.reflect.Array;
+
+import java.util.*;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -151,8 +153,8 @@ class GameTest {
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1),
                 new UnitCard("UnitCard", 11, 1, 1),
-                new EffectCard("EffectCard", 1, "type", 1, 1),
-                new EffectCard("EffectCard", 11, "type", 1, 1)
+                new EffectCard("EffectCard", 1, "type", 1),
+                new EffectCard("EffectCard", 11, "type", 1)
         };
         game.getPlayers()[0].addCardToHand(testCards[0]);
         Response[] res = game.playCard(testCards[0].getId());
@@ -346,9 +348,21 @@ class GameTest {
 
     @Test
     void useEffectCard() {
-        Game game = new Game("Ted", "Anton");
-        EffectCard card = new EffectCard("Sl", 2,"buff", 2, 0 );
-        game.useEffectCard(card.getId());
+        Game game = new Game("Alle", "Ralle");
+        EffectCard increaseAttack = new EffectCard("card", 2, "Atk", 2);
+        EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
+        UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
+        Player player = game.getCurrentPlayer();
+        Player defPlayer = game.getDefendingPlayer();
+
+        player.addCardToHand(increaseAttack);
+        defPlayer.addCardToTable(unitCard);
+
+        assertTrue(game.useEffectCard(increaseAttack));
+        assertFalse(game.useEffectCard(invalidCard));
+
+      //  var defPlayerCardsOnTable = (UnitCard)defPlayer.getCardsOnTable().iterator();
+
     }
 
     @Test

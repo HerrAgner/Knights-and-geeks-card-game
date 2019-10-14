@@ -4,9 +4,7 @@ import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
-import javax.swing.*;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.*;
 
 public class Game {
@@ -113,7 +111,11 @@ public class Game {
         return res;
     }
 
-    public void useEffectCard(UUID id){
+    public boolean useEffectCard(EffectCard card) {
+        if (card.getType() == "Atk" || card.getType() == "Hp") {
+            return true;
+        }
+        return false;
     }
 
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
