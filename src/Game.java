@@ -1,5 +1,6 @@
 import cards.Card;
 import cards.EffectCard;
+import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
@@ -134,6 +135,45 @@ public class Game {
             trashPile.add(attackingCard);
 
         }
+        return true;
+    }
+
+    public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
+        if (!usedCard.isMany()) {
+            if (usedCard.getType().equals("Healer")) {
+                receivingCard.setHp(usedCard.getValue() + receivingCard.getHp());
+                trashPile.add(usedCard);
+            } else if (usedCard.getType().equals("Attacker")) {
+                receivingCard.setHp(receivingCard.getHp() + usedCard.getValue());
+                trashPile.add(usedCard);
+            }
+            getCurrentPlayer().removeCardFromHand(usedCard.getId());
+        } else if (usedCard.isMany()) {
+            if (usedCard.getType().equals("Healer")) {
+                for (Card card : getCurrentPlayer().getCardsOnTable()) {
+                    var unitCard = (UnitCard) card;
+                    unitCard.setHp(usedCard.getValue() + unitCard.getHp());
+                }
+            } else if (usedCard.getType().equals("Attacker")) {
+                for (Card card : getDefendingPlayer().getCardsOnTable()) {
+                    var unitCard = (UnitCard) card;
+                    unitCard.setHp(unitCard.getHp() + usedCard.getValue());
+                }
+            }
+            getCurrentPlayer().removeCardFromHand(usedCard.getId());
+            trashPile.add(usedCard);
+        }
+        return true;
+    }
+
+    public boolean useSpellOnPlayer(SpellCard usedCard) {
+        if (usedCard.getType().equals("Healer")) {
+            getCurrentPlayer().changeHealth(usedCard.getValue());
+        } else if (usedCard.getType().equals("Attacker")) {
+            getDefendingPlayer().changeHealth(usedCard.getValue());
+        }
+        trashPile.add(usedCard);
+
         return true;
     }
 
