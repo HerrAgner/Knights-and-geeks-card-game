@@ -1,8 +1,10 @@
 import cards.Card;
+import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
 
+import javax.swing.*;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.*;
@@ -83,12 +85,34 @@ public class Game {
         return true;
     }
 
-    public boolean playCard(UUID id) {
-        if (getCurrentPlayer().getMana() >= getCurrentPlayer().getCardFromHand(id).getCost() &&
-                getCurrentPlayer().getCardsOnTable().size() < 7) {
-            getCurrentPlayer().addCardToTable(getCurrentPlayer().removeCardFromHand(id));
+    public Response[] playCard(UUID id) {
+        Response[] res = {null,null};
+        if (getCurrentPlayer().getMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
+            res[0] = Response.ERROR;
+            res[1] = Response.COST;
+        } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
+            res[0] = Response.ERROR;
+            res[1] = Response.TABLE_FULL;
+        } else {
+            res[0] = Response.OK;
+            Card c = getCurrentPlayer().removeCardFromHand(id);
+            if(c instanceof UnitCard){
+                res[1] = Response.UNIT_CARD;
+                getCurrentPlayer().addCardToTable(c);
+            } else if(c instanceof EffectCard){
+                res[1] = Response.EFFECT_CARD;
+            }
+//            else if(c instanceof SpellCard) {
+//                res[1] = Response.SPELL_CARD;
+//            }
+            else {
+                res[0] = Response.ERROR;
+            }
         }
-        return getCurrentPlayer().getCardFromTable(id) != null;
+        return res;
+    }
+
+    public void useEffectCard(UUID id){
     }
 
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
@@ -185,10 +209,9 @@ public class Game {
             this.round = 1;
             this.activePlayer = 0;
             createCardPile(cardAmount);
-            Random rnd = new Random();
             while (players[0].getCardsOnHand().size() < 5 && players[1].getCardsOnHand().size() < 5) {
-                players[0].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
-                players[1].addCardToHand(cardPile.remove(rnd.nextInt(cardPile.size())));
+                players[0].addCardToHand(cardPile.remove(0));
+                players[1].addCardToHand(cardPile.remove(0));
             }
             return true;
         } catch (Exception e) {
