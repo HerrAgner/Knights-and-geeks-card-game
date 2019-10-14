@@ -77,11 +77,11 @@ public class Game {
 
     public boolean drawCard() {
         if (cardPile.size() == 0) {
-
+            System.out.println("WHAAAT");
             return false;
         }
         Card card = cardPile.remove(0);
-        players[activePlayer].addCardToHand(card);
+        getCurrentPlayer().addCardToHand(card);
         return true;
     }
 
@@ -96,6 +96,7 @@ public class Game {
         } else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
+            System.out.println(c.getName());
             if(c instanceof UnitCard){
                 res[1] = Response.UNIT_CARD;
                 getCurrentPlayer().addCardToTable(c);
@@ -211,7 +212,7 @@ public class Game {
             createCardPile(cardAmount);
             for (int i = 0; i < 5; i++) {
                 players[0].addCardToHand(cardPile.remove(0));
-                players[1].addCardToHand(cardPile.remove(0));
+                players[1].addCardToHand(cardPile.remove(5));
             }
             return true;
         } catch (Exception e) {
@@ -230,15 +231,10 @@ public class Game {
         }.getType();
         List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
-        // Two of each card
-        for (int i = 0; i < amountOfCards / 2; i++) {
-            cardPile.add(cards.get(i));
+        for (int i = 0; i < amountOfCards; i++) {
             cardPile.add(cards.get(i));
         }
 
-        if (amountOfCards % 2 == 1) {
-            cardPile.add(cards.get(0));
-        }
 
         Collections.shuffle(cardPile);
 
@@ -255,7 +251,6 @@ public class Game {
 
     public boolean startTurn() {
         getCurrentPlayer().changeMana(1);
-        System.out.println(getCurrentPlayer().getCardsOnHand().size());
         drawCard();
         getCurrentPlayer().getCardsOnTable().forEach(card -> {
             UnitCard tempCard = (UnitCard) card;

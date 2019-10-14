@@ -354,25 +354,30 @@ class GameTest {
     @Test
     void startTurn() {
         Game game = new Game("Ted", "Anton");
+        UnitCard unitCard = new UnitCard("Krigaren", 1, 5, 6);
+        game.getCurrentPlayer().addCardToHand(unitCard);
 
         game.startTurn();
         assertEquals(1, game.getCurrentPlayer().getMana());
-        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
+        assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
 
-        var unitCard = (UnitCard) game.getCurrentPlayer().getCardsOnHand().toArray()[0];
         game.playCard(unitCard.getId());
 
+        assertEquals(1, game.getCurrentPlayer().getCardsOnTable().size());
         unitCard.setFatigue(true);
-        assertTrue(unitCard.getFatigue());
+        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
+        var tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
+        assertTrue(tableCard.getFatigue());
 
         game.startTurn();
         assertEquals(2, game.getCurrentPlayer().getMana());
-        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
-        assertFalse(unitCard.getFatigue());
+        assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
+        tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
+        assertFalse(tableCard.getFatigue());
 
         game.startTurn();
         assertEquals(3, game.getCurrentPlayer().getMana());
-        assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
+        assertEquals(8, game.getCurrentPlayer().getCardsOnHand().size());
 
     }
 }
