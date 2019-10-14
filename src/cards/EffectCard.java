@@ -5,14 +5,14 @@ public class EffectCard extends Card {
     private int effectValue;
 
     public EffectCard() {
-        this("", 0, "", 0, 0);
+        this("", 0, "", 0);
     }
 
-    public EffectCard(String name, int cost, String type, int health, int attack) {
+    public EffectCard(String name, int cost, String type, int effectValue) {
         super(name, cost);
         this.type = type;
-//        this.health = health;
-//        this.attack = attack;
+        this.effectValue = effectValue;
+
 
     }
 
