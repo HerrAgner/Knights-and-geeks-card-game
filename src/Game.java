@@ -192,4 +192,8 @@ public class Game {
 
         return true;
     }
+
+    public boolean startTurn() {
+        return true;
+    }
 }

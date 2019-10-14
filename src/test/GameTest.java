@@ -268,4 +268,29 @@ class GameTest {
         EffectCard card = new EffectCard("Sl", 2,"buff", 2, 0 );
         game.useEffectCard(card.getId());
     }
+
+    @Test
+    void startTurn() {
+        Game game = new Game("Ted", "Anton");
+
+        game.startTurn();
+        assertEquals(1, game.getCurrentPlayer().getMana());
+        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
+
+        var unitCard = (UnitCard) game.getCurrentPlayer().getCardsOnHand().toArray()[0];
+        game.playCard(unitCard.getId());
+
+        unitCard.setFatigue(true);
+        assertTrue(unitCard.getFatigue());
+
+        game.startTurn();
+        assertEquals(2, game.getCurrentPlayer().getMana());
+        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
+        assertFalse(unitCard.getFatigue());
+
+        game.startTurn();
+        assertEquals(3, game.getCurrentPlayer().getMana());
+        assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
+
+    }
 }
