@@ -311,7 +311,6 @@ class GameTest {
         int amountOfCards = 80;
 
         assertTrue(game.createCardPile(amountOfCards));
-        assertEquals(40, game.getCardPile().stream().distinct().count());
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
