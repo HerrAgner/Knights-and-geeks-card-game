@@ -2,9 +2,12 @@ import cards.Card;
 import cards.EffectCard;
 import cards.UnitCard;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -141,10 +144,27 @@ class GameTest {
 
     @Test
     void playCard() {
-        Card card = new UnitCard("name", 1, 1, 1);
-        game.getPlayers()[0].addCardToHand(card);
-        game.playCard(card.getId());
-        assertSame(card, game.getCurrentPlayer().getCardFromTable(card.getId()));
+        Card[] testCards = {
+                new UnitCard("UnitCard", 1, 1, 1),
+                new UnitCard("UnitCard", 11, 1, 1),
+                new EffectCard("EffectCard", 1, "type", 1, 1),
+                new EffectCard("EffectCard", 11, "type", 1, 1)
+        };
+        game.getPlayers()[0].addCardToHand(testCards[0]);
+        System.out.println(game.playCard(testCards[0].getId()));
+        assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
+
+        game.getPlayers()[0].addCardToHand(testCards[0]);
+        System.out.println(game.playCard(testCards[0].getId()));
+        assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
+
+        game.getPlayers()[0].addCardToHand(testCards[0]);
+        System.out.println(game.playCard(testCards[0].getId()));
+        assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
+
+        game.getPlayers()[0].addCardToHand(testCards[0]);
+        System.out.println(game.playCard(testCards[0].getId()));
+        assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
     }
 
     @Test
