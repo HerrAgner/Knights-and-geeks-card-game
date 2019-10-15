@@ -54,12 +54,16 @@ public class Player {
         return cardsOnHand.values();
     }
 
-    public void addCardToHand(Card card){
-        cardsOnHand.put(card.getId(), card);
+    public boolean addCardToHand(Card card){
+        if(card != null) {
+            cardsOnHand.put(card.getId(), card);
+            return true;
+        }
+        return false;
     }
 
     public Card getCardFromHand(UUID id){
-        return cardsOnHand.get(id);
+        return id != null ? cardsOnHand.get(id) : null;
     }
 
     public Card removeCardFromHand(UUID id){
