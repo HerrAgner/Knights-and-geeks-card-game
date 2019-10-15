@@ -118,10 +118,23 @@ class PlayerTest {
 	}
 
 	@Test
+	void getCardFromTable() {
+		Card testCard = new UnitCard("name", 1,1, 1);
+		player.addCardToTable(testCard);
+		assertSame(testCard.getId(), player.getCardFromTable(testCard.getId()).getId());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.getCardFromTable(testCard.getId()));
+		assertNull(player.getCardFromTable(null));
+	}
+
+	@Test
 	void removeCardFromTable(){
 		Card testCard = new UnitCard("name", 1,1, 1);
 		player.addCardToTable(testCard);
 		assertEquals(testCard, player.removeCardFromTable(testCard.getId()));
 		assertTrue(player.getCardsOnTable().isEmpty());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.removeCardFromTable(testCard.getId()));
+		assertNull(player.removeCardFromTable(null));
 	}
 }
