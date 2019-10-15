@@ -145,7 +145,7 @@ class GameTest {
     @Test
     void playCard() {
         Game game = new Game("Ted", "Anton");
-        game.getCurrentPlayer().changeMana(9);
+        game.getCurrentPlayer().changeMana(10);
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1),
                 new UnitCard("UnitCard", 11, 1, 1),
@@ -156,7 +156,8 @@ class GameTest {
         game.getPlayers()[0].addCardToHand(testCards[0]);
         game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
-
+        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getMana());
+        System.out.println(10-testCards[0].getCost());
         game.getPlayers()[0].addCardToHand(testCards[1]);
         game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));
@@ -350,18 +351,38 @@ class GameTest {
     void useEffectCard() {
         Game game = new Game("Alle", "Ralle");
         EffectCard increaseAttack = new EffectCard("card", 2, "Atk", 2);
+        EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
+        EffectCard decreaseAttackBy4 = new EffectCard("card", 2, "Atk", -4);
+        EffectCard decreaseHealth = new EffectCard("card", 2, "Hp", -2);
+        EffectCard increaseHealth = new EffectCard("card", 2, "Hp", 3);
         EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
         UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
-        Player player = game.getCurrentPlayer();
+        UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
+
+  /*      Player player = game.getCurrentPlayer();
         Player defPlayer = game.getDefendingPlayer();
 
         player.addCardToHand(increaseAttack);
         defPlayer.addCardToTable(unitCard);
+        var defPlayerCard = (UnitCard)defPlayer.getCardFromTable(unitCard.getId());
+  */
+        assertTrue(game.useEffectCard(decreaseAttack, unitCard));
+        assertTrue(unitCard.getAttack()==1);
+        game.useEffectCard(increaseAttack, unitCard);
+        assertTrue(unitCard.getAttack()==3);
+        game.useEffectCard(decreaseAttackBy4, unitCard);
+        assertTrue(unitCard.getAttack()==1);
 
-        assertTrue(game.useEffectCard(increaseAttack));
-        assertFalse(game.useEffectCard(invalidCard));
-
-      //  var defPlayerCardsOnTable = (UnitCard)defPlayer.getCardsOnTable().iterator();
+        assertFalse(unitCard2.getAttack()==7);
+        game.useEffectCard(increaseAttack, unitCard2);
+        assertTrue(unitCard2.getAttack()==7);
+        game.useEffectCard(decreaseHealth, unitCard2);
+        assertTrue(unitCard2.getHp()==2);
+        assertTrue(unitCard2.getCurrentHealth()==2);
+        game.useEffectCard(decreaseHealth, unitCard2);
+        assertTrue(unitCard2.getHp()>0);
+        assertTrue(unitCard2.getCurrentHealth()==1);
+        assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getHp());
 
     }
 
