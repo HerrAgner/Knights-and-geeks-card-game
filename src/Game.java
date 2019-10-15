@@ -84,7 +84,7 @@ public class Game {
     }
 
     public Response[] playCard(UUID id) {
-        Response[] res = {null,null};
+        Response[] res = {null, null};
         if (getCurrentPlayer().getMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
             res[0] = Response.ERROR;
             res[1] = Response.COST;
@@ -94,27 +94,39 @@ public class Game {
         } else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
-            System.out.println(c.getName());
-            if(c instanceof UnitCard){
+            getCurrentPlayer().changeMana(-c.getCost());
+            if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 getCurrentPlayer().addCardToTable(c);
-            } else if(c instanceof EffectCard){
+            } else if (c instanceof EffectCard) {
                 res[1] = Response.EFFECT_CARD;
-
-
-            }
-            else if(c instanceof SpellCard) {
+            } else if (c instanceof SpellCard) {
                 res[1] = Response.SPELL_CARD;
-            }
-            else {
+            } else {
                 res[0] = Response.ERROR;
             }
         }
         return res;
     }
 
-    public boolean useEffectCard(EffectCard card) {
+    public boolean useEffectCard(EffectCard card, UnitCard receivingCard) {
         if (card.getType() == "Atk" || card.getType() == "Hp") {
+            if (card.getType() == "Atk") {
+                if (receivingCard.getAttack() + card.getEffectValue() <= 0) {
+                    receivingCard.setAttack(1);
+                } else {
+                    receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
+                }
+            }
+            if (card.getType() == "Hp") {
+                if (receivingCard.getHp() + card.getEffectValue() <= 0) {
+                    receivingCard.setHp(1);
+                    receivingCard.setCurrentHealth(1);
+                } else {
+                    receivingCard.setHp(receivingCard.getHp() + card.getEffectValue());
+                    receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + card.getEffectValue());
+                }
+            }
             return true;
         }
         return false;
@@ -135,7 +147,7 @@ public class Game {
             trashPile.add(defendingCard);
         }
         if (attackingCard.getCurrentHealth() < 1) {
-            players[activePlayer].removeCardFromHand(attackingCard.getId());
+            getCurrentPlayer().removeCardFromTable(attackingCard.getId());
             trashPile.add(attackingCard);
 
         }
@@ -245,6 +257,8 @@ public class Game {
         double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
+            var unitCard = (UnitCard) cards.get(i);
+            unitCard.setCurrentHealth(unitCard.getHp());
             cardPile.add(unitCards.get(i));
         }
 

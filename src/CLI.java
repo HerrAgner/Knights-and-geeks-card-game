@@ -23,15 +23,15 @@ public class CLI {
         gameloop();
     }
 
-    private void createPlayers() {
+    public void createPlayers() {
         System.out.println("Enter name for player 1");
-        playerOneName = scan.next();
+        playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
             System.out.println("Invalid name. Please enter a new one.");
             playerOneName = scan.nextLine();
         }
         System.out.println("Enter name for player 2");
-        playerTwoName = scan.next();
+        playerTwoName = scan.nextLine();
         while (playerTwoName.length() == 0 || playerTwoName.length() > 10 || playerOneName.equals(playerTwoName)) {
             System.out.println("Invalid name. Please enter a new one.");
             playerTwoName = scan.nextLine();
@@ -146,18 +146,14 @@ public class CLI {
                             game.attackPlayer(attackingCard);
                         } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                             var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                            System.out.println(attackingCard.getName());
-                            System.out.println(attackingCard.getCurrentHealth());
-                            System.out.println(attackingCard.getHp());
-
-                            System.out.println(defendingCard.getName());
-                            System.out.println(defendingCard.getHp());
                             game.attackCard(attackingCard, defendingCard);
                         }
                         break;
                     case 5:
                         // End turn
                         System.out.println("Ending turn.");
+                        System.out.println("---------------------------------------------------------------------------------------------");
+                        System.out.println("\n\n");
                         game.finishTurn();
                         menu = false;
                         break;
@@ -201,7 +197,7 @@ public class CLI {
             outputName.append(String.format("%-30s", card.getName()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
-                outputHp.append(String.format("%-30s (%s)", "Hp: " + unitCard.getCurrentHealth(), "max: " + unitCard.getHp()));
+                outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth()+ " max:(" + unitCard.getHp()+ ")"));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
