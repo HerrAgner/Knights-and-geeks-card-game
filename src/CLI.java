@@ -1,10 +1,7 @@
 import cards.Card;
 import cards.UnitCard;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CLI {
@@ -143,7 +140,7 @@ public class CLI {
                         chosenDefendingCard = scan.nextInt();
 
                         if (chosenDefendingCard == 0) {
-                            game.attackPlayer(attackingCard);
+                            running = game.attackPlayer(attackingCard);
                         } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                             var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                             game.attackCard(attackingCard, defendingCard);
@@ -192,7 +189,7 @@ public class CLI {
             int index = 1;
         };
 
-        cards.forEach(card -> {
+        cards.stream().sorted(Comparator.comparingInt(Card::getCost)).forEach(card -> {
             outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             outputName.append(String.format("%-30s", card.getName()));
             if (card instanceof UnitCard) {
