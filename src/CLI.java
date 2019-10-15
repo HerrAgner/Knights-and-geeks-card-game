@@ -44,15 +44,15 @@ public class CLI {
         while (running) {
             Player activePlayer = game.getCurrentPlayer();
             Player defendingPlayer = game.getDefendingPlayer();
-            Collection<Card> cardsOnHand = activePlayer.getCardsOnHand();
-            Collection<Card> cardsOnTable = activePlayer.getCardsOnTable();
-            Collection<Card> enemyCardsOnTable = defendingPlayer.getCardsOnTable();
+            Collection<Card> cardsOnHand = activePlayer.getCardsOnHand().stream().sorted(Comparator.comparingInt(Card::getCost)).collect(Collectors.toList());
+            Collection<Card> cardsOnTable = activePlayer.getCardsOnTable().stream().sorted(Comparator.comparingInt(Card::getCost)).collect(Collectors.toList());
+            Collection<Card> enemyCardsOnTable = defendingPlayer.getCardsOnTable().stream().sorted(Comparator.comparingInt(Card::getCost)).collect(Collectors.toList());
 
             game.startTurn();
 
             System.out.println(activePlayer.getName() + "'s turn");
 
-            printBoardAndCardsOnHand();
+            printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
 
             System.out.println("\nMake a move!");
             System.out.println("1. Print cards from hand and table\n" +
@@ -61,119 +61,118 @@ public class CLI {
                     "4. Attack with card\n" +
                     "5. End turn\n");
 
-            int chosenCard;
-            int chosenDefendingCard;
 
             boolean menu = true;
             while (menu) {
-                int input = scan.nextInt();
-                switch (input) {
-                    case 1:
-                        //Print cards from hand and table
-                        printBoardAndCardsOnHand();
-                        break;
-                    case 2:
-                        System.out.println("Your hp: " + activePlayer.getHealth());
-                        System.out.println("Your mana: " + activePlayer.getMana());
-                        System.out.println("Enemy hp: " + defendingPlayer.getHealth());
-                        System.out.println("Enemy mana: " + defendingPlayer.getMana());
-                        break;
-                    case 3:
-                        // Play card
-                        System.out.println("Which card do you want to play?");
-                        // Print cards on hand
-                        printCards(cardsOnHand);
-                        // enter number on card
-
-                        //TODO Need validation for correct int here
-                        chosenCard = scan.nextInt();
-
-                        if (chosenCard > cardsOnHand.toArray().length) {
-                            System.out.println("Number too high.");
-                            break;
-                        }
-
-                        var unitCard = (Card) cardsOnHand.toArray()[chosenCard - 1];
-
-                        Response[] response = game.playCard(unitCard.getId());
-
-                        if (response[0] == Response.OK) {
-                            switch (response[1]) {
-                                case SPELL_CARD:
-                                    System.out.println("Which card do you want to heal? (0 to heal you)");
-                                    printCards(cardsOnTable);
-                                    System.out.println("Which card do you want to attack? (0 to attack player)");
-                                    printCards(enemyCardsOnTable);
-                                    break;
-                                case EFFECT_CARD:
-                                    System.out.println("Which card do you want to buff?");
-                                    printCards(cardsOnTable);
-                                    System.out.println("Which card do you want to debuff?");
-                                    printCards(enemyCardsOnTable);
-                                    break;
-                                case UNIT_CARD:
-                                    System.out.println("Played card " + unitCard.getName());
-                                    // Play card here
-                                    printCards(activePlayer.getCardsOnTable());
-                                    break;
-                                default:
-                                    // Crazy place! How did you get here?
-                                    break;
-                            }
-                        } else if (response[0] == Response.ERROR) {
-                            switch (response[1]) {
-                                case TABLE_FULL:
-                                    break;
-                                case COST:
-                                    break;
-                            }
-                        }
-                        break;
-                    case 4:
-                        //Attack with card
-                        System.out.println("Choose card: ");
-                        // Print cards on your table
-                        printCards(cardsOnTable);
-                        // enter number on card
-                        chosenCard = scan.nextInt();
-                        var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-                        System.out.println("Attack card or player (0 for player): ");
-                        // print cards on defending player table
-                        printCards(enemyCardsOnTable);
-                        // Enter number
-                        chosenDefendingCard = scan.nextInt();
-
-                        if (chosenDefendingCard == 0) {
-                            running = game.attackPlayer(attackingCard);
-                        } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
-                            var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                            game.attackCard(attackingCard, defendingCard);
-                        }
-                        break;
-                    case 5:
-                        // End turn
-                        System.out.println("Ending turn.");
-                        System.out.println("---------------------------------------------------------------------------------------------");
-                        System.out.println("\n\n");
-                        game.finishTurn();
-                        menu = false;
-                        break;
-                    default:
-                        break;
-                }
+                menu = menuSwitch(activePlayer, defendingPlayer, cardsOnHand, cardsOnTable, enemyCardsOnTable);
             }
-
 
         }
     }
 
-    private void printBoardAndCardsOnHand() {
-        Player activePlayer = game.getCurrentPlayer();
-        Player defendingPlayer = game.getDefendingPlayer();
-        Collection<Card> cardsOnHand = activePlayer.getCardsOnHand();
-        Collection<Card> cardsOnTable = activePlayer.getCardsOnTable();
-        Collection<Card> enemyCardsOnTable = defendingPlayer.getCardsOnTable();
+    private boolean menuSwitch(Player activePlayer, Player defendingPlayer, Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
 
+        int chosenCard;
+        int chosenDefendingCard;
+
+        int input = scan.nextInt();
+        switch (input) {
+            case 1:
+                //Print cards from hand and table
+                printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
+                break;
+            case 2:
+                System.out.println("Your hp: " + activePlayer.getHealth());
+                System.out.println("Your mana: " + activePlayer.getMana());
+                System.out.println("Enemy hp: " + defendingPlayer.getHealth());
+                System.out.println("Enemy mana: " + defendingPlayer.getMana());
+                break;
+            case 3:
+                // Play card
+                System.out.println("Which card do you want to play?");
+                // Print cards on hand
+                printCards(cardsOnHand);
+                // enter number on card
+
+                //TODO Need validation for correct int here
+                chosenCard = scan.nextInt();
+
+                if (chosenCard > cardsOnHand.toArray().length) {
+                    System.out.println("Number too high.");
+                    break;
+                }
+
+                var unitCard = (Card) cardsOnHand.toArray()[chosenCard - 1];
+
+                Response[] response = game.playCard(unitCard.getId());
+
+                if (response[0] == Response.OK) {
+                    switch (response[1]) {
+                        case SPELL_CARD:
+                            System.out.println("Which card do you want to heal? (0 to heal you)");
+                            printCards(cardsOnTable);
+                            System.out.println("Which card do you want to attack? (0 to attack player)");
+                            printCards(enemyCardsOnTable);
+                            break;
+                        case EFFECT_CARD:
+                            System.out.println("Which card do you want to buff?");
+                            printCards(cardsOnTable);
+                            System.out.println("Which card do you want to debuff?");
+                            printCards(enemyCardsOnTable);
+                            break;
+                        case UNIT_CARD:
+                            System.out.println("Played card " + unitCard.getName());
+                            // Play card here
+                            printCards(activePlayer.getCardsOnTable());
+                            break;
+                        default:
+                            // Crazy place! How did you get here?
+                            break;
+                    }
+                } else if (response[0] == Response.ERROR) {
+                    switch (response[1]) {
+                        case TABLE_FULL:
+                            break;
+                        case COST:
+                            break;
+                    }
+                }
+                break;
+            case 4:
+                //Attack with card
+                System.out.println("Choose card: ");
+                // Print cards on your table
+                printCards(cardsOnTable);
+                // enter number on card
+                chosenCard = scan.nextInt();
+                var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
+                System.out.println("Attack card or player (0 for player): ");
+                // print cards on defending player table
+                printCards(enemyCardsOnTable);
+                // Enter number
+                chosenDefendingCard = scan.nextInt();
+
+                if (chosenDefendingCard == 0) {
+                    running = game.attackPlayer(attackingCard);
+                } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
+                    var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
+                    game.attackCard(attackingCard, defendingCard);
+                }
+                break;
+            case 5:
+                // End turn
+                System.out.println("Ending turn.");
+                System.out.println("---------------------------------------------------------------------------------------------");
+                System.out.println("\n\n");
+                game.finishTurn();
+                return false;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    private void printBoardAndCardsOnHand(Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
         System.out.println("\nDefending cards on table:");
         printCards(enemyCardsOnTable);
         System.out.println("\nYour cards on table: ");
@@ -189,12 +188,11 @@ public class CLI {
         StringBuilder outputAtk = new StringBuilder();
         StringBuilder outputCost = new StringBuilder();
         StringBuilder outputType = new StringBuilder();
-        StringBuilder outputAoe = new StringBuilder();
         var ref = new Object() {
             int index = 1;
         };
 
-        cards.stream().sorted(Comparator.comparingInt(Card::getCost)).forEach(card -> {
+        cards.forEach(card -> {
             outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             outputName.append(String.format("%-30s", card.getName()));
             outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
