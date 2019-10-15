@@ -1,7 +1,10 @@
 import cards.Card;
+import cards.EffectCard;
+import cards.SpellCard;
 import cards.UnitCard;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -186,6 +189,7 @@ public class CLI {
         StringBuilder outputAtk = new StringBuilder();
         StringBuilder outputCost = new StringBuilder();
         StringBuilder outputType = new StringBuilder();
+        StringBuilder outputAoe = new StringBuilder();
         var ref = new Object() {
             int index = 1;
         };
@@ -193,19 +197,35 @@ public class CLI {
         cards.stream().sorted(Comparator.comparingInt(Card::getCost)).forEach(card -> {
             outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             outputName.append(String.format("%-30s", card.getName()));
+            outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
                 outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth()+ " max:(" + unitCard.getMaxHealth()+ ")"));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
-                outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
+            } else if (card instanceof SpellCard) {
+                SpellCard spellCard = (SpellCard) card;
+                String type = spellCard.getType().equals("Attacker") ? "Dmg: " : "heal: ";
+                outputHp.append(String.format("%-30s", type + spellCard.getValue()));
+                outputAtk.append(String.format("%-30s", "Aoe: " + spellCard.isMany()));
+                outputType.append(String.format("%-30s", "Type: Spell card"));
+            } else if (card instanceof EffectCard) {
+                EffectCard effectCard = (EffectCard) card;
+                String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
+                String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
+                String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "increase ";
+                outputHp.append(String.format("%-30s", "Effect: Will "+ increase + type));
+                outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
+                outputType.append(String.format("%-30s", "Type: "+ target));
+
             }
             ref.index++;
         });
         System.out.println(outputNumber);
-        System.out.println(outputName);
+        System.out.println("\u001B[32m" + outputName + "\u001B[0m");
         System.out.println(outputHp);
         System.out.println(outputAtk);
+        System.out.println();
         System.out.println(outputCost);
         System.out.println(outputType);
     }
