@@ -147,9 +147,13 @@ public class Game {
     }
 
     public boolean useSpellSingleCard(SpellCard usedCard, UnitCard receivingCard) {
-        receivingCard.changeCurrentHealth(usedCard.getValue());
-        if (receivingCard.getCurrentHealth() <= 0) {
-            trashPile.add(getDefendingPlayer().removeCardFromTable(receivingCard.getId()));
+        if (usedCard.getType().equals("Healer")) {
+            receivingCard.changeCurrentHealth(usedCard.getValue());
+        } else if (usedCard.getType().equals("Attacker")) {
+            receivingCard.changeCurrentHealth(-usedCard.getValue());
+            if (receivingCard.getCurrentHealth() <= 0) {
+                trashPile.add(getDefendingPlayer().removeCardFromTable(receivingCard.getId()));
+            }
         }
         trashPile.add(getCurrentPlayer().removeCardFromHand(usedCard.getId()));
         return true;
@@ -165,7 +169,7 @@ public class Game {
             ArrayList<UUID> deadId = new ArrayList<>();
             for (Card card : getDefendingPlayer().getCardsOnTable()) {
                 var unitCard = (UnitCard) card;
-                unitCard.changeCurrentHealth(usedCard.getValue());
+                unitCard.changeCurrentHealth(-usedCard.getValue());
                 if (unitCard.getCurrentHealth() <= 0) {
                     deadId.add(unitCard.getId());
                 }
@@ -197,7 +201,7 @@ public class Game {
             if (usedCard.getType().equals("Healer")) {
                 getCurrentPlayer().changeHealth(usedCard.getValue());
             } else if (usedCard.getType().equals("Attacker")) {
-                getDefendingPlayer().changeHealth(usedCard.getValue());
+                getDefendingPlayer().changeHealth(-usedCard.getValue());
             }
             trashPile.add(usedCard);
             return true;
