@@ -5,9 +5,7 @@ import cards.UnitCard;
 import utilities.Input;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class CLI {
     private String playerOneName, playerTwoName;
@@ -83,14 +81,10 @@ public class CLI {
 
         switch (userInput) {
             case 1:
-                //Print cards from hand and table
                 printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
                 break;
             case 2:
-                System.out.println("Your hp: " + activePlayer.getHealth());
-                System.out.println("Your mana: " + activePlayer.getMana());
-                System.out.println("Enemy hp: " + defendingPlayer.getHealth());
-                System.out.println("Enemy mana: " + defendingPlayer.getMana());
+                printHpAndMana(activePlayer, defendingPlayer);
                 break;
             case 3:
                 // Play card
@@ -112,16 +106,22 @@ public class CLI {
                 Response[] response = game.playCard(card.getId());
 
                 if (response[0] == Response.OK) {
+                    UnitCard unitCard;
                     switch (response[1]) {
                         case SPELL_CARD:
-                            System.out.println("Which card do you want to heal? (0 to heal you)");
-                            printCards(cardsOnTable);
-                            System.out.println("Which card do you want to attack? (0 to attack player)");
-                            printCards(enemyCardsOnTable);
+                            SpellCard spellCard = (SpellCard) card;
+                            if (spellCard.getType().equals("Healer")) {
+                                printCards(cardsOnTable);
+                                System.out.println("Which card do you want to heal? (0 to heal you)");
+                                useSpell(spellCard, cardsOnHand);
+                            } else if (spellCard.getType().equals("Attacker")) {
+                                printCards(enemyCardsOnTable);
+                                System.out.println("Which card do you want to attack? (0 to attack player)");
+                                useSpell(spellCard, enemyCardsOnTable);
+                            }
                             break;
                         case EFFECT_CARD:
                             EffectCard effectCard = (EffectCard) card;
-                            UnitCard unitCard;
                             if (effectCard.getEffectValue() < 0) {
                                 printCards(enemyCardsOnTable);
                                 System.out.println("Which card do you want to debuff?");
@@ -160,32 +160,10 @@ public class CLI {
                 }
                 break;
             case 4:
-                //Attack with card
-                System.out.println("Choose card: ");
-                // Print cards on your table
-                printCards(cardsOnTable);
-                // enter number on card
-                chosenCard = scan.nextInt();
-                var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-                System.out.println("Attack card or player (0 for player): ");
-                // print cards on defending player table
-                printCards(enemyCardsOnTable);
-                // Enter number
-                chosenDefendingCard = scan.nextInt();
-
-                if (chosenDefendingCard == 0) {
-                    running = game.attackPlayer(attackingCard);
-                } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
-                    var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                    game.attackCard(attackingCard, defendingCard);
-                }
+                attackWithCard(cardsOnTable, enemyCardsOnTable);
                 break;
             case 5:
-                // End turn
-                System.out.println("Ending turn.");
-                System.out.println("---------------------------------------------------------------------------------------------");
-                System.out.println("\n\n");
-                game.finishTurn();
+                endPlayerTurn();
                 return false;
             default:
                 break;
@@ -200,6 +178,44 @@ public class CLI {
         printCards(cardsOnTable);
         System.out.println("\nCards on hand:");
         printCards(cardsOnHand);
+    }
+
+    private void printHpAndMana(Player activePlayer, Player defendingPlayer){
+        System.out.println("Your hp: " + activePlayer.getHealth());
+        System.out.println("Your mana: " + activePlayer.getMana());
+        System.out.println("Enemy hp: " + defendingPlayer.getHealth());
+        System.out.println("Enemy mana: " + defendingPlayer.getMana());
+    }
+
+    private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable ){
+        int chosenCard;
+        int chosenDefendingCard;
+        if(cardsOnTable.size()>1) {
+            System.out.println("Choose card: ");
+            printCards(cardsOnTable);
+            chosenCard = scan.nextInt();
+            var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
+            System.out.println("Attack card or player (0 for player): ");
+            printCards(enemyCardsOnTable);
+            chosenDefendingCard = scan.nextInt();
+
+            if (chosenDefendingCard == 0) {
+                running = game.attackPlayer(attackingCard);
+            } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
+                var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
+                game.attackCard(attackingCard, defendingCard);
+            }
+        }
+        else{
+            System.out.println("\nNo cards on table. Choose another option");
+        }
+    }
+
+    private void endPlayerTurn(){
+        System.out.println("Ending turn.");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("\n\n");
+        game.finishTurn();
     }
 
     private void printCards(Collection<Card> cards) {
@@ -247,6 +263,18 @@ public class CLI {
         System.out.println();
         System.out.println(outputCost);
         System.out.println(outputType);
+    }
+
+    private void useSpell(SpellCard spellCard, Collection<Card> cards) {
+        int chosenDefendingCard = scan.nextInt();
+        if (chosenDefendingCard == 0) {
+            game.useSpellOnPlayer(spellCard);
+        } else if (spellCard.isMany()) {
+            game.useSpellOnCard(spellCard);
+        } else {
+            UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
+            game.useSpellOnCard(spellCard, unitCard);
+        }
     }
 
     public String getPlayerOneName() {

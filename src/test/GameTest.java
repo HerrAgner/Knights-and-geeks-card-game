@@ -2,7 +2,8 @@ import cards.*;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
+import java.util.UUID;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,36 +105,35 @@ class GameTest {
     @Test
     void drawCard() {
         Game game = new Game("Anton", "Ted");
-        game.createCardPile(80);
-        ArrayList cardPile = game.getCardPile();
-        Player[] players = game.getPlayers();
 
-        assertTrue(players.length == 2);
-        assertEquals(cardPile.size(), 80);
-
-        int activePlayer = game.getActivePlayer();
+        assertEquals(40, game.getCardPile().size());
 
         game.drawCard();
-        assertEquals(cardPile.size(), 79);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
+        assertEquals(game.getCardPile().size(), 39);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 6);
         game.setActivePlayer(1);
         game.drawCard();
-        assertEquals(cardPile.size(), 78);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
+        assertEquals(game.getCardPile().size(), 38);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 6);
         game.setActivePlayer(0);
         game.drawCard();
-        assertEquals(cardPile.size(), 77);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
+        assertEquals(game.getCardPile().size(), 37);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 7);
         game.setActivePlayer(1);
         game.drawCard();
-        assertEquals(cardPile.size(), 76);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
+        assertEquals(game.getCardPile().size(), 36);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 7);
 
-        while (cardPile.size() != 0) {
-            game.drawCard();
+        while (game.getCardPile().size() > 1) {
+            UUID id = game.drawCard();
+            if(id == null) {
+                System.out.println("HAND FULL");
+                break;
+            }
+            game.getTrashPile().add(game.getCurrentPlayer().removeCardFromHand(id));
         }
         game.drawCard();
-        assertEquals(cardPile.size(), 0);
+        assertTrue(game.getCardPile().size() > 1);
     }
 
     @Test
@@ -150,7 +150,7 @@ class GameTest {
         game.getPlayers()[0].addCardToHand(testCards[0]);
         game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
-        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getMana());
+        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getCurrentMana());
         System.out.println(10-testCards[0].getCost());
         game.getPlayers()[0].addCardToHand(testCards[1]);
         game.playCard(testCards[1].getId());
@@ -198,9 +198,9 @@ class GameTest {
         Game game = new Game("eric", "nisse");
         Player players[] = game.getPlayers();
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
-        SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
         SpellCard healerMany = new SpellCard("Healer", true, 2, "Hasse", 2);
-        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Frasse", 2);
+        SpellCard attackerMany = new SpellCard("Attacker", true, 2, "Frasse", 2);
 
         UnitCard receiver = new UnitCard("receiver", 3, 5, 6);
         UnitCard receiver2 = new UnitCard("receiver2", 3, 7, 6);
@@ -249,7 +249,7 @@ class GameTest {
         game.useSpellOnCard(attacker, receiver);
         assertNull(game.getDefendingPlayer().getCardFromTable(receiver.getId()));
 
-        SpellCard attackManyExtra = new SpellCard("Attacker", true, -2, "Frasse", 2);
+        SpellCard attackManyExtra = new SpellCard("Attacker", true, 2, "Frasse", 2);
         game.useSpellOnCard(attackManyExtra, null);
         assertEquals(1, receiver2.getCurrentHealth());
     }
@@ -258,8 +258,8 @@ class GameTest {
     void useSpellOnPlayer(){
         Game game = new Game("eric", "nisse");
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
-        SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
-        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Ted", 2);
+        SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
+        SpellCard attackerMany = new SpellCard("Attacker", true, 2, "Ted", 2);
 
 
         assertTrue(game.useSpellOnPlayer(healer));
@@ -405,7 +405,7 @@ class GameTest {
         game.getCurrentPlayer().addCardToHand(unitCard);
 
         game.startTurn();
-        assertEquals(1, game.getCurrentPlayer().getMana());
+        assertEquals(1, game.getCurrentPlayer().getCurrentMana());
         assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
 
         game.playCard(unitCard.getId());
@@ -415,22 +415,22 @@ class GameTest {
         assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
         var tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertTrue(tableCard.getFatigue());
-        assertEquals(0, game.getCurrentPlayer().getMana());
+        assertEquals(0, game.getCurrentPlayer().getCurrentMana());
 
         game.startTurn();
-        assertEquals(2, game.getCurrentPlayer().getMana());
+        assertEquals(2, game.getCurrentPlayer().getCurrentMana());
         assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
         tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertFalse(tableCard.getFatigue());
 
         game.startTurn();
-        assertEquals(3, game.getCurrentPlayer().getMana());
+        assertEquals(3, game.getCurrentPlayer().getCurrentMana());
         assertEquals(8, game.getCurrentPlayer().getCardsOnHand().size());
 
         for(int i=0; i<15; i++){
             game.startTurn();
         }
-        assertEquals(10, game.getCurrentPlayer().getMaxMana());
+        assertEquals(10, game.getCurrentPlayer().getMana());
 
     }
 }
