@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Player {
     private final String name;
     private int health;
+    private int currentMana;
     private int mana;
-    private int maxMana;
     private Map<UUID, Card> cardsOnHand;
     private Map<UUID, Card> cardsOnTable;
 
@@ -19,8 +19,8 @@ public class Player {
         if (name.length() > 0) {
             this.name = name;
             this.health = 30;
-            this.mana = 0;
-            this.maxMana=0;
+            this.currentMana = 0;
+            this.mana =0;
             this.cardsOnHand = new ConcurrentHashMap<>();
             this.cardsOnTable = new ConcurrentHashMap<>();
         } else this.name = null;
@@ -42,22 +42,22 @@ public class Player {
     }
 
     public void changeMaxMana(){
-        if (this.maxMana<10){
-            this.maxMana++;
+        if (this.mana <10){
+            this.mana++;
         }
-        this.mana=this.maxMana;
+        this.currentMana =this.mana;
     }
 
-    public int getMaxMana(){
-        return this.maxMana;
+    public int getMana(){
+        return this.mana;
     }
 
-    public int getMana() {
-        return mana;
+    public int getCurrentMana() {
+        return currentMana;
     }
 
     public void changeMana(int mana) {
-        this.mana = this.mana + mana;
+        this.currentMana = this.currentMana + mana;
     }
 
     public Collection<Card> getCardsOnHand() {
