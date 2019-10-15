@@ -351,6 +351,7 @@ class GameTest {
         Game game = new Game("Alle", "Ralle");
         EffectCard increaseAttack = new EffectCard("card", 2, "Atk", 2);
         EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
+        EffectCard decreaseAttackBy4 = new EffectCard("card", 2, "Atk", -4);
         EffectCard decreaseHealth = new EffectCard("card", 2, "Hp", -2);
         EffectCard increaseHealth = new EffectCard("card", 2, "Hp", 3);
         EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
@@ -366,6 +367,10 @@ class GameTest {
   */
         assertTrue(game.useEffectCard(decreaseAttack, unitCard));
         assertTrue(unitCard.getAttack()==1);
+        game.useEffectCard(increaseAttack, unitCard);
+        assertTrue(unitCard.getAttack()==3);
+        game.useEffectCard(decreaseAttackBy4, unitCard);
+        assertTrue(unitCard.getAttack()==1);
 
         assertFalse(unitCard2.getAttack()==7);
         game.useEffectCard(increaseAttack, unitCard2);
@@ -375,6 +380,9 @@ class GameTest {
         assertTrue(unitCard2.getCurrentHealth()==2);
         game.useEffectCard(decreaseHealth, unitCard2);
         assertTrue(unitCard2.getHp()>0);
+        assertTrue(unitCard2.getCurrentHealth()==1);
+        assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getHp());
+
     }
 
     @Test

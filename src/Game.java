@@ -117,8 +117,13 @@ public class Game {
                 receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
             }
             if (card.getType() == "Hp") {
-                receivingCard.setHp(receivingCard.getHp() + card.getEffectValue());
-                receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + card.getEffectValue());
+                if (receivingCard.getHp() + card.getEffectValue() <= 0) {
+                    receivingCard.setHp(1);
+                    receivingCard.setCurrentHealth(1);
+                } else {
+                    receivingCard.setHp(receivingCard.getHp() + card.getEffectValue());
+                    receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + card.getEffectValue());
+                }
             }
             return true;
         }
