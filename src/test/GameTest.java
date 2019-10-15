@@ -405,13 +405,13 @@ class GameTest {
         assertTrue(tableCard.getFatigue());
 
         game.startTurn();
-        assertEquals(2, game.getCurrentPlayer().getMana());
+        assertEquals(1, game.getCurrentPlayer().getMana());
         assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
         tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertFalse(tableCard.getFatigue());
 
         game.startTurn();
-        assertEquals(3, game.getCurrentPlayer().getMana());
+        assertEquals(2, game.getCurrentPlayer().getMana());
         assertEquals(8, game.getCurrentPlayer().getCardsOnHand().size());
 
     }
