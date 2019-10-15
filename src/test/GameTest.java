@@ -399,16 +399,22 @@ class GameTest {
         assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
         var tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertTrue(tableCard.getFatigue());
+        assertEquals(0, game.getCurrentPlayer().getMana());
 
         game.startTurn();
-        assertEquals(1, game.getCurrentPlayer().getMana());
+        assertEquals(2, game.getCurrentPlayer().getMana());
         assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
         tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertFalse(tableCard.getFatigue());
 
         game.startTurn();
-        assertEquals(2, game.getCurrentPlayer().getMana());
+        assertEquals(3, game.getCurrentPlayer().getMana());
         assertEquals(8, game.getCurrentPlayer().getCardsOnHand().size());
+
+        for(int i=0; i<15; i++){
+            game.startTurn();
+        }
+        assertEquals(10, game.getCurrentPlayer().getMaxMana());
 
     }
 }

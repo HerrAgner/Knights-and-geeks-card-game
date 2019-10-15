@@ -48,6 +48,10 @@ public class Player {
         this.mana=this.maxMana;
     }
 
+    public int getMaxMana(){
+        return this.maxMana;
+    }
+
     public int getMana() {
         return mana;
     }
