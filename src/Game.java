@@ -113,8 +113,11 @@ public class Game {
         return res;
     }
 
-    public boolean useEffectCard(EffectCard card) {
+    public boolean useEffectCard(EffectCard card, UnitCard receivingCard) {
         if (card.getType() == "Atk" || card.getType() == "Hp") {
+            if(card.getType()=="Atk"){
+                receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
+            }
             return true;
         }
         return false;

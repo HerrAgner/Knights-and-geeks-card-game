@@ -350,19 +350,22 @@ class GameTest {
     void useEffectCard() {
         Game game = new Game("Alle", "Ralle");
         EffectCard increaseAttack = new EffectCard("card", 2, "Atk", 2);
+        EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
         EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
         UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
-        Player player = game.getCurrentPlayer();
+        UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
+
+  /*      Player player = game.getCurrentPlayer();
         Player defPlayer = game.getDefendingPlayer();
 
         player.addCardToHand(increaseAttack);
         defPlayer.addCardToTable(unitCard);
+                */
+        assertTrue(game.useEffectCard(decreaseAttack, unitCard));
 
-        assertTrue(game.useEffectCard(increaseAttack));
-        assertFalse(game.useEffectCard(invalidCard));
-
-      //  var defPlayerCardsOnTable = (UnitCard)defPlayer.getCardsOnTable().iterator();
-
+        //var defPlayerCard = (UnitCard)defPlayer.getCardFromTable(unitCard.getId());
+        System.out.println(unitCard.getAttack());
+        assertTrue(unitCard.getAttack()==1);
     }
 
     @Test
