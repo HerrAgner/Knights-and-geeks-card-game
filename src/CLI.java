@@ -122,7 +122,7 @@ public class CLI {
                                 System.out.println("Which card do you want to debuff?");
 
                                 chosenDefendingCard = scan.nextInt();
-                                unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard -1];
+                                unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
 
                                 game.useEffectCard(effectCard, unitCard);
                             } else {
@@ -130,7 +130,7 @@ public class CLI {
                                 System.out.println("Which card do you want to buff?");
 
                                 chosenDefendingCard = scan.nextInt();
-                                unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard -1];
+                                unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
 
                                 game.useEffectCard(effectCard, unitCard);
                             }
@@ -214,7 +214,7 @@ public class CLI {
             outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
-                outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth()+ " max:(" + unitCard.getMaxHealth()+ ")"));
+                outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")"));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
             } else if (card instanceof SpellCard) {
@@ -228,9 +228,9 @@ public class CLI {
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
                 String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "increase ";
-                outputHp.append(String.format("%-30s", "Effect: Will "+ increase + type));
+                outputHp.append(String.format("%-30s", "Effect: Will " + increase + type));
                 outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
-                outputType.append(String.format("%-30s", "Type: "+ target));
+                outputType.append(String.format("%-30s", "Type: " + target));
 
             }
             ref.index++;
