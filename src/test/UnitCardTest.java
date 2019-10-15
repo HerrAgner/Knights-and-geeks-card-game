@@ -1,6 +1,4 @@
-import cards.Card;
 import cards.UnitCard;
-import cards.Card;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +27,7 @@ class UnitCardTest {
     void constructorTest() {
         assertNotNull(card);
         assertEquals(card.getAttack(), 3);
-        assertEquals(card.getHp(), 10);
+        assertEquals(card.getMaxHealth(), 10);
         assertEquals(card.getCost(), 4);
         assertEquals(card.getName(), "Eric");
         assertNull(new UnitCard().getName());
@@ -37,7 +35,7 @@ class UnitCardTest {
 
     @Test
     void getHp() {
-        assertEquals(card.getHp(), 10);
+        assertEquals(card.getMaxHealth(), 10);
     }
 
     @Test
@@ -48,7 +46,7 @@ class UnitCardTest {
     @Test
     void setHp() {
         card.setHp(5);
-        assertEquals(card.getHp(), 5);
+        assertEquals(card.getMaxHealth(), 5);
 
         assertFalse(card.setHp(100));
         assertFalse(card.setHp(-4));

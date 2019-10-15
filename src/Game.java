@@ -119,11 +119,11 @@ public class Game {
                 }
             }
             if (card.getType() == "Hp") {
-                if (receivingCard.getHp() + card.getEffectValue() <= 0) {
+                if (receivingCard.getMaxHealth() + card.getEffectValue() <= 0) {
                     receivingCard.setHp(1);
                     receivingCard.setCurrentHealth(1);
                 } else {
-                    receivingCard.setHp(receivingCard.getHp() + card.getEffectValue());
+                    receivingCard.setHp(receivingCard.getMaxHealth() + card.getEffectValue());
                     receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + card.getEffectValue());
                 }
             }
@@ -258,7 +258,7 @@ public class Game {
 
         for (int i = 0; i < amountOfUnitCards; i++) {
             var unitCard = (UnitCard) unitCards.get(i);
-            unitCard.setCurrentHealth(unitCard.getHp());
+            unitCard.setCurrentHealth(unitCard.getMaxHealth());
             cardPile.add(unitCards.get(i));
         }
 
