@@ -3,8 +3,6 @@ import cards.UnitCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -49,23 +47,23 @@ class PlayerTest {
 
 	@Test
 	void getMana() {
-		assertTrue(player.getMana() > -1);
+		assertTrue(player.getCurrentMana() > -1);
 	}
 
 	@Test
 	void changeMana() {
-		int manaCurrent = player.getMana();
+		int manaCurrent = player.getCurrentMana();
 		int manaChange = 5;
 		player.changeMana(manaChange);
-		assertEquals(manaCurrent + manaChange, player.getMana());
-		manaCurrent = player.getMana();
+		assertEquals(manaCurrent + manaChange, player.getCurrentMana());
+		manaCurrent = player.getCurrentMana();
 		manaChange = -5;
 		player.changeMana(manaChange);
-		assertEquals(manaCurrent + manaChange, player.getMana());
-		assertEquals(manaCurrent + manaChange, player.getMana());
-		manaCurrent = player.getMana();
+		assertEquals(manaCurrent + manaChange, player.getCurrentMana());
+		assertEquals(manaCurrent + manaChange, player.getCurrentMana());
+		manaCurrent = player.getCurrentMana();
 		player.changeMana(0);
-		assertEquals(manaCurrent, player.getMana());
+		assertEquals(manaCurrent, player.getCurrentMana());
 	}
 
 	@Test

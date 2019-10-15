@@ -6,7 +6,6 @@ import cards.UnitCard;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class CLI {
     private String playerOneName, playerTwoName;
@@ -74,9 +73,9 @@ public class CLI {
                         break;
                     case 2:
                         System.out.println("Your hp: " + activePlayer.getHealth());
-                        System.out.println("Your mana: " + activePlayer.getMana());
+                        System.out.println("Your mana: " + activePlayer.getCurrentMana());
                         System.out.println("Enemy hp: " + defendingPlayer.getHealth());
-                        System.out.println("Enemy mana: " + defendingPlayer.getMana());
+                        System.out.println("Enemy mana: " + defendingPlayer.getCurrentMana());
                         break;
                     case 3:
                         // Play card

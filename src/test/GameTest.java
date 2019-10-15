@@ -150,7 +150,7 @@ class GameTest {
         game.getPlayers()[0].addCardToHand(testCards[0]);
         game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
-        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getMana());
+        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getCurrentMana());
         System.out.println(10-testCards[0].getCost());
         game.getPlayers()[0].addCardToHand(testCards[1]);
         game.playCard(testCards[1].getId());
@@ -405,7 +405,7 @@ class GameTest {
         game.getCurrentPlayer().addCardToHand(unitCard);
 
         game.startTurn();
-        assertEquals(1, game.getCurrentPlayer().getMana());
+        assertEquals(1, game.getCurrentPlayer().getCurrentMana());
         assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
 
         game.playCard(unitCard.getId());
@@ -415,22 +415,22 @@ class GameTest {
         assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
         var tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertTrue(tableCard.getFatigue());
-        assertEquals(0, game.getCurrentPlayer().getMana());
+        assertEquals(0, game.getCurrentPlayer().getCurrentMana());
 
         game.startTurn();
-        assertEquals(2, game.getCurrentPlayer().getMana());
+        assertEquals(2, game.getCurrentPlayer().getCurrentMana());
         assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
         tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertFalse(tableCard.getFatigue());
 
         game.startTurn();
-        assertEquals(3, game.getCurrentPlayer().getMana());
+        assertEquals(3, game.getCurrentPlayer().getCurrentMana());
         assertEquals(8, game.getCurrentPlayer().getCardsOnHand().size());
 
         for(int i=0; i<15; i++){
             game.startTurn();
         }
-        assertEquals(10, game.getCurrentPlayer().getMaxMana());
+        assertEquals(10, game.getCurrentPlayer().getMana());
 
     }
 }

@@ -85,7 +85,7 @@ public class Game {
 
     public Response[] playCard(UUID id) {
         Response[] res = {null, null};
-        if (getCurrentPlayer().getMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
+        if (getCurrentPlayer().getCurrentMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
             res[0] = Response.ERROR;
             res[1] = Response.COST;
         } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
