@@ -67,7 +67,7 @@ public class Player {
     }
 
     public Card removeCardFromHand(UUID id){
-        return cardsOnHand.remove(id);
+        return id != null ? cardsOnHand.remove(id) : null;
     }
 
     public Collection<Card> getCardsOnTable() {

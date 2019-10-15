@@ -94,6 +94,9 @@ class PlayerTest {
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
 		assertTrue(player.getCardsOnHand().isEmpty());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.removeCardFromHand(testCard.getId()));
+		assertNull(player.removeCardFromHand(null));
 	}
 
 	@Test
