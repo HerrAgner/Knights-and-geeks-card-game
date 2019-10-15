@@ -14,6 +14,7 @@ class CLITest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         CLI cli = new CLI();
+        cli.createPlayers();
         assertFalse(cli.getPlayerOneName().isEmpty() && cli.getPlayerTwoName().isEmpty());
         assertNotSame(cli.getPlayerOneName(), cli.getPlayerTwoName());
         assertTrue(cli.getPlayerOneName().length() < 10 && cli.getPlayerTwoName().length() < 10);
