@@ -72,8 +72,12 @@ public class Player {
         return cardsOnTable.values();
     }
 
-    public void addCardToTable(Card card) {
-        cardsOnTable.put(card.getId(), card);
+    public boolean addCardToTable(Card card) {
+        if(card != null) {
+            cardsOnTable.put(card.getId(), card);
+            return true;
+        }
+        return false;
     }
 
         public Card getCardFromTable(UUID id) {
