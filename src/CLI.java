@@ -73,6 +73,7 @@ public class CLI {
     private boolean menuSwitch(Player activePlayer, Player defendingPlayer, Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
 
         int chosenCard;
+        int chosenDefendingCard;
 
         int input = scan.nextInt();
         switch (input) {
