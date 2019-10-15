@@ -178,6 +178,8 @@ class GameTest {
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
+        attackingCard.setCurrentHealth(attackingCard.getMaxHealth());
+        defendingCard.setCurrentHealth(defendingCard.getMaxHealth());
         // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
