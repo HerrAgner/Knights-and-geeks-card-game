@@ -225,7 +225,7 @@ public class Game {
     }
 
     public boolean createCardPile(int amountOfCards) {
-        if (amountOfCards < 9 || amountOfCards > 100) return false;
+        if (amountOfCards < 50 || amountOfCards > 100) return false;
 
         cardPile = new ArrayList<>();
 
@@ -237,13 +237,21 @@ public class Game {
         Type collectionType2 = new TypeToken<List<EffectCard>>(){}.getType();
         List<Card> effectCards = cg.generateFromJson("src/effectcard.json", collectionType2);
 
+        Type collectionType3 = new TypeToken<List<SpellCard>>(){}.getType();
+        List<Card> spellCards = cg.generateFromJson("src/spellcard.json", collectionType3);
 
-        double amountOfUnitCards = amountOfCards * 0.9;
-        double amountOfEffectCards = amountOfCards * 0.1;
 
-        System.out.println(amountOfCards);
+        double amountOfUnitCards = amountOfCards * 0.8;
+        double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
+        double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
+
         System.out.println(amountOfUnitCards);
         System.out.println(amountOfEffectCards);
+        System.out.println(amountOfSpellCards);
+
+//        System.out.println(amountOfCards);
+//        System.out.println(amountOfUnitCards);
+//        System.out.println(amountOfEffectCards);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
             cardPile.add(unitCards.get(i));
@@ -252,11 +260,18 @@ public class Game {
         for (int i = 0; i < amountOfEffectCards; i++) {
             cardPile.add(effectCards.get(i));
         }
+        for (int i = 0; i < amountOfSpellCards; i++) {
+            cardPile.add(spellCards.get(i));
+        }
 
-//        if (cardPile.size() > amountOfCards){
-//            cardPile.add()
-//        }
-//
+
+        System.out.println(cardPile.size());
+
+        if (cardPile.size() > amountOfCards){
+            cardPile.add(unitCards.get(0));
+        }
+
+        System.out.println(cardPile);
 
         Collections.shuffle(cardPile);
 

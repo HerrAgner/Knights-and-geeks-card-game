@@ -3,43 +3,112 @@
     "name": "Proteum Feliseo",
     "cost": 1,
     "type": "Healer",
-    "value": 4,
+    "value": 1,
     "many": false
   },
   {
     "name": "Eviitus",
+    "cost": 2,
+    "type": "Healer",
+    "value": 2,
+    "many": false
+  },
+  {
+    "name": "Regenaris",
+    "cost": 3,
+    "type": "Healer",
+    "value": 3,
+    "many": false
+  },
+  {
+    "name": "Blessing of Control",
     "cost": 4,
+    "type": "Healer",
+    "value": 4,
+    "many": false
+  },
+  {
+    "name": "Orb of Awakening",
+    "cost": 5,
+    "type": "Healer",
+    "value": 5,
+    "many": false
+  },
+  {
+    "name": "Bless",
+    "cost": 7,
     "type": "Healer",
     "value": 2,
     "many": true
   },
   {
-    "name": "Regenaris",
-    "cost": 4,
+    "name": "Savagery of Knowledge",
+    "cost": 8,
+    "type": "Healer",
+    "value": 3,
+    "many": true
+  },
+  {
+    "name": "Beam of the Earth",
+    "cost": 9,
     "type": "Healer",
     "value": 4,
-    "many": false
+    "many": true
   },
   {
     "name": "Silortia Canulus",
-    "cost": 4,
+    "cost": 1,
     "type": "Attacker",
-    "value": 4,
+    "value": 1,
     "many": false
   },
   {
     "name": "Poreos",
-    "cost": 5,
+    "cost": 2,
+    "type": "Attacker",
+    "value": 2,
+    "many": false
+  },
+  {
+    "name": "Mobiaris",
+    "cost": 3,
     "type": "Attacker",
     "value": 3,
-    "many": true
+    "many": false
   },
   {
     "name": "Mobiaris",
     "cost": 4,
     "type": "Attacker",
-    "value": 6,
+    "value": 4,
     "many": false
+  },
+  {
+    "name": "Mobiaris",
+    "cost": 5,
+    "type": "Attacker",
+    "value": 5,
+    "many": false
+  },
+  {
+    "name": "Dragon Hail",
+    "cost": 7,
+    "type": "Attacker",
+    "value": 2,
+    "many": true
+  },
+  {
+    "name": "Arcane Nova",
+    "cost": 8,
+    "type": "Attacker",
+    "value": 3,
+    "many": true
+  },
+  {
+    "name": "Corruption of Death",
+    "cost": 9,
+    "type": "Attacker",
+    "value": 4,
+    "many": true
   }
-
 ]

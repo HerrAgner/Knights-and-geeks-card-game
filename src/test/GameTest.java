@@ -309,19 +309,18 @@ class GameTest {
     @Test
     void createCardPile() {
         Game game = new Game("Ted", "Anton");
-        int amountOfCards = 12;
+        int amountOfCards = 80;
 
-        assertTrue(game.createCardPile(amountOfCards));
-
+//        assertTrue(game.createCardPile(amountOfCards));
+//
 //        assertNotNull(game.getCardPile());
 //        assertEquals(amountOfCards, game.getCardPile().size());
-//
-//        assertTrue(game.createCardPile(51));
-//        assertEquals(51, game.getCardPile().size());
+
+        assertTrue(game.createCardPile(51));
+        assertEquals(51, game.getCardPile().size());
 //
 //        assertFalse(game.createCardPile(101));
 //        assertFalse(game.createCardPile(49));
-//
 //        assertTrue(game.createCardPile(50));
 //        assertTrue(game.createCardPile(100));
 
