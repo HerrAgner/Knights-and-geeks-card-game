@@ -269,6 +269,9 @@ public class Game {
             cardPile.add(spellCards.get(i));
         }
 
+        if (amountOfCards > cardPile.size()){
+            cardPile.add(unitCards.get(0));
+        }
 
         Collections.shuffle(cardPile);
 
