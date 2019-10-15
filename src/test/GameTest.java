@@ -315,7 +315,7 @@ class GameTest {
 
 
         assertTrue(game.createCardPile(amountOfCards));
-        assertEquals(game.getCardPile().contains());
+//        assertEquals(game.getCardPile().contains());
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());

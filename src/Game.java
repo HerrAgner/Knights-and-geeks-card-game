@@ -257,7 +257,7 @@ public class Game {
         double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
-            var unitCard = (UnitCard) cards.get(i);
+            var unitCard = (UnitCard) unitCards.get(i);
             unitCard.setCurrentHealth(unitCard.getHp());
             cardPile.add(unitCards.get(i));
         }
