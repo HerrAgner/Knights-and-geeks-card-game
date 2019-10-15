@@ -59,56 +59,56 @@
     "name": "Silortia Canulus",
     "cost": 1,
     "type": "Attacker",
-    "value": 1,
+    "value": -1,
     "many": false
   },
   {
     "name": "Poreos",
     "cost": 2,
     "type": "Attacker",
-    "value": 2,
+    "value": -2,
     "many": false
   },
   {
     "name": "Mobiaris",
     "cost": 3,
     "type": "Attacker",
-    "value": 3,
+    "value": -3,
     "many": false
   },
   {
     "name": "Mobiaris",
     "cost": 4,
     "type": "Attacker",
-    "value": 4,
+    "value": -4,
     "many": false
   },
   {
     "name": "Mobiaris",
     "cost": 5,
     "type": "Attacker",
-    "value": 5,
+    "value": -5,
     "many": false
   },
   {
     "name": "Dragon Hail",
     "cost": 7,
     "type": "Attacker",
-    "value": 2,
+    "value": -2,
     "many": true
   },
   {
     "name": "Arcane Nova",
     "cost": 8,
     "type": "Attacker",
-    "value": 3,
+    "value": -3,
     "many": true
   },
   {
     "name": "Corruption of Death",
     "cost": 9,
     "type": "Attacker",
-    "value": 4,
+    "value": -4,
     "many": true
   }
 ]
