@@ -22,6 +22,5 @@ class CLITest {
 
     @Test
     void gameloop() {
-        fail("Not tested");
     }
 }

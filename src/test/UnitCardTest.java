@@ -49,6 +49,8 @@ class UnitCardTest {
         assertEquals(15,card.getMaxHealth());
         card.changeMaxHealth(-5);
         assertEquals(10, card.getMaxHealth());
+        card.changeMaxHealth(-20);
+        assertEquals(1, card.getMaxHealth());
     }
 
     @Test
@@ -57,6 +59,8 @@ class UnitCardTest {
         assertEquals(8, card.getAttack());
         card.changeAttack(-5);
         assertEquals(3, card.getAttack());
+        card.changeAttack(-100);
+        assertEquals(1, card.getAttack());
     }
 
     @Test
