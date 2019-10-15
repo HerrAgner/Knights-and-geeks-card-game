@@ -215,6 +215,7 @@ class GameTest {
         game.getDefendingPlayer().addCardToHand(attacker);
         //SETUP ------------------------------------
 
+
         assertTrue(game.useSpellOnCard(healer, receiver));
         assertEquals(receiver.getCurrentHealth(), 5);
         assertTrue(game.getTrashPile().contains(healer));

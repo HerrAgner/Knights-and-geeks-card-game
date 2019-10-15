@@ -15,6 +15,7 @@ public class UnitCard extends Card {
         this.health = hp;
         this.attack = attack;
         this.fatigue = false;
+        currentHealth = this.health;
     }
 
     public void changeMaxHealth(int hpChange) {
