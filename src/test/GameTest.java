@@ -178,15 +178,13 @@ class GameTest {
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
-        attackingCard.changeCurrentHealth(attackingCard.getMaxHealth());
-        defendingCard.changeCurrentHealth(defendingCard.getMaxHealth());
         // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
         assertFalse(game.attackCard(attackingCard, attackingCard));
-        assertEquals(attackingCard.getCurrentHealth(), 1);
-        assertEquals(defendingCard.getCurrentHealth(), -1);
+        assertEquals(1, attackingCard.getCurrentHealth());
+        assertEquals(0, defendingCard.getCurrentHealth());
         assertTrue(game.getTrashPile().size() >= 1);
         assertNull(game.getDefendingPlayer().getCardFromTable(defendingCard.getId()));
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
@@ -202,9 +200,11 @@ class GameTest {
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
         SpellCard healerMany = new SpellCard("Healer", true, 2, "Hasse", 2);
-        UnitCard receiver = new UnitCard("Krigaren", 3, 5, 6);
-        UnitCard receiver2 = new UnitCard("Asd", 3, 7, 6);
-        UnitCard receiver3 = new UnitCard("dsa", 5, 4, 5);
+        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Frasse", 2);
+
+        UnitCard receiver = new UnitCard("receiver", 3, 5, 6);
+        UnitCard receiver2 = new UnitCard("receiver2", 3, 7, 6);
+        UnitCard receiver3 = new UnitCard("receiver3", 5, 4, 5);
 
         players[game.getActivePlayer()].addCardToHand(healer);
         players[game.getActivePlayer()].addCardToHand(attacker);
@@ -228,14 +228,30 @@ class GameTest {
         assertNull(game.getCurrentPlayer().getCardFromHand(healer.getId()));
         assertNull(game.getCurrentPlayer().getCardFromHand(attacker.getId()));
 
-        receiver2.changeCurrentHealth(2);
-        receiver3.changeCurrentHealth(1);
-
         assertTrue(game.useSpellOnCard(healerMany, receiver));
         assertEquals(receiver.getCurrentHealth(), 5);
-        assertEquals(receiver2.getCurrentHealth(), 4);
-        assertEquals(receiver3.getCurrentHealth(), 3);
+        assertEquals(receiver2.getCurrentHealth(), 7);
+        assertEquals(4, receiver3.getCurrentHealth());
         assertTrue(game.getTrashPile().contains(healerMany));
+
+        game.getDefendingPlayer().addCardToTable(receiver);
+        game.getDefendingPlayer().addCardToTable(receiver2);
+        game.getDefendingPlayer().addCardToTable(receiver3);
+        assertTrue(game.useSpellOnCard(attackerMany, receiver));
+        assertEquals(3, receiver.getCurrentHealth());
+        assertEquals(5, receiver2.getCurrentHealth());
+        assertEquals(2, receiver3.getCurrentHealth());
+        assertTrue(game.getTrashPile().contains(healerMany));
+
+        game.useSpellOnCard(attackerMany, receiver);
+        assertNull(game.getDefendingPlayer().getCardFromTable(receiver3.getId()));
+
+        game.useSpellOnCard(attacker, receiver);
+        assertNull(game.getDefendingPlayer().getCardFromTable(receiver.getId()));
+
+        SpellCard attackManyExtra = new SpellCard("Attacker", true, -2, "Frasse", 2);
+        game.useSpellOnCard(attackManyExtra, null);
+        assertEquals(1, receiver2.getCurrentHealth());
     }
 
     @Test
@@ -243,6 +259,7 @@ class GameTest {
         Game game = new Game("eric", "nisse");
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Ted", 2);
 
 
         assertTrue(game.useSpellOnPlayer(healer));
@@ -253,8 +270,7 @@ class GameTest {
         assertEquals(game.getDefendingPlayer().getHealth(), 28);
         assertTrue(game.getTrashPile().contains(attacker));
 
-
-
+        assertFalse(game.useSpellOnPlayer(attackerMany));
     }
 
     @Test
