@@ -23,15 +23,15 @@ public class CLI {
         gameloop();
     }
 
-    private void createPlayers() {
+    public void createPlayers() {
         System.out.println("Enter name for player 1");
-        playerOneName = scan.next();
+        playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
             System.out.println("Invalid name. Please enter a new one.");
             playerOneName = scan.nextLine();
         }
         System.out.println("Enter name for player 2");
-        playerTwoName = scan.next();
+        playerTwoName = scan.nextLine();
         while (playerTwoName.length() == 0 || playerTwoName.length() > 10 || playerOneName.equals(playerTwoName)) {
             System.out.println("Invalid name. Please enter a new one.");
             playerTwoName = scan.nextLine();

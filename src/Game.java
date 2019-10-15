@@ -235,6 +235,8 @@ public class Game {
         List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
         for (int i = 0; i < amountOfCards; i++) {
+            var unitCard = (UnitCard) cards.get(i);
+            unitCard.setCurrentHealth(unitCard.getHp());
             cardPile.add(cards.get(i));
         }
 
