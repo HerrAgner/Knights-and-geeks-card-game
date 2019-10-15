@@ -112,20 +112,10 @@ public class Game {
     public boolean useEffectCard(EffectCard card, UnitCard receivingCard) {
         if (card.getType() == "Atk" || card.getType() == "Hp") {
             if (card.getType() == "Atk") {
-                if (receivingCard.getAttack() + card.getEffectValue() <= 0) {
-                    receivingCard.setAttack(1);
-                } else {
-                    receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
-                }
+                receivingCard.changeAttack(card.getEffectValue());
             }
             if (card.getType() == "Hp") {
-                if (receivingCard.getMaxHealth() + card.getEffectValue() <= 0) {
-                    receivingCard.setHp(1);
-                    receivingCard.setCurrentHealth(1);
-                } else {
-                    receivingCard.setHp(receivingCard.getMaxHealth() + card.getEffectValue());
-                    receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + card.getEffectValue());
-                }
+                receivingCard.changeMaxHealth(card.getEffectValue());
             }
             return true;
         }

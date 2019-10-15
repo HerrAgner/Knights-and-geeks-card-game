@@ -44,21 +44,19 @@ class UnitCardTest {
     }
 
     @Test
-    void setHp() {
-        card.setHp(5);
-        assertEquals(card.getMaxHealth(), 5);
-
-        assertFalse(card.setHp(100));
-        assertFalse(card.setHp(-4));
+    void changeMaxHealth() {
+        card.changeMaxHealth(5);
+        assertEquals(15,card.getMaxHealth());
+        card.changeMaxHealth(-5);
+        assertEquals(10, card.getMaxHealth());
     }
 
     @Test
-    void setAttack() {
-        card.setAttack(5);
-        assertEquals(card.getAttack(), 5);
-
-        assertFalse(card.setAttack(100));
-        assertFalse(card.setAttack(-4));
+    void changeAttack() {
+        card.changeAttack(5);
+        assertEquals(8, card.getAttack());
+        card.changeAttack(-5);
+        assertEquals(3, card.getAttack());
     }
 
     @Test

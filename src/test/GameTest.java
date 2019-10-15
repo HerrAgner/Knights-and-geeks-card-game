@@ -356,24 +356,20 @@ class GameTest {
         EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
         UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
         UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
+        unitCard2.setCurrentHealth(4);
 
-  /*      Player player = game.getCurrentPlayer();
-        Player defPlayer = game.getDefendingPlayer();
-
-        player.addCardToHand(increaseAttack);
-        defPlayer.addCardToTable(unitCard);
-        var defPlayerCard = (UnitCard)defPlayer.getCardFromTable(unitCard.getId());
-  */
         assertTrue(game.useEffectCard(decreaseAttack, unitCard));
         assertTrue(unitCard.getAttack()==1);
         game.useEffectCard(increaseAttack, unitCard);
         assertTrue(unitCard.getAttack()==3);
         game.useEffectCard(decreaseAttackBy4, unitCard);
+        System.out.println(unitCard.getAttack());
         assertTrue(unitCard.getAttack()==1);
 
         assertFalse(unitCard2.getAttack()==7);
         game.useEffectCard(increaseAttack, unitCard2);
         assertTrue(unitCard2.getAttack()==7);
+        System.out.println(unitCard2.getCurrentHealth());
         game.useEffectCard(decreaseHealth, unitCard2);
         assertTrue(unitCard2.getMaxHealth()==2);
         assertTrue(unitCard2.getCurrentHealth()==2);
@@ -381,7 +377,6 @@ class GameTest {
         assertTrue(unitCard2.getMaxHealth()>0);
         assertTrue(unitCard2.getCurrentHealth()==1);
         assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getMaxHealth());
-
     }
 
     @Test
