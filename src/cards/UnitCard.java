@@ -7,7 +7,7 @@ public class UnitCard extends Card {
     private boolean fatigue;
 
     public UnitCard() {
-        this("", 0, 0, 0);
+        this("", 0, 0 , 0);
     }
 
     public UnitCard(String name, int cost, int hp, int attack) {
@@ -15,7 +15,7 @@ public class UnitCard extends Card {
         this.health = hp;
         this.attack = attack;
         this.fatigue = false;
-        currentHealth = this.health;
+        this.currentHealth = this.health;;
     }
 
     public void changeMaxHealth(int hpChange) {
