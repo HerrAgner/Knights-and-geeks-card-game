@@ -372,6 +372,9 @@ class GameTest {
         assertTrue(unitCard2.getAttack()==7);
         game.useEffectCard(decreaseHealth, unitCard2);
         assertTrue(unitCard2.getHp()==2);
+        assertTrue(unitCard2.getCurrentHealth()==2);
+        game.useEffectCard(decreaseHealth, unitCard2);
+        assertTrue(unitCard2.getHp()>0);
     }
 
     @Test
