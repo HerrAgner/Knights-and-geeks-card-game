@@ -1,7 +1,4 @@
-import cards.Card;
-import cards.EffectCard;
-import cards.SpellCard;
-import cards.UnitCard;
+import cards.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -143,31 +140,33 @@ class GameTest {
         }
         game.drawCard();
         assertEquals(cardPile.size(), 0);
-
-
     }
 
     @Test
     void playCard() {
         Game game = new Game("Ted", "Anton");
+        game.getCurrentPlayer().changeMana(9);
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1),
                 new UnitCard("UnitCard", 11, 1, 1),
                 new EffectCard("EffectCard", 1, "type", 1),
                 new EffectCard("EffectCard", 11, "type", 1)
         };
+        Response[] res;
         game.getPlayers()[0].addCardToHand(testCards[0]);
-        Response[] res = game.playCard(testCards[0].getId());
+        game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[1]);
+        game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));
 
         game.getPlayers()[0].addCardToHand(testCards[2]);
         res = game.playCard(testCards[2].getId());
-        assertTrue(res[1] == Response.EFFECT_CARD);
+        assertSame(res[1], Response.EFFECT_CARD);
 
         game.getPlayers()[0].addCardToHand(testCards[3]);
+        game.playCard(testCards[3].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[3].getId()));
     }
 
@@ -189,8 +188,8 @@ class GameTest {
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
         assertFalse(game.attackCard(attackingCard, attackingCard));
-        assertEquals(attackingCard.getHp(), 1);
-        assertEquals(defendingCard.getHp(), -1);
+        assertEquals(attackingCard.getCurrentHealth(), 1);
+        assertEquals(defendingCard.getCurrentHealth(), -1);
         assertTrue(game.getTrashPile().size() >= 1);
         assertNull(game.getDefendingPlayer().getCardFromTable(defendingCard.getId()));
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
@@ -223,19 +222,22 @@ class GameTest {
         //SETUP ------------------------------------
 
         assertTrue(game.useSpellOnCard(healer, receiver));
-        assertEquals(receiver.getHp(), 7);
+        assertEquals(receiver.getCurrentHealth(), 5);
         assertTrue(game.getTrashPile().contains(healer));
 
         game.useSpellOnCard(attacker, receiver);
-        assertEquals(receiver.getHp(), 5);
+        assertEquals(receiver.getCurrentHealth(), 3);
         assertTrue(game.getTrashPile().contains(attacker));
         assertNull(game.getCurrentPlayer().getCardFromHand(healer.getId()));
         assertNull(game.getCurrentPlayer().getCardFromHand(attacker.getId()));
 
+        receiver2.setCurrentHealth(2);
+        receiver3.setCurrentHealth(1);
+
         assertTrue(game.useSpellOnCard(healerMany, receiver));
-        assertEquals(receiver.getHp(), 7);
-        assertEquals(receiver2.getHp(), 9);
-        assertEquals(receiver3.getHp(), 6);
+        assertEquals(receiver.getCurrentHealth(), 5);
+        assertEquals(receiver2.getCurrentHealth(), 4);
+        assertEquals(receiver3.getCurrentHealth(), 3);
         assertTrue(game.getTrashPile().contains(healerMany));
     }
 
@@ -247,7 +249,7 @@ class GameTest {
 
 
         assertTrue(game.useSpellOnPlayer(healer));
-        assertEquals(game.getCurrentPlayer().getHealth(), 32);
+        assertEquals(game.getCurrentPlayer().getHealth(), 30);
         assertTrue(game.getTrashPile().contains(healer));
 
         assertTrue(game.useSpellOnPlayer(attacker));

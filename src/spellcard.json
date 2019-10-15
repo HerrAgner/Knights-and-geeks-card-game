@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 4,
+    "many": false
+  },
+  {
+    "name": "Eviitus",
+    "cost": 4,
+    "type": "Healer",
+    "value": 2,
+    "many": true
+  },
+  {
+    "name": "Regenaris",
+    "cost": 4,
+    "type": "Healer",
+    "value": 4,
+    "many": false
+  },
+  {
+    "name": "Silortia Canulus",
+    "cost": 4,
+    "type": "Attacker",
+    "value": 4,
+    "many": false
+  },
+  {
+    "name": "Poreos",
+    "cost": 5,
+    "type": "Attacker",
+    "value": 3,
+    "many": true
+  },
+  {
+    "name": "Mobiaris",
+    "cost": 4,
+    "type": "Attacker",
+    "value": 6,
+    "many": false
+  }
+
+]
