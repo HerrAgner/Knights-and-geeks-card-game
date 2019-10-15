@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class CardGenerator {
     public List<Card> generateFromJson(String path, Type collectionType) {
@@ -20,7 +21,9 @@ public class CardGenerator {
 
         Gson gson = new Gson();
         List<Card> cards = gson.fromJson(br, collectionType);
+
         Collections.shuffle(cards);
+
 
         return cards;
     }
