@@ -259,6 +259,7 @@ class GameTest {
         Game game = new Game("eric", "nisse");
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Ted", 2);
 
 
         assertTrue(game.useSpellOnPlayer(healer));
@@ -269,8 +270,7 @@ class GameTest {
         assertEquals(game.getDefendingPlayer().getHealth(), 28);
         assertTrue(game.getTrashPile().contains(attacker));
 
-
-
+        assertFalse(game.useSpellOnPlayer(attackerMany));
     }
 
     @Test
