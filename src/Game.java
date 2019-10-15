@@ -240,18 +240,9 @@ public class Game {
         Type collectionType3 = new TypeToken<List<SpellCard>>(){}.getType();
         List<Card> spellCards = cg.generateFromJson("src/spellcard.json", collectionType3);
 
-
         double amountOfUnitCards = amountOfCards * 0.8;
         double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
         double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
-
-        System.out.println(amountOfUnitCards);
-        System.out.println(amountOfEffectCards);
-        System.out.println(amountOfSpellCards);
-
-//        System.out.println(amountOfCards);
-//        System.out.println(amountOfUnitCards);
-//        System.out.println(amountOfEffectCards);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
             cardPile.add(unitCards.get(i));
@@ -264,14 +255,6 @@ public class Game {
             cardPile.add(spellCards.get(i));
         }
 
-
-        System.out.println(cardPile.size());
-
-        if (cardPile.size() > amountOfCards){
-            cardPile.add(unitCards.get(0));
-        }
-
-        System.out.println(cardPile);
 
         Collections.shuffle(cardPile);
 
