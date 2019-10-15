@@ -114,7 +114,11 @@ public class Game {
     public boolean useEffectCard(EffectCard card, UnitCard receivingCard) {
         if (card.getType() == "Atk" || card.getType() == "Hp") {
             if (card.getType() == "Atk") {
-                receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
+                if (receivingCard.getAttack() + card.getEffectValue() <= 0) {
+                    receivingCard.setAttack(1);
+                } else {
+                    receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
+                }
             }
             if (card.getType() == "Hp") {
                 if (receivingCard.getHp() + card.getEffectValue() <= 0) {
