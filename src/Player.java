@@ -63,7 +63,7 @@ public class Player {
     }
 
     public Card getCardFromHand(UUID id){
-        return cardsOnHand.get(id);
+        return id != null ? cardsOnHand.get(id) : null;
     }
 
     public Card removeCardFromHand(UUID id){
