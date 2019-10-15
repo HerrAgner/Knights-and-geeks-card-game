@@ -3,6 +3,8 @@ import cards.UnitCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -70,16 +72,20 @@ class PlayerTest {
 	@Test
 	void addCardToHand() {
 		Card testCard = new UnitCard("name", 1,1, 1);
-		player.addCardToHand(testCard);
+		assertTrue(player.addCardToHand(testCard));
 		assertEquals(testCard, player.getCardFromHand(testCard.getId()));
 		testCard = null;
 		assertFalse(player.addCardToHand(testCard));
 	}
+
 	@Test
 	void getCardFromHand() {
 		Card testCard = new UnitCard("name", 1,1, 1);
 		player.addCardToHand(testCard);
-		assertNotNull(player.getCardFromHand(testCard.getId()));
+		assertSame(testCard.getId(), player.getCardFromHand(testCard.getId()).getId());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.getCardFromHand(testCard.getId()));
+		assertNull(player.getCardFromHand(null));
 	}
 
 	@Test
