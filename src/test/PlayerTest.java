@@ -15,8 +15,12 @@ class PlayerTest {
 
 	@Test
 	void constructor(){
+		String name = "testName";
+		player = new Player(name);
 		assertNotNull(player);
-		assertNull(new Player().getName());
+		assertSame(name, player.getName());
+		player = new Player("");
+		assertNull(player.getName());
 	}
 
 	@Test
@@ -30,9 +34,13 @@ class PlayerTest {
 	}
 
 	@Test
-	void setHealth() {
+	void changeHealth() {
 		int hpCurrent = player.getHealth();
-		int hpChange = 5;
+		int hpChange = -5;
+		player.changeHealth(hpChange);
+		assertEquals(hpCurrent + hpChange, player.getHealth());
+		hpCurrent = player.getHealth();
+		hpChange = 5;
 		player.changeHealth(hpChange);
 		assertEquals(hpCurrent + hpChange, player.getHealth());
 	}
@@ -45,7 +53,11 @@ class PlayerTest {
 	@Test
 	void changeMana() {
 		int manaCurrent = player.getMana();
-		int manaChange = 1;
+		int manaChange = 5;
+		player.changeMana(manaChange);
+		assertEquals(manaCurrent + manaChange, player.getMana());
+		manaCurrent = player.getMana();
+		manaChange = -5;
 		player.changeMana(manaChange);
 		assertEquals(manaCurrent + manaChange, player.getMana());
 	}
@@ -60,6 +72,8 @@ class PlayerTest {
 		Card testCard = new UnitCard("name", 1,1, 1);
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.getCardFromHand(testCard.getId()));
+		testCard = null;
+		assertFalse(player.addCardToHand(testCard));
 	}
 	@Test
 	void getCardFromHand() {
