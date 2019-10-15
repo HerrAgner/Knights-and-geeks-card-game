@@ -178,6 +178,8 @@ class GameTest {
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
+        attackingCard.setCurrentHealth(attackingCard.getMaxHealth());
+        defendingCard.setCurrentHealth(defendingCard.getMaxHealth());
         // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
@@ -353,30 +355,30 @@ class GameTest {
         EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
         EffectCard decreaseAttackBy4 = new EffectCard("card", 2, "Atk", -4);
         EffectCard decreaseHealth = new EffectCard("card", 2, "Hp", -2);
-        EffectCard increaseHealth = new EffectCard("card", 2, "Hp", 3);
-        EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
         UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
         UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
         unitCard2.setCurrentHealth(4);
 
         assertTrue(game.useEffectCard(decreaseAttack, unitCard));
-        assertTrue(unitCard.getAttack()==1);
-        game.useEffectCard(increaseAttack, unitCard);
-        assertTrue(unitCard.getAttack()==3);
-        game.useEffectCard(decreaseAttackBy4, unitCard);
-        System.out.println(unitCard.getAttack());
-        assertTrue(unitCard.getAttack()==1);
+        assertEquals(1, unitCard.getAttack());
 
-        assertFalse(unitCard2.getAttack()==7);
+        game.useEffectCard(increaseAttack, unitCard);
+        assertEquals(3, unitCard.getAttack());
+
+        game.useEffectCard(decreaseAttackBy4, unitCard);
+        assertEquals(1, unitCard.getAttack());
+        assertNotEquals(7, unitCard2.getAttack());
+
         game.useEffectCard(increaseAttack, unitCard2);
-        assertTrue(unitCard2.getAttack()==7);
-        System.out.println(unitCard2.getCurrentHealth());
+        assertEquals(7, unitCard2.getAttack());
+
         game.useEffectCard(decreaseHealth, unitCard2);
-        assertTrue(unitCard2.getMaxHealth()==2);
-        assertTrue(unitCard2.getCurrentHealth()==2);
+        assertEquals(2, unitCard2.getMaxHealth());
+        assertEquals(2, unitCard2.getCurrentHealth());
+
         game.useEffectCard(decreaseHealth, unitCard2);
         assertTrue(unitCard2.getMaxHealth()>0);
-        assertTrue(unitCard2.getCurrentHealth()==1);
+        assertEquals(1, unitCard2.getCurrentHealth());
         assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getMaxHealth());
     }
 
