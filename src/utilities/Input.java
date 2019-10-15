@@ -16,7 +16,16 @@ public class Input {
     }
 
     public int validatedInput(int max) {
-        
+        int input;
+        while (!scan.hasNextInt()){
+            System.out.println("Not a valid number, try again!");
+            scan.next();
+        }
+
+        input = scan.nextInt();
+        if (inputValidation(max, input)) {
+            return input;
+        }
         return 0;
     }
 
@@ -24,6 +33,7 @@ public class Input {
         if (input < max) {
             return true;
         }
+        System.out.println("Input too high");
         return false;
     }
 

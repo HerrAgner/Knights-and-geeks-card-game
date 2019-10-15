@@ -2,6 +2,7 @@ import cards.Card;
 import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
+import utilities.Input;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -13,9 +14,11 @@ public class CLI {
     private Scanner scan;
     private boolean running;
     private Game game;
+    private Input input;
 
     public CLI() {
         scan = new Scanner(System.in);
+        input = new Input();
         running = true;
     }
 
@@ -75,8 +78,10 @@ public class CLI {
         int chosenCard;
         int chosenDefendingCard;
 
-        int input = scan.nextInt();
-        switch (input) {
+
+        int userInput = input.validatedInput(6);
+
+        switch (userInput) {
             case 1:
                 //Print cards from hand and table
                 printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
