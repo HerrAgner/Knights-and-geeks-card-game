@@ -76,14 +76,10 @@ public class CLI {
         int input = scan.nextInt();
         switch (input) {
             case 1:
-                //Print cards from hand and table
                 printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
                 break;
             case 2:
-                System.out.println("Your hp: " + activePlayer.getHealth());
-                System.out.println("Your mana: " + activePlayer.getMana());
-                System.out.println("Enemy hp: " + defendingPlayer.getHealth());
-                System.out.println("Enemy mana: " + defendingPlayer.getMana());
+                printHpAndMana(activePlayer, defendingPlayer);
                 break;
             case 3:
                 // Play card
@@ -159,32 +155,10 @@ public class CLI {
                 }
                 break;
             case 4:
-                //Attack with card
-                System.out.println("Choose card: ");
-                // Print cards on your table
-                printCards(cardsOnTable);
-                // enter number on card
-                chosenCard = scan.nextInt();
-                var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-                System.out.println("Attack card or player (0 for player): ");
-                // print cards on defending player table
-                printCards(enemyCardsOnTable);
-                // Enter number
-                chosenDefendingCard = scan.nextInt();
-
-                if (chosenDefendingCard == 0) {
-                    running = game.attackPlayer(attackingCard);
-                } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
-                    var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                    game.attackCard(attackingCard, defendingCard);
-                }
+                attackWithCard(cardsOnTable, enemyCardsOnTable);
                 break;
             case 5:
-                // End turn
-                System.out.println("Ending turn.");
-                System.out.println("---------------------------------------------------------------------------------------------");
-                System.out.println("\n\n");
-                game.finishTurn();
+                endPlayerTurn();
                 return false;
             default:
                 break;
@@ -199,6 +173,44 @@ public class CLI {
         printCards(cardsOnTable);
         System.out.println("\nCards on hand:");
         printCards(cardsOnHand);
+    }
+
+    private void printHpAndMana(Player activePlayer, Player defendingPlayer){
+        System.out.println("Your hp: " + activePlayer.getHealth());
+        System.out.println("Your mana: " + activePlayer.getMana());
+        System.out.println("Enemy hp: " + defendingPlayer.getHealth());
+        System.out.println("Enemy mana: " + defendingPlayer.getMana());
+    }
+
+    private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable ){
+        int chosenCard;
+        int chosenDefendingCard;
+        if(cardsOnTable.size()>1) {
+            System.out.println("Choose card: ");
+            printCards(cardsOnTable);
+            chosenCard = scan.nextInt();
+            var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
+            System.out.println("Attack card or player (0 for player): ");
+            printCards(enemyCardsOnTable);
+            chosenDefendingCard = scan.nextInt();
+
+            if (chosenDefendingCard == 0) {
+                running = game.attackPlayer(attackingCard);
+            } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
+                var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
+                game.attackCard(attackingCard, defendingCard);
+            }
+        }
+        else{
+            System.out.println("\nNo cards on table. Choose another option");
+        }
+    }
+
+    private void endPlayerTurn(){
+        System.out.println("Ending turn.");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("\n\n");
+        game.finishTurn();
     }
 
     private void printCards(Collection<Card> cards) {

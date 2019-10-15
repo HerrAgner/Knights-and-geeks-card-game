@@ -105,13 +105,8 @@ class GameTest {
     @Test
     void drawCard() {
         Game game = new Game("Anton", "Ted");
-//        game.createCardPile(80);
-//        ArrayList cardPile = game.getCardPile();
-//        Player[] players = game.getPlayers();
 
         assertEquals(40, game.getCardPile().size());
-
-//        int activePlayer = game.getActivePlayer();
 
         game.drawCard();
         assertEquals(game.getCardPile().size(), 39);
@@ -203,9 +198,9 @@ class GameTest {
         Game game = new Game("eric", "nisse");
         Player players[] = game.getPlayers();
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
-        SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
+        SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
         SpellCard healerMany = new SpellCard("Healer", true, 2, "Hasse", 2);
-        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Frasse", 2);
+        SpellCard attackerMany = new SpellCard("Attacker", true, 2, "Frasse", 2);
 
         UnitCard receiver = new UnitCard("receiver", 3, 5, 6);
         UnitCard receiver2 = new UnitCard("receiver2", 3, 7, 6);
@@ -254,7 +249,7 @@ class GameTest {
         game.useSpellOnCard(attacker, receiver);
         assertNull(game.getDefendingPlayer().getCardFromTable(receiver.getId()));
 
-        SpellCard attackManyExtra = new SpellCard("Attacker", true, -2, "Frasse", 2);
+        SpellCard attackManyExtra = new SpellCard("Attacker", true, 2, "Frasse", 2);
         game.useSpellOnCard(attackManyExtra, null);
         assertEquals(1, receiver2.getCurrentHealth());
     }
@@ -263,8 +258,8 @@ class GameTest {
     void useSpellOnPlayer(){
         Game game = new Game("eric", "nisse");
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
-        SpellCard attacker = new SpellCard("Attacker", false, -2, "Ted", 2);
-        SpellCard attackerMany = new SpellCard("Attacker", true, -2, "Ted", 2);
+        SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
+        SpellCard attackerMany = new SpellCard("Attacker", true, 2, "Ted", 2);
 
 
         assertTrue(game.useSpellOnPlayer(healer));
