@@ -145,7 +145,7 @@ class GameTest {
     @Test
     void playCard() {
         Game game = new Game("Ted", "Anton");
-        game.getCurrentPlayer().changeMana(9);
+        game.getCurrentPlayer().changeMana(10);
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1),
                 new UnitCard("UnitCard", 11, 1, 1),
@@ -156,7 +156,8 @@ class GameTest {
         game.getPlayers()[0].addCardToHand(testCards[0]);
         game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
-
+        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getMana());
+        System.out.println(10-testCards[0].getCost());
         game.getPlayers()[0].addCardToHand(testCards[1]);
         game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));

@@ -94,14 +94,12 @@ public class Game {
         } else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
-            System.out.println(c.getName());
+            getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 getCurrentPlayer().addCardToTable(c);
             } else if (c instanceof EffectCard) {
                 res[1] = Response.EFFECT_CARD;
-
-
             } else if (c instanceof SpellCard) {
                 res[1] = Response.SPELL_CARD;
             } else {
@@ -149,7 +147,7 @@ public class Game {
             trashPile.add(defendingCard);
         }
         if (attackingCard.getCurrentHealth() < 1) {
-            players[activePlayer].removeCardFromHand(attackingCard.getId());
+            getCurrentPlayer().removeCardFromTable(attackingCard.getId());
             trashPile.add(attackingCard);
 
         }
@@ -249,6 +247,8 @@ public class Game {
         List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
 
         for (int i = 0; i < amountOfCards; i++) {
+            var unitCard = (UnitCard) cards.get(i);
+            unitCard.setCurrentHealth(unitCard.getHp());
             cardPile.add(cards.get(i));
         }
 
