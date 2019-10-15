@@ -351,6 +351,8 @@ class GameTest {
         Game game = new Game("Alle", "Ralle");
         EffectCard increaseAttack = new EffectCard("card", 2, "Atk", 2);
         EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
+        EffectCard decreaseHealth = new EffectCard("card", 2, "Hp", -2);
+        EffectCard increaseHealth = new EffectCard("card", 2, "Hp", 3);
         EffectCard invalidCard = new EffectCard("cardio", 2, "LAJS", 3);
         UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
         UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
@@ -360,12 +362,16 @@ class GameTest {
 
         player.addCardToHand(increaseAttack);
         defPlayer.addCardToTable(unitCard);
-                */
+        var defPlayerCard = (UnitCard)defPlayer.getCardFromTable(unitCard.getId());
+  */
         assertTrue(game.useEffectCard(decreaseAttack, unitCard));
-
-        //var defPlayerCard = (UnitCard)defPlayer.getCardFromTable(unitCard.getId());
-        System.out.println(unitCard.getAttack());
         assertTrue(unitCard.getAttack()==1);
+
+        assertFalse(unitCard2.getAttack()==7);
+        game.useEffectCard(increaseAttack, unitCard2);
+        assertTrue(unitCard2.getAttack()==7);
+        game.useEffectCard(decreaseHealth, unitCard2);
+        assertTrue(unitCard2.getHp()==2);
     }
 
     @Test
