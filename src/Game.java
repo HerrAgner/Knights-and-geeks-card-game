@@ -244,12 +244,29 @@ public class Game {
         CardGenerator cg = new CardGenerator();
         Type collectionType = new TypeToken<List<UnitCard>>() {
         }.getType();
-        List<Card> cards = cg.generateFromJson("src/cards.json", collectionType);
+        List<Card> unitCards = cg.generateFromJson("src/cards.json", collectionType);
 
-        for (int i = 0; i < amountOfCards; i++) {
-            var unitCard = (UnitCard) cards.get(i);
+        Type collectionType2 = new TypeToken<List<EffectCard>>(){}.getType();
+        List<Card> effectCards = cg.generateFromJson("src/effectcard.json", collectionType2);
+
+        Type collectionType3 = new TypeToken<List<SpellCard>>(){}.getType();
+        List<Card> spellCards = cg.generateFromJson("src/spellcard.json", collectionType3);
+
+        double amountOfUnitCards = amountOfCards * 0.8;
+        double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
+        double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
+
+        for (int i = 0; i < amountOfUnitCards; i++) {
+            var unitCard = (UnitCard) unitCards.get(i);
             unitCard.setCurrentHealth(unitCard.getHp());
-            cardPile.add(cards.get(i));
+            cardPile.add(unitCards.get(i));
+        }
+
+        for (int i = 0; i < amountOfEffectCards; i++) {
+            cardPile.add(effectCards.get(i));
+        }
+        for (int i = 0; i < amountOfSpellCards; i++) {
+            cardPile.add(spellCards.get(i));
         }
 
 
