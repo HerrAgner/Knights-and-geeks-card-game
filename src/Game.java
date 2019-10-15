@@ -110,11 +110,11 @@ public class Game {
     }
 
     public boolean useEffectCard(EffectCard card, UnitCard receivingCard) {
-        if (card.getType() == "Atk" || card.getType() == "Hp") {
-            if (card.getType() == "Atk") {
+        if (card.getType().equals("Atk") || card.getType().equals("Hp")) {
+            if (card.getType().equals("Atk")) {
                 receivingCard.changeAttack(card.getEffectValue());
             }
-            if (card.getType() == "Hp") {
+            if (card.getType().equals("Hp")) {
                 receivingCard.changeMaxHealth(card.getEffectValue());
             }
             return true;
@@ -278,6 +278,9 @@ public class Game {
         if (amountOfCards > cardPile.size()){
             cardPile.add(unitCards.get(0));
         }
+//
+//        Random r = new Random();
+//        r.setSeed(56);
 
         Collections.shuffle(cardPile);
 

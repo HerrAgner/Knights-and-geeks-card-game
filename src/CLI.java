@@ -44,9 +44,9 @@ public class CLI {
         while (running) {
             Player activePlayer = game.getCurrentPlayer();
             Player defendingPlayer = game.getDefendingPlayer();
-            Collection<Card> cardsOnHand = activePlayer.getCardsOnHand().stream().sorted(Comparator.comparingInt(Card::getCost)).collect(Collectors.toList());
-            Collection<Card> cardsOnTable = activePlayer.getCardsOnTable().stream().sorted(Comparator.comparingInt(Card::getCost)).collect(Collectors.toList());
-            Collection<Card> enemyCardsOnTable = defendingPlayer.getCardsOnTable().stream().sorted(Comparator.comparingInt(Card::getCost)).collect(Collectors.toList());
+            Collection<Card> cardsOnHand = activePlayer.getCardsOnHand();
+            Collection<Card> cardsOnTable = activePlayer.getCardsOnTable();
+            Collection<Card> enemyCardsOnTable = defendingPlayer.getCardsOnTable();
 
             game.startTurn();
 
@@ -97,9 +97,9 @@ public class CLI {
                     break;
                 }
 
-                var unitCard = (Card) cardsOnHand.toArray()[chosenCard - 1];
+                Card card = (Card) cardsOnHand.toArray()[chosenCard - 1];
 
-                Response[] response = game.playCard(unitCard.getId());
+                Response[] response = game.playCard(card.getId());
 
                 if (response[0] == Response.OK) {
                     switch (response[1]) {
@@ -110,13 +110,29 @@ public class CLI {
                             printCards(enemyCardsOnTable);
                             break;
                         case EFFECT_CARD:
-                            System.out.println("Which card do you want to buff?");
-                            printCards(cardsOnTable);
-                            System.out.println("Which card do you want to debuff?");
-                            printCards(enemyCardsOnTable);
+                            EffectCard effectCard = (EffectCard) card;
+                            UnitCard unitCard;
+                            if (effectCard.getEffectValue() < 0) {
+                                printCards(enemyCardsOnTable);
+                                System.out.println("Which card do you want to debuff?");
+
+                                chosenDefendingCard = scan.nextInt();
+                                unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard -1];
+
+                                game.useEffectCard(effectCard, unitCard);
+                            } else {
+                                printCards(cardsOnTable);
+                                System.out.println("Which card do you want to buff?");
+
+                                chosenDefendingCard = scan.nextInt();
+                                unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard -1];
+
+                                game.useEffectCard(effectCard, unitCard);
+                            }
+
                             break;
                         case UNIT_CARD:
-                            System.out.println("Played card " + unitCard.getName());
+                            System.out.println("Played card " + card.getName());
                             // Play card here
                             printCards(activePlayer.getCardsOnTable());
                             break;
