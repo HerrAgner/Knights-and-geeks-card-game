@@ -123,12 +123,11 @@ public class Game {
     public boolean attackCard(UnitCard attackingCard, UnitCard defendingCard) {
 
         if (attackingCard == defendingCard) return false;
-        if (attackingCard.getHp() < 1 || defendingCard.getHp() < 1) return false;
-        if (attackingCard.getFatigue() || defendingCard.getFatigue()) return false;
+        if (attackingCard.getCurrentHealth() < 1 || defendingCard.getCurrentHealth() < 1) return false;
+        if (attackingCard.getFatigue()) return false;
 
         defendingCard.setCurrentHealth(defendingCard.getCurrentHealth() - attackingCard.getAttack());
         attackingCard.setCurrentHealth(attackingCard.getCurrentHealth() - defendingCard.getAttack());
-        defendingCard.setFatigue(true);
         attackingCard.setFatigue(true);
 
         if (defendingCard.getCurrentHealth() < 1) {

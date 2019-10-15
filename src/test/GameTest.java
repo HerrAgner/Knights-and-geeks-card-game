@@ -196,7 +196,6 @@ class GameTest {
         assertTrue(game.getTrashPile().contains(defendingCard));
         assertFalse(game.getTrashPile().contains(attackingCard));
         assertTrue(attackingCard.getFatigue());
-        assertTrue(defendingCard.getFatigue());
     }
 
     @Test
