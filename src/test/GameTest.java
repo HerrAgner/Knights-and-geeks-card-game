@@ -315,13 +315,15 @@ class GameTest {
 
 
         assertTrue(game.createCardPile(amountOfCards));
-//        assertEquals(game.getCardPile().contains());
+        assertEquals(8, game.getCardPile().stream().filter(card -> card instanceof SpellCard).count());
+
+
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
 
-        assertTrue(game.createCardPile(51));
-        assertEquals(51, game.getCardPile().size());
+        assertTrue(game.createCardPile(77));
+        assertEquals(77, game.getCardPile().size());
 
         assertFalse(game.createCardPile(101));
         assertFalse(game.createCardPile(49));

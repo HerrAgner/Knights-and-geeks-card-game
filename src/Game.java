@@ -269,7 +269,6 @@ public class Game {
             cardPile.add(spellCards.get(i));
         }
 
-
         Collections.shuffle(cardPile);
 
         return true;
