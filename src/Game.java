@@ -135,7 +135,7 @@ public class Game {
             trashPile.add(defendingCard);
         }
         if (attackingCard.getCurrentHealth() < 1) {
-            players[activePlayer].removeCardFromHand(attackingCard.getId());
+            getCurrentPlayer().removeCardFromTable(attackingCard.getId());
             trashPile.add(attackingCard);
 
         }
