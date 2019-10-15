@@ -94,6 +94,7 @@ public class Game {
         } else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
+            getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 getCurrentPlayer().addCardToTable(c);
