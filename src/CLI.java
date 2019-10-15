@@ -107,16 +107,34 @@ public class CLI {
                 Response[] response = game.playCard(card.getId());
 
                 if (response[0] == Response.OK) {
+                    UnitCard unitCard;
                     switch (response[1]) {
                         case SPELL_CARD:
-                            System.out.println("Which card do you want to heal? (0 to heal you)");
-                            printCards(cardsOnTable);
-                            System.out.println("Which card do you want to attack? (0 to attack player)");
-                            printCards(enemyCardsOnTable);
+                            SpellCard spellCard = (SpellCard) card;
+                            if (spellCard.getType().equals("Healer")) {
+                                printCards(cardsOnTable);
+                                System.out.println("Which card do you want to heal? (0 to heal you)");
+                                chosenDefendingCard = scan.nextInt();
+                                if (chosenDefendingCard == 0) {
+                                    game.useSpellOnPlayer(spellCard);
+                                } else {
+                                    unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard -1];
+                                    game.useSpellOnCard(spellCard, unitCard);
+                                }
+                            } else if (spellCard.getType().equals("Attacker")) {
+                                printCards(enemyCardsOnTable);
+                                System.out.println("Which card do you want to attack? (0 to attack player)");
+                                chosenDefendingCard = scan.nextInt();
+                                if (chosenDefendingCard == 0) {
+                                    game.useSpellOnPlayer(spellCard);
+                                } else {
+                                    unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard -1];
+                                    game.useSpellOnCard(spellCard, unitCard);
+                                }
+                            }
                             break;
                         case EFFECT_CARD:
                             EffectCard effectCard = (EffectCard) card;
-                            UnitCard unitCard;
                             if (effectCard.getEffectValue() < 0) {
                                 printCards(enemyCardsOnTable);
                                 System.out.println("Which card do you want to debuff?");
