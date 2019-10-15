@@ -128,13 +128,8 @@ public class Game {
         if (attackingCard.getCurrentHealth() < 1 || defendingCard.getCurrentHealth() < 1) return false;
         if (attackingCard.getFatigue()) return false;
 
-//        System.out.println(defendingCard.getCurrentHealth());
-        defendingCard.changeCurrentHealth(attackingCard.getAttack());
-//        System.out.println(defendingCard.getCurrentHealth());
-
-//        System.out.println(attackingCard.getCurrentHealth());
-        attackingCard.changeCurrentHealth(defendingCard.getAttack());
-//        System.out.println(attackingCard.getCurrentHealth());
+        defendingCard.changeCurrentHealth(-attackingCard.getAttack());
+        attackingCard.changeCurrentHealth(-defendingCard.getAttack());
         attackingCard.setFatigue(true);
 
         if (defendingCard.getCurrentHealth() < 1) {
@@ -148,33 +143,47 @@ public class Game {
         }
         return true;
     }
+    public boolean useSpellSingleCard(SpellCard usedCard, UnitCard receivingCard) {
+        receivingCard.changeCurrentHealth(usedCard.getValue());
+        if(receivingCard.getCurrentHealth() <= 0) {
+            trashPile.add(getDefendingPlayer().removeCardFromTable(receivingCard.getId()));
+        }
+        trashPile.add(getCurrentPlayer().removeCardFromHand(usedCard.getId()));
+        return true;
+    }
 
-    public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
-        if (!usedCard.isMany()) {
-            receivingCard.changeCurrentHealth(usedCard.getValue());
-            trashPile.add(usedCard);
-//            if (usedCard.getType().equals("Healer")) {
-//
-//            } else if (usedCard.getType().equals("Attacker")) {
-//                receivingCard.changeCurrentHealth(usedCard.getValue());
-//                trashPile.add(usedCard);
-//            }
-            getCurrentPlayer().removeCardFromHand(usedCard.getId());
-        } else if (usedCard.isMany()) {
-            if (usedCard.getType().equals("Healer")) {
-                for (Card card : getCurrentPlayer().getCardsOnTable()) {
-                    var unitCard = (UnitCard) card;
-                    unitCard.changeCurrentHealth(usedCard.getValue() + unitCard.getCurrentHealth());
-                }
-            } else if (usedCard.getType().equals("Attacker")) {
-                for (Card card : getDefendingPlayer().getCardsOnTable()) {
-                    var unitCard = (UnitCard) card;
-                    unitCard.changeCurrentHealth(unitCard.getCurrentHealth() + usedCard.getValue());
+    public boolean useSpellMultiCard(SpellCard usedCard) {
+        if (usedCard.getType().equals("Healer")) {
+            for (Card card : getCurrentPlayer().getCardsOnTable()) {
+                var unitCard = (UnitCard) card;
+                unitCard.changeCurrentHealth(usedCard.getValue());
+            }
+        } else if (usedCard.getType().equals("Attacker")) {
+            ArrayList<UUID> deadId = new ArrayList<>();
+            for (Card card : getDefendingPlayer().getCardsOnTable()) {
+                var unitCard = (UnitCard) card;
+                unitCard.changeCurrentHealth(usedCard.getValue());
+                if(unitCard.getCurrentHealth() <= 0) {
+                    deadId.add(unitCard.getId());
                 }
             }
-            getCurrentPlayer().removeCardFromHand(usedCard.getId());
-            trashPile.add(usedCard);
+            deadId.forEach(id -> trashPile.add(getDefendingPlayer().removeCardFromTable(id)));
         }
+        getCurrentPlayer().removeCardFromHand(usedCard.getId());
+        trashPile.add(usedCard);
+        return true;
+    }
+    public boolean useSpellOnCard(SpellCard usedCard){
+        if(usedCard.isMany()) {
+            useSpellMultiCard(usedCard);
+            return true;
+        }
+        return false;
+    }
+    public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
+        if (!usedCard.isMany()) {
+           useSpellSingleCard(usedCard, receivingCard);
+        } else useSpellMultiCard(usedCard);
         return true;
     }
 
