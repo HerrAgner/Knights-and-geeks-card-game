@@ -128,8 +128,13 @@ public class Game {
         if (attackingCard.getCurrentHealth() < 1 || defendingCard.getCurrentHealth() < 1) return false;
         if (attackingCard.getFatigue()) return false;
 
-        defendingCard.setCurrentHealth(defendingCard.getCurrentHealth() - attackingCard.getAttack());
-        attackingCard.setCurrentHealth(attackingCard.getCurrentHealth() - defendingCard.getAttack());
+//        System.out.println(defendingCard.getCurrentHealth());
+        defendingCard.changeCurrentHealth(attackingCard.getAttack());
+//        System.out.println(defendingCard.getCurrentHealth());
+
+//        System.out.println(attackingCard.getCurrentHealth());
+        attackingCard.changeCurrentHealth(defendingCard.getAttack());
+//        System.out.println(attackingCard.getCurrentHealth());
         attackingCard.setFatigue(true);
 
         if (defendingCard.getCurrentHealth() < 1) {
@@ -146,24 +151,25 @@ public class Game {
 
     public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
         if (!usedCard.isMany()) {
-            if (usedCard.getType().equals("Healer")) {
-                receivingCard.setCurrentHealth(usedCard.getValue() + receivingCard.getCurrentHealth());
-                trashPile.add(usedCard);
-            } else if (usedCard.getType().equals("Attacker")) {
-                receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + usedCard.getValue());
-                trashPile.add(usedCard);
-            }
+            receivingCard.changeCurrentHealth(usedCard.getValue());
+            trashPile.add(usedCard);
+//            if (usedCard.getType().equals("Healer")) {
+//
+//            } else if (usedCard.getType().equals("Attacker")) {
+//                receivingCard.changeCurrentHealth(usedCard.getValue());
+//                trashPile.add(usedCard);
+//            }
             getCurrentPlayer().removeCardFromHand(usedCard.getId());
         } else if (usedCard.isMany()) {
             if (usedCard.getType().equals("Healer")) {
                 for (Card card : getCurrentPlayer().getCardsOnTable()) {
                     var unitCard = (UnitCard) card;
-                    unitCard.setCurrentHealth(usedCard.getValue() + unitCard.getCurrentHealth());
+                    unitCard.changeCurrentHealth(usedCard.getValue() + unitCard.getCurrentHealth());
                 }
             } else if (usedCard.getType().equals("Attacker")) {
                 for (Card card : getDefendingPlayer().getCardsOnTable()) {
                     var unitCard = (UnitCard) card;
-                    unitCard.setCurrentHealth(unitCard.getCurrentHealth() + usedCard.getValue());
+                    unitCard.changeCurrentHealth(unitCard.getCurrentHealth() + usedCard.getValue());
                 }
             }
             getCurrentPlayer().removeCardFromHand(usedCard.getId());

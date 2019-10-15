@@ -178,8 +178,8 @@ class GameTest {
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
-        attackingCard.setCurrentHealth(attackingCard.getMaxHealth());
-        defendingCard.setCurrentHealth(defendingCard.getMaxHealth());
+        attackingCard.changeCurrentHealth(attackingCard.getMaxHealth());
+        defendingCard.changeCurrentHealth(defendingCard.getMaxHealth());
         // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
@@ -228,8 +228,8 @@ class GameTest {
         assertNull(game.getCurrentPlayer().getCardFromHand(healer.getId()));
         assertNull(game.getCurrentPlayer().getCardFromHand(attacker.getId()));
 
-        receiver2.setCurrentHealth(2);
-        receiver3.setCurrentHealth(1);
+        receiver2.changeCurrentHealth(2);
+        receiver3.changeCurrentHealth(1);
 
         assertTrue(game.useSpellOnCard(healerMany, receiver));
         assertEquals(receiver.getCurrentHealth(), 5);
@@ -357,7 +357,7 @@ class GameTest {
         EffectCard decreaseHealth = new EffectCard("card", 2, "Hp", -2);
         UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
         UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
-        unitCard2.setCurrentHealth(4);
+        unitCard2.changeCurrentHealth(4);
 
         assertTrue(game.useEffectCard(decreaseAttack, unitCard));
         assertEquals(1, unitCard.getAttack());
