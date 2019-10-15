@@ -73,14 +73,16 @@ public class Game {
         this.round = round;
     }
 
-    public boolean drawCard() {
-        if (cardPile.size() == 0) {
-            System.out.println("WHAAAT");
-            return false;
+    public UUID drawCard() {
+        if (getCurrentPlayer().getCardsOnHand().size() >= 10) {
+            return null;
         }
-        Card card = cardPile.remove(0);
-        getCurrentPlayer().addCardToHand(card);
-        return true;
+        Card c = cardPile.remove(0);
+        getCurrentPlayer().addCardToHand(c);
+        if(cardPile.size() == 0){
+            shuffleTrashPile();
+        }
+        return c.getId();
     }
 
     public Response[] playCard(UUID id) {
@@ -143,9 +145,10 @@ public class Game {
         }
         return true;
     }
+
     public boolean useSpellSingleCard(SpellCard usedCard, UnitCard receivingCard) {
         receivingCard.changeCurrentHealth(usedCard.getValue());
-        if(receivingCard.getCurrentHealth() <= 0) {
+        if (receivingCard.getCurrentHealth() <= 0) {
             trashPile.add(getDefendingPlayer().removeCardFromTable(receivingCard.getId()));
         }
         trashPile.add(getCurrentPlayer().removeCardFromHand(usedCard.getId()));
@@ -163,7 +166,7 @@ public class Game {
             for (Card card : getDefendingPlayer().getCardsOnTable()) {
                 var unitCard = (UnitCard) card;
                 unitCard.changeCurrentHealth(usedCard.getValue());
-                if(unitCard.getCurrentHealth() <= 0) {
+                if (unitCard.getCurrentHealth() <= 0) {
                     deadId.add(unitCard.getId());
                 }
             }
@@ -173,22 +176,24 @@ public class Game {
         trashPile.add(usedCard);
         return true;
     }
-    public boolean useSpellOnCard(SpellCard usedCard){
-        if(usedCard.isMany()) {
+
+    public boolean useSpellOnCard(SpellCard usedCard) {
+        if (usedCard.isMany()) {
             useSpellMultiCard(usedCard);
             return true;
         }
         return false;
     }
+
     public boolean useSpellOnCard(SpellCard usedCard, UnitCard receivingCard) {
         if (!usedCard.isMany()) {
-           useSpellSingleCard(usedCard, receivingCard);
+            useSpellSingleCard(usedCard, receivingCard);
         } else useSpellMultiCard(usedCard);
         return true;
     }
 
     public boolean useSpellOnPlayer(SpellCard usedCard) {
-        if(!usedCard.isMany()){
+        if (!usedCard.isMany()) {
             if (usedCard.getType().equals("Healer")) {
                 getCurrentPlayer().changeHealth(usedCard.getValue());
             } else if (usedCard.getType().equals("Attacker")) {
@@ -253,10 +258,12 @@ public class Game {
         }.getType();
         List<Card> unitCards = cg.generateFromJson("src/cards.json", collectionType);
 
-        Type collectionType2 = new TypeToken<List<EffectCard>>(){}.getType();
+        Type collectionType2 = new TypeToken<List<EffectCard>>() {
+        }.getType();
         List<Card> effectCards = cg.generateFromJson("src/effectcard.json", collectionType2);
 
-        Type collectionType3 = new TypeToken<List<SpellCard>>(){}.getType();
+        Type collectionType3 = new TypeToken<List<SpellCard>>() {
+        }.getType();
         List<Card> spellCards = cg.generateFromJson("src/spellcard.json", collectionType3);
 
         double amountOfUnitCards = amountOfCards * 0.8;
@@ -275,7 +282,7 @@ public class Game {
             cardPile.add(spellCards.get(i));
         }
 
-        if (amountOfCards > cardPile.size()){
+        if (amountOfCards > cardPile.size()) {
             cardPile.add(unitCards.get(0));
         }
 
@@ -301,4 +308,5 @@ public class Game {
         });
         return true;
     }
+
 }

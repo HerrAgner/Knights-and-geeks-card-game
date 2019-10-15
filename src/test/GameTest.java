@@ -2,7 +2,8 @@ import cards.*;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
+import java.util.UUID;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,36 +105,40 @@ class GameTest {
     @Test
     void drawCard() {
         Game game = new Game("Anton", "Ted");
-        game.createCardPile(80);
-        ArrayList cardPile = game.getCardPile();
-        Player[] players = game.getPlayers();
+//        game.createCardPile(80);
+//        ArrayList cardPile = game.getCardPile();
+//        Player[] players = game.getPlayers();
 
-        assertTrue(players.length == 2);
-        assertEquals(cardPile.size(), 80);
+        assertEquals(40, game.getCardPile().size());
 
-        int activePlayer = game.getActivePlayer();
+//        int activePlayer = game.getActivePlayer();
 
         game.drawCard();
-        assertEquals(cardPile.size(), 79);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
+        assertEquals(game.getCardPile().size(), 39);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 6);
         game.setActivePlayer(1);
         game.drawCard();
-        assertEquals(cardPile.size(), 78);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 6);
+        assertEquals(game.getCardPile().size(), 38);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 6);
         game.setActivePlayer(0);
         game.drawCard();
-        assertEquals(cardPile.size(), 77);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
+        assertEquals(game.getCardPile().size(), 37);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 7);
         game.setActivePlayer(1);
         game.drawCard();
-        assertEquals(cardPile.size(), 76);
-        assertEquals(players[activePlayer].getCardsOnHand().size(), 7);
+        assertEquals(game.getCardPile().size(), 36);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 7);
 
-        while (cardPile.size() != 0) {
-            game.drawCard();
+        while (game.getCardPile().size() > 1) {
+            UUID id = game.drawCard();
+            if(id == null) {
+                System.out.println("HAND FULL");
+                break;
+            }
+            game.getTrashPile().add(game.getCurrentPlayer().removeCardFromHand(id));
         }
         game.drawCard();
-        assertEquals(cardPile.size(), 0);
+        assertTrue(game.getCardPile().size() > 1);
     }
 
     @Test
