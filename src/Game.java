@@ -248,7 +248,6 @@ public class Game {
 
         for (int i = 0; i < amountOfUnitCards; i++) {
             var unitCard = (UnitCard) unitCards.get(i);
-            unitCard.setCurrentHealth(unitCard.getMaxHealth());
             cardPile.add(unitCards.get(i));
         }
 
