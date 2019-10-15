@@ -62,6 +62,10 @@ class PlayerTest {
 		manaChange = -5;
 		player.changeMana(manaChange);
 		assertEquals(manaCurrent + manaChange, player.getMana());
+		assertEquals(manaCurrent + manaChange, player.getMana());
+		manaCurrent = player.getMana();
+		player.changeMana(0);
+		assertEquals(manaCurrent, player.getMana());
 	}
 
 	@Test
@@ -106,9 +110,11 @@ class PlayerTest {
 
 	@Test
 	void addCardToTable() {
-		Card testCard = new UnitCard("namn",1,1,1);
-		player.addCardToTable(testCard);
+		Card testCard = new UnitCard("name", 1,1, 1);
+		assertTrue(player.addCardToTable(testCard));
 		assertEquals(testCard, player.getCardFromTable(testCard.getId()));
+		testCard = null;
+		assertFalse(player.addCardToTable(testCard));
 	}
 
 	@Test

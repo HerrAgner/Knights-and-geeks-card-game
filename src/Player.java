@@ -48,8 +48,6 @@ public class Player {
         this.mana = this.mana + mana;
     }
 
-
-
     public Collection<Card> getCardsOnHand() {
         return cardsOnHand.values();
     }
