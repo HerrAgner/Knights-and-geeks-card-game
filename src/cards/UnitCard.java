@@ -47,7 +47,7 @@ public class UnitCard extends Card {
         }
     }
 
-    public int getHp() {
+    public int getMaxHealth() {
         return health;
     }
 

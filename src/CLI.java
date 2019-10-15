@@ -1,7 +1,8 @@
 import cards.Card;
 import cards.UnitCard;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class CLI {
@@ -194,7 +195,7 @@ public class CLI {
             outputName.append(String.format("%-30s", card.getName()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
-                outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth()+ " max:(" + unitCard.getHp()+ ")"));
+                outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth()+ " max:(" + unitCard.getMaxHealth()+ ")"));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));

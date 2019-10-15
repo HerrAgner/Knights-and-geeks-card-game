@@ -1,11 +1,5 @@
 import cards.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.lang.reflect.Array;
-
-import java.util.*;
 
 import java.util.ArrayList;
 
@@ -312,17 +306,21 @@ class GameTest {
         Game game = new Game("Ted", "Anton");
         int amountOfCards = 80;
 
+
+
         assertTrue(game.createCardPile(amountOfCards));
+        assertEquals(8, game.getCardPile().stream().filter(card -> card instanceof SpellCard).count());
+
+
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
 
-        assertTrue(game.createCardPile(51));
-        assertEquals(51, game.getCardPile().size());
+        assertTrue(game.createCardPile(77));
+        assertEquals(77, game.getCardPile().size());
 
         assertFalse(game.createCardPile(101));
         assertFalse(game.createCardPile(49));
-
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
 
@@ -377,12 +375,12 @@ class GameTest {
         game.useEffectCard(increaseAttack, unitCard2);
         assertTrue(unitCard2.getAttack()==7);
         game.useEffectCard(decreaseHealth, unitCard2);
-        assertTrue(unitCard2.getHp()==2);
+        assertTrue(unitCard2.getMaxHealth()==2);
         assertTrue(unitCard2.getCurrentHealth()==2);
         game.useEffectCard(decreaseHealth, unitCard2);
-        assertTrue(unitCard2.getHp()>0);
+        assertTrue(unitCard2.getMaxHealth()>0);
         assertTrue(unitCard2.getCurrentHealth()==1);
-        assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getHp());
+        assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getMaxHealth());
 
     }
 

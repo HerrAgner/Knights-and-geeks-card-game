@@ -62,6 +62,10 @@ class PlayerTest {
 		manaChange = -5;
 		player.changeMana(manaChange);
 		assertEquals(manaCurrent + manaChange, player.getMana());
+		assertEquals(manaCurrent + manaChange, player.getMana());
+		manaCurrent = player.getMana();
+		player.changeMana(0);
+		assertEquals(manaCurrent, player.getMana());
 	}
 
 	@Test
@@ -94,6 +98,9 @@ class PlayerTest {
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
 		assertTrue(player.getCardsOnHand().isEmpty());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.removeCardFromHand(testCard.getId()));
+		assertNull(player.removeCardFromHand(null));
 	}
 
 	@Test
@@ -103,9 +110,21 @@ class PlayerTest {
 
 	@Test
 	void addCardToTable() {
-		Card testCard = new UnitCard("namn",1,1,1);
-		player.addCardToTable(testCard);
+		Card testCard = new UnitCard("name", 1,1, 1);
+		assertTrue(player.addCardToTable(testCard));
 		assertEquals(testCard, player.getCardFromTable(testCard.getId()));
+		testCard = null;
+		assertFalse(player.addCardToTable(testCard));
+	}
+
+	@Test
+	void getCardFromTable() {
+		Card testCard = new UnitCard("name", 1,1, 1);
+		player.addCardToTable(testCard);
+		assertSame(testCard.getId(), player.getCardFromTable(testCard.getId()).getId());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.getCardFromTable(testCard.getId()));
+		assertNull(player.getCardFromTable(null));
 	}
 
 	@Test
@@ -114,5 +133,8 @@ class PlayerTest {
 		player.addCardToTable(testCard);
 		assertEquals(testCard, player.removeCardFromTable(testCard.getId()));
 		assertTrue(player.getCardsOnTable().isEmpty());
+		testCard = new UnitCard("name", 1,1, 1);
+		assertNull(player.removeCardFromTable(testCard.getId()));
+		assertNull(player.removeCardFromTable(null));
 	}
 }

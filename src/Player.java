@@ -10,7 +10,7 @@ public class Player {
     private Map<UUID, Card> cardsOnHand;
     private Map<UUID, Card> cardsOnTable;
 
-    public Player(){
+    public Player() {
         this("");
     }
 
@@ -21,8 +21,7 @@ public class Player {
             this.mana = 0;
             this.cardsOnHand = new ConcurrentHashMap<>();
             this.cardsOnTable = new ConcurrentHashMap<>();
-        }
-            else this.name = null;
+        } else this.name = null;
     }
 
     public String getName() {
@@ -35,7 +34,7 @@ public class Player {
 
     public void changeHealth(int hpChange) {
         this.health = health + hpChange;
-        if (this.health > 30){
+        if (this.health > 30) {
             this.health = 30;
         }
     }
@@ -48,45 +47,43 @@ public class Player {
         this.mana = this.mana + mana;
     }
 
-
-
     public Collection<Card> getCardsOnHand() {
         return cardsOnHand.values();
     }
 
-    public boolean addCardToHand(Card card){
-        if(card != null) {
+    public boolean addCardToHand(Card card) {
+        if (card != null) {
             cardsOnHand.put(card.getId(), card);
             return true;
         }
         return false;
     }
 
-    public Card getCardFromHand(UUID id){
+    public Card getCardFromHand(UUID id) {
         return id != null ? cardsOnHand.get(id) : null;
     }
 
-    public Card removeCardFromHand(UUID id){
-        return cardsOnHand.remove(id);
+    public Card removeCardFromHand(UUID id) {
+        return id != null ? cardsOnHand.remove(id) : null;
     }
 
     public Collection<Card> getCardsOnTable() {
         return cardsOnTable.values();
     }
 
-    public void addCardToTable(Card card) {
-        cardsOnTable.put(card.getId(), card);
+    public boolean addCardToTable(Card card) {
+        if (card != null) {
+            cardsOnTable.put(card.getId(), card);
+            return true;
+        }
+        return false;
     }
 
-        public Card getCardFromTable(UUID id) {
-        return cardsOnTable.get(id);
+    public Card getCardFromTable(UUID id) {
+        return id != null ? cardsOnTable.remove(id) : null;
     }
 
-    public Card removeCardFromTable(UUID id){
-        return cardsOnTable.remove(id);
-    }
-
-    public void setCardsOnTable(Map<UUID, Card> cardsOnTable) {
-        this.cardsOnTable = cardsOnTable;
+    public Card removeCardFromTable(UUID id) {
+        return id != null ? cardsOnTable.remove(id) : null;
     }
 }
