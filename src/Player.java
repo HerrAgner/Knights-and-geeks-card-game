@@ -7,6 +7,7 @@ public class Player {
     private final String name;
     private int health;
     private int mana;
+    private int maxMana;
     private Map<UUID, Card> cardsOnHand;
     private Map<UUID, Card> cardsOnTable;
 
@@ -19,6 +20,7 @@ public class Player {
             this.name = name;
             this.health = 30;
             this.mana = 0;
+            this.maxMana=0;
             this.cardsOnHand = new ConcurrentHashMap<>();
             this.cardsOnTable = new ConcurrentHashMap<>();
         } else this.name = null;
@@ -37,6 +39,13 @@ public class Player {
         if (this.health > 30) {
             this.health = 30;
         }
+    }
+
+    public void changeMaxMana(){
+        if (this.maxMana<10){
+            this.maxMana++;
+        }
+        this.mana=this.maxMana;
     }
 
     public int getMana() {

@@ -276,7 +276,7 @@ public class Game {
     }
 
     public boolean startTurn() {
-        getCurrentPlayer().changeMana(1);
+        getCurrentPlayer().changeMaxMana();
         drawCard();
         getCurrentPlayer().getCardsOnTable().forEach(card -> {
             UnitCard tempCard = (UnitCard) card;
