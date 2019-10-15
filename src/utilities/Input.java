@@ -7,19 +7,23 @@ public class Input {
 
     Scanner scan;
 
-    public Input(){
+    public Input() {
         scan = new Scanner(System.in);
     }
 
-    public Input(Scanner scan){
+    public Input(Scanner scan) {
         this.scan = scan;
     }
 
-    public int validatedInput(int max){
+    public int validatedInput(int max) {
+        
         return 0;
     }
 
-    public boolean inputValidation(int max, int input){
+    public boolean inputValidation(int max, int input) {
+        if (input < max) {
+            return true;
+        }
         return false;
     }
 
