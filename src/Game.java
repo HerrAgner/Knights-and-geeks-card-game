@@ -109,8 +109,24 @@ public class Game {
         return res;
     }
 
-    public boolean useEffectCard(EffectCard card) {
+    public boolean useEffectCard(EffectCard card, UnitCard receivingCard) {
         if (card.getType() == "Atk" || card.getType() == "Hp") {
+            if (card.getType() == "Atk") {
+                if (receivingCard.getAttack() + card.getEffectValue() <= 0) {
+                    receivingCard.setAttack(1);
+                } else {
+                    receivingCard.setAttack(receivingCard.getAttack() + card.getEffectValue());
+                }
+            }
+            if (card.getType() == "Hp") {
+                if (receivingCard.getHp() + card.getEffectValue() <= 0) {
+                    receivingCard.setHp(1);
+                    receivingCard.setCurrentHealth(1);
+                } else {
+                    receivingCard.setHp(receivingCard.getHp() + card.getEffectValue());
+                    receivingCard.setCurrentHealth(receivingCard.getCurrentHealth() + card.getEffectValue());
+                }
+            }
             return true;
         }
         return false;

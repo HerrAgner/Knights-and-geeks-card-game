@@ -55,6 +55,7 @@ public class UnitCard extends Card {
         return attack;
     }
 
+
     public boolean getFatigue() {
         return fatigue;
     }
