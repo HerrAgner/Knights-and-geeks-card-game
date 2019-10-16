@@ -18,12 +18,14 @@ public class Input {
 
     public int validatedInput(int max) {
         int input;
-        while (!scan.hasNextInt()){
-            System.out.println("Not a valid number, try again!");
-            scan.next();
+        while(true){
+            try{
+            input= Integer.parseInt(scan.nextLine());
+            break;}
+            catch(NumberFormatException e){
+                System.out.println("Not a valid number");
+            }
         }
-
-        input = scan.nextInt();
         if (inputValidation(max, input)) {
             return input;
         }
