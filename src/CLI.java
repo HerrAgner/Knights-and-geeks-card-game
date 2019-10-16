@@ -54,14 +54,7 @@ public class CLI {
             System.out.println(activePlayer.getName() + "'s turn");
 
             printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
-
-            System.out.println("\nMake a move!");
-            System.out.println("1. Print cards from hand and table\n" +
-                    "2. Print hp and mana\n" +
-                    "3. Play card\n" +
-                    "4. Attack with card\n" +
-                    "5. End turn\n");
-
+            printMenu();
 
             boolean menu = true;
             while (menu) {
@@ -69,6 +62,15 @@ public class CLI {
             }
 
         }
+    }
+
+    private void printMenu() {
+        System.out.println("\nMake a move!");
+        System.out.println("1. Print cards from hand and table\n" +
+                "2. Print hp and mana\n" +
+                "3. Play card\n" +
+                "4. Attack with card\n" +
+                "5. End turn\n");
     }
 
     private boolean menuSwitch(Player activePlayer, Player defendingPlayer, Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
@@ -166,6 +168,7 @@ public class CLI {
                 endPlayerTurn();
                 return false;
             default:
+                printMenu();
                 break;
         }
         return true;

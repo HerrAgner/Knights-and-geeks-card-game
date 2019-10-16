@@ -197,17 +197,13 @@ public class Game {
     }
 
     public boolean useSpellOnPlayer(SpellCard usedCard) {
-        if (!usedCard.isMany()) {
             if (usedCard.getType().equals("Healer")) {
                 getCurrentPlayer().changeHealth(usedCard.getValue());
             } else if (usedCard.getType().equals("Attacker")) {
                 getDefendingPlayer().changeHealth(-usedCard.getValue());
             }
             trashPile.add(usedCard);
-            return true;
-        }
-        finishGame();
-        return false;
+        return getDefendingPlayer().getHealth() > 0;
     }
 
     public boolean attackPlayer(UnitCard card) {
@@ -216,7 +212,7 @@ public class Game {
         getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
         card.setFatigue(true);
         if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
-        finishGame();
+
         return false;
     }
 
