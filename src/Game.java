@@ -221,7 +221,7 @@ public class Game {
         return true;
     }
 
-    public boolean finishGame() {
+    public boolean shouldGameContinue() {
         if(getDefendingPlayer().getHealth() > 0) {
         return true;}
         else {

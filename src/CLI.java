@@ -171,7 +171,7 @@ public class CLI {
                 printMenu();
                 break;
         }
-        return game.finishGame();
+        return game.shouldGameContinue();
     }
 
     private void printBoardAndCardsOnHand(Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
@@ -185,9 +185,9 @@ public class CLI {
 
     private void printHpAndMana(Player activePlayer, Player defendingPlayer){
         System.out.println("Your hp: " + activePlayer.getHealth());
-        System.out.println("Your mana: " + activePlayer.getMana());
+        System.out.println("Your mana: " + activePlayer.getCurrentMana());
         System.out.println("Enemy hp: " + defendingPlayer.getHealth());
-        System.out.println("Enemy mana: " + defendingPlayer.getMana());
+        System.out.println("Enemy mana: " + defendingPlayer.getCurrentMana());
     }
 
     private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable ){
