@@ -2,6 +2,7 @@ import cards.Card;
 import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
+import utilities.Input;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -11,9 +12,11 @@ public class CLI {
     private Scanner scan;
     private boolean running;
     private Game game;
+    private Input input;
 
     public CLI() {
         scan = new Scanner(System.in);
+        input = new Input();
         running = true;
     }
 
@@ -51,14 +54,7 @@ public class CLI {
             System.out.println(activePlayer.getName() + "'s turn");
 
             printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
-
-            System.out.println("\nMake a move!");
-            System.out.println("1. Print cards from hand and table\n" +
-                    "2. Print hp and mana\n" +
-                    "3. Play card\n" +
-                    "4. Attack with card\n" +
-                    "5. End turn\n");
-
+            printMenu();
 
             boolean menu = true;
             while (menu) {
@@ -68,13 +64,24 @@ public class CLI {
         }
     }
 
+    private void printMenu() {
+        System.out.println("\nMake a move!");
+        System.out.println("1. Print cards from hand and table\n" +
+                "2. Print hp and mana\n" +
+                "3. Play card\n" +
+                "4. Attack with card\n" +
+                "5. End turn\n");
+    }
+
     private boolean menuSwitch(Player activePlayer, Player defendingPlayer, Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
 
         int chosenCard;
         int chosenDefendingCard;
 
-        int input = scan.nextInt();
-        switch (input) {
+
+        int userInput = input.validatedInput(6);
+
+        switch (userInput) {
             case 1:
                 printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
                 break;
@@ -161,6 +168,7 @@ public class CLI {
                 endPlayerTurn();
                 return false;
             default:
+                printMenu();
                 break;
         }
         return true;
