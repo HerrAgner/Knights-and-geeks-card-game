@@ -238,7 +238,10 @@ public class CLI {
             outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
-                outputHp.append(String.format("%-30s", "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")"));
+                String hpString = "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")";
+                String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
+                        "\u001B[31m"+hpString+"\u001B[0m" : hpString;
+                outputHp.append(String.format("%-30s", hpColor));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
             } else if (card instanceof SpellCard) {
