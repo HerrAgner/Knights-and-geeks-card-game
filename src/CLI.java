@@ -193,7 +193,7 @@ public class CLI {
     private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable ){
         int chosenCard;
         int chosenDefendingCard;
-        if(cardsOnTable.size()>1) {
+        if(cardsOnTable.size()>=1) {
             System.out.println("Choose card: ");
             printCards(cardsOnTable);
             chosenCard = scan.nextInt();
