@@ -24,14 +24,14 @@ public class Input {
         }
 
         input = scan.nextInt();
-        if (inputValidation(max, input) && inputSpaceValidation(input)) {
+        if (inputValidation(max, input)) {
             return input;
         }
 
         return 0;
     }
 
-    public boolean inputSpaceValidation(int input){
+ /*   public boolean inputSpaceValidation(int input){
         String s = (""+input);
         if(s.matches(pattern)){
             System.out.println("input contains space");
@@ -40,7 +40,7 @@ public class Input {
         s.replaceAll(pattern, "");
         System.out.println(s);
         return true;
-    }
+    } */
 
     public boolean inputValidation(int max, int input) {
         if (input < max) {

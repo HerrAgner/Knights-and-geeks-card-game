@@ -212,7 +212,6 @@ public class Game {
         getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
         card.setFatigue(true);
         if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
-
         return false;
     }
 
@@ -223,13 +222,15 @@ public class Game {
     }
 
     public boolean finishGame() {
-        String winner = players[activePlayer].getName();
-        int round = getRound();
-        HttpGet httpGet = new HttpGet(winner, round);
-        httpGet.sendGet();
-
-
-        return true;
+        if(getDefendingPlayer().getHealth() > 0) {
+        return true;}
+        else {
+            String winner = players[activePlayer].getName();
+            int round = getRound();
+            HttpGet httpGet = new HttpGet(winner, round);
+            httpGet.sendGet();
+            return false;
+        }
     }
 
     public boolean initGame(String p1, String p2, int cardAmount) {

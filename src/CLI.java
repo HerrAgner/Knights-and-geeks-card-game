@@ -171,7 +171,7 @@ public class CLI {
                 printMenu();
                 break;
         }
-        return true;
+        return game.finishGame();
     }
 
     private void printBoardAndCardsOnHand(Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
