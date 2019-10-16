@@ -10,6 +10,7 @@ public class Input {
     public Input() {
         scan = new Scanner(System.in);
     }
+    private String pattern = ("\\S+");
 
     public Input(Scanner scan) {
         this.scan = scan;
@@ -23,10 +24,22 @@ public class Input {
         }
 
         input = scan.nextInt();
-        if (inputValidation(max, input)) {
+        if (inputValidation(max, input) && inputSpaceValidation(input)) {
             return input;
         }
+
         return 0;
+    }
+
+    public boolean inputSpaceValidation(int input){
+        String s = (""+input);
+        if(s.matches(pattern)){
+            System.out.println("input contains space");
+            return false;
+        }
+        s.replaceAll(pattern, "");
+        System.out.println(s);
+        return true;
     }
 
     public boolean inputValidation(int max, int input) {
