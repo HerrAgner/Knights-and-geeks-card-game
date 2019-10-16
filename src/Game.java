@@ -79,7 +79,7 @@ public class Game {
         }
         Card c = cardPile.remove(0);
         getCurrentPlayer().addCardToHand(c);
-        if(cardPile.size() == 0){
+        if (cardPile.size() == 0) {
             shuffleTrashPile();
         }
         return c.getId();
@@ -99,6 +99,7 @@ public class Game {
             getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
+                ((UnitCard) c).setFatigue(true);
                 getCurrentPlayer().addCardToTable(c);
             } else if (c instanceof EffectCard) {
                 res[1] = Response.EFFECT_CARD;
@@ -141,7 +142,6 @@ public class Game {
         if (attackingCard.getCurrentHealth() < 1) {
             getCurrentPlayer().removeCardFromTable(attackingCard.getId());
             trashPile.add(attackingCard);
-
         }
         return true;
     }
@@ -197,22 +197,21 @@ public class Game {
     }
 
     public boolean useSpellOnPlayer(SpellCard usedCard) {
-            if (usedCard.getType().equals("Healer")) {
-                getCurrentPlayer().changeHealth(usedCard.getValue());
-            } else if (usedCard.getType().equals("Attacker")) {
-                getDefendingPlayer().changeHealth(-usedCard.getValue());
-            }
-            trashPile.add(usedCard);
-        return getDefendingPlayer().getHealth() > 0;
+        if (usedCard.isMany()) return false;
+        if (usedCard.getType().equals("Healer")) {
+            getCurrentPlayer().changeHealth(usedCard.getValue());
+        } else if (usedCard.getType().equals("Attacker")) {
+            getDefendingPlayer().changeHealth(-usedCard.getValue());
+        }
+        trashPile.add(usedCard);
+        return true;
     }
 
     public boolean attackPlayer(UnitCard card) {
-        int defendingPlayer = getActivePlayer() == 0 ? 1 : 0;
-
-        getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
+        if (card.getFatigue()) return false;
+        getDefendingPlayer().changeHealth(-card.getAttack());
         card.setFatigue(true);
-        if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
-        return false;
+        return true;
     }
 
     public boolean finishTurn() {
@@ -227,7 +226,7 @@ public class Game {
         else {
             String winner = players[activePlayer].getName();
             int round = getRound();
-            HttpGet httpGet = new HttpGet(winner, round);
+            HttpGet httpGet = new HttpGet(getCurrentPlayer().getName(), round);
             httpGet.sendGet();
             return false;
         }

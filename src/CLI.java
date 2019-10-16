@@ -198,19 +198,25 @@ public class CLI {
             printCards(cardsOnTable);
             chosenCard = scan.nextInt();
             var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-            System.out.println("Attack card or player (0 for player): ");
-            printCards(enemyCardsOnTable);
-            chosenDefendingCard = scan.nextInt();
+            if(attackingCard.getFatigue()){
+                System.out.println("\nCard is fatigue, wait one turn to attack!\n");
+                printMenu();
+            } else {
+                System.out.println("Attack card or player (0 for player): ");
+                printCards(enemyCardsOnTable);
+                chosenDefendingCard = scan.nextInt();
 
-            if (chosenDefendingCard == 0) {
-                running = game.attackPlayer(attackingCard);
-            } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
-                var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                game.attackCard(attackingCard, defendingCard);
+                if (chosenDefendingCard == 0) {
+                    running = game.attackPlayer(attackingCard);
+                } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
+                    var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
+                    game.attackCard(attackingCard, defendingCard);
+                }
             }
         }
         else{
-            System.out.println("\nNo cards on table. Choose another option");
+            System.out.println("\nNo cards on table. Choose another option\n");
+            printMenu();
         }
     }
 
