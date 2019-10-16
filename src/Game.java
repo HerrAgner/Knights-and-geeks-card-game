@@ -206,6 +206,7 @@ public class Game {
             trashPile.add(usedCard);
             return true;
         }
+        finishGame();
         return false;
     }
 
@@ -215,7 +216,7 @@ public class Game {
         getPlayers()[defendingPlayer].changeHealth(-card.getAttack());
         card.setFatigue(true);
         if (getPlayers()[defendingPlayer].getHealth() > 0) return true;
-
+        finishGame();
         return false;
     }
 
