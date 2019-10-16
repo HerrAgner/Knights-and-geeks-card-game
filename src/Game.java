@@ -220,10 +220,11 @@ public class Game {
         return true;
     }
 
-    public boolean finishGame() {
-        if (getDefendingPlayer().getHealth() > 0) {
-            return true;
-        } else {
+    public boolean shouldGameContinue() {
+        if(getDefendingPlayer().getHealth() > 0) {
+        return true;}
+        else {
+            String winner = players[activePlayer].getName();
             int round = getRound();
             HttpGet httpGet = new HttpGet(getCurrentPlayer().getName(), round);
             httpGet.sendGet();
