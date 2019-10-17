@@ -79,15 +79,16 @@ public class CLI {
         int chosenCard;
         int chosenDefendingCard;
         int userInput;
+        boolean printAll = true;
 
         userInput = input.validatedInput(5);
 
         switch (userInput) {
             case 1:
-                printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
                 break;
             case 2:
                 printHpAndMana(activePlayer, defendingPlayer);
+                printAll = false;
                 break;
             case 3:
                 // Play card
@@ -148,8 +149,6 @@ public class CLI {
                             break;
                         case UNIT_CARD:
                             System.out.println("Played card " + card.getName());
-                            // Play card here
-                            printCards(activePlayer.getCardsOnTable());
                             break;
                         default:
                             // Crazy place! How did you get here?
@@ -177,6 +176,10 @@ public class CLI {
         if (!game.shouldGameContinue()) {
             running = false;
         }
+        if (printAll) {
+            printBoardAndCardsOnHand(cardsOnHand, cardsOnTable, enemyCardsOnTable);
+        }
+        printMenu();
         return true;
     }
 
@@ -213,7 +216,7 @@ public class CLI {
                 chosenDefendingCard = scan.nextInt();
 
                 if (chosenDefendingCard == 0) {
-                    running = game.attackPlayer(attackingCard);
+                    game.attackPlayer(attackingCard);
                 } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                     var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                     game.attackCard(attackingCard, defendingCard);
