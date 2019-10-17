@@ -136,7 +136,8 @@ public class CLI {
 
         System.out.println("Which card do you want to play?");
         printCards(cardsOnHand);
-        chosenCard = input.validatedInput(cardsOnHand.toArray().length);
+
+        chosenCard = input.validateChosenCard(cardsOnHand.size());
 
         Card card = (Card) cardsOnHand.toArray()[(chosenCard - 1)];
 
@@ -163,7 +164,7 @@ public class CLI {
                         printCards(enemyCardsOnTable);
                         System.out.println("Which card do you want to debuff?");
 
-                        chosenDefendingCard = scan.nextInt();
+                        chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                         unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
 
                         game.useEffectCard(effectCard, unitCard);
@@ -171,7 +172,7 @@ public class CLI {
                         printCards(cardsOnTable);
                         System.out.println("Which card do you want to buff?");
 
-                        chosenDefendingCard = scan.nextInt();
+                        chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                         unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
 
                         game.useEffectCard(effectCard, unitCard);
@@ -219,7 +220,7 @@ public class CLI {
         if (cardsOnTable.size() >= 1) {
             System.out.println("Choose card: ");
             printCards(cardsOnTable);
-            chosenCard = scan.nextInt();
+            chosenCard = input.validateChosenCard(cardsOnTable.size());
             var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
             if (attackingCard.getFatigue()) {
                 System.out.println("\nCard is fatigue, wait one turn to attack!\n");
@@ -227,7 +228,7 @@ public class CLI {
             } else {
                 System.out.println("Attack card or player (0 for player): ");
                 printCards(enemyCardsOnTable);
-                chosenDefendingCard = scan.nextInt();
+                chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
 
                 if (chosenDefendingCard == 0) {
                     game.attackPlayer(attackingCard);
@@ -265,7 +266,7 @@ public class CLI {
         cards.forEach(card -> {
             topBottom.append(String.format("%28s", " ").replace(" ", "-"));
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
-                outputNumber.append(String.format("%-30s", "Card #: " + ref.index + " \u001B[31m" + "is fatigued" + "\u001B[0m"));
+                outputNumber.append(String.format("%-30s", "Card #: " + ref.index +  RED + " (fatigued)" + RESET));
             } else {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
@@ -282,6 +283,11 @@ public class CLI {
                 outputType.append(String.format("%-30s", "| Type: Unit card"));
             } else if (card instanceof SpellCard) {
                 SpellCard spellCard = (SpellCard) card;
+                String type = spellCard.getType().equals("Attacker") ? "Dmg: " : "heal: ";
+                outputName.append(String.format("%-41s", CYAN_BRIGHT + card.getName() + RESET));
+                outputHp.append(String.format("%-30s", type + spellCard.getValue()));
+                outputAtk.append(String.format("%-30s", "Aoe: " + spellCard.isMany()));
+                outputType.append(String.format("%-30s", "Type: Spell card"));
                 String type = spellCard.getType().equals("Attacker") ? "| Dmg: " : "| heal: ";
                 outputName.append(String.format("| %-30s", card.getName()));
                 outputHp.append(String.format("| %-30s", type + spellCard.getValue()));
@@ -292,7 +298,7 @@ public class CLI {
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
                 String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "Increase ";
-                outputName.append(String.format("%-30s", card.getName()));
+                outputName.append(String.format("%-41s", RED + card.getName() + RESET));
                 outputHp.append(String.format("%-30s", "Effect: " + increase + type));
                 outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
                 outputType.append(String.format("%-30s", "Type: " + target));
@@ -316,7 +322,7 @@ public class CLI {
             game.useSpellOnCard(spellCard);
             return;
         }
-        int chosenDefendingCard = scan.nextInt();
+        int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
         if (chosenDefendingCard == 0) {
             game.useSpellOnPlayer(spellCard);
         } else {
