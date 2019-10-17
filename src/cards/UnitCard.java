@@ -39,18 +39,10 @@ public class UnitCard extends Card {
     }
 
     public void changeCurrentHealth(int hpChange) {
-        System.out.println(super.getName() + " change " + hpChange);
-        System.out.println("max " + health);
-        System.out.println("current " + currentHealth);
         if(currentHealth+hpChange <= 0) setCurrentHealth(0);
         else if(currentHealth+hpChange > health) {
             setCurrentHealth(health);
         } else setCurrentHealth(currentHealth+hpChange);
-        System.out.println("newCURR " + currentHealth + "\n");
-//        this.currentHealth = currentHealth + hpChange > health ? health : currentHealth+hpChange;
-//        if(this.currentHealth > health){
-//            this.currentHealth = health;
-//        }
     }
 
     public boolean changeAttack(int attackChange) {
