@@ -191,8 +191,10 @@ public class CLI {
         } else if (response[0] == Response.ERROR) {
             switch (response[1]) {
                 case TABLE_FULL:
+                    System.out.println("To many cards on the table. Max 7.");
                     break;
                 case COST:
+                    System.out.println("Not enough mana.");
                     break;
             }
         }
@@ -254,10 +256,13 @@ public class CLI {
     }
 
     private void printCards(Collection<Card> cards) {
+        StringBuilder top = new StringBuilder();
+        StringBuilder bottom = new StringBuilder();
         StringBuilder outputNumber = new StringBuilder();
         StringBuilder outputName = new StringBuilder();
         StringBuilder outputHp = new StringBuilder();
         StringBuilder outputAtk = new StringBuilder();
+        StringBuilder outputMiddle = new StringBuilder();
         StringBuilder outputCost = new StringBuilder();
         StringBuilder outputType = new StringBuilder();
         var ref = new Object() {
@@ -265,48 +270,61 @@ public class CLI {
         };
 
         cards.forEach(card -> {
+            top.append("┌").append(String.format("%31s", " ").replace(" ", "─")).append("┐");
+            bottom.append("└").append(String.format("%31s", " ").replace(" ", "─")).append("┘");
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index + RED + " (fatigued)" + RESET));
             } else {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
-            outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
+            outputCost.append(String.format("%-30s", "│ Cost: " + card.getCost()));
+            outputMiddle.append(String.format("%-30s", "│"));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
-                String hpString = "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")";
+                String hpString = "│ Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")";
                 String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
                         String.format("%-39s", "\u001B[31m" + hpString + "\u001B[0m") : String.format("%-38s", "\u001B[0m" + hpString + "\u001B[0m");
                 outputHp.append(hpColor);
-                outputName.append(String.format("%-41s", colorizeName(card.getName(), ((UnitCard) card).getRarity())));
-                outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
-                outputType.append(String.format("%-30s", "Type: Unit card"));
+                outputName.append(String.format("%-41s", "│ " + colorizeName(card.getName(), ((UnitCard) card).getRarity())));
+                outputAtk.append(String.format("%-30s", "│ Atk: " + unitCard.getAttack()));
+                outputType.append(String.format("%-30s", "│ Type: Unit card"));
             } else if (card instanceof SpellCard) {
                 SpellCard spellCard = (SpellCard) card;
-                String type = spellCard.getType().equals("Attacker") ? "Dmg: " : "heal: ";
-                outputName.append(String.format("%-41s", CYAN_BRIGHT + card.getName() + RESET));
+                String type = spellCard.getType().equals("Attacker") ? "| Dmg: " : "| Heal: ";
+                outputName.append(String.format("%-41s", "| " + CYAN_BRIGHT + card.getName() + RESET));
                 outputHp.append(String.format("%-30s", type + spellCard.getValue()));
-                outputAtk.append(String.format("%-30s", "Aoe: " + spellCard.isMany()));
-                outputType.append(String.format("%-30s", "Type: Spell card"));
+                outputAtk.append(String.format("%-30s", "| Aoe: " + spellCard.isMany()));
+                outputType.append(String.format("%-30s", "| Type: Spell card"));
             } else if (card instanceof EffectCard) {
                 EffectCard effectCard = (EffectCard) card;
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
                 String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "Increase ";
-                outputName.append(String.format("%-41s", RED + card.getName() + RESET));
-                outputHp.append(String.format("%-30s", "Effect: " + increase + type));
-                outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
-                outputType.append(String.format("%-30s", "Type: " + target));
-
+                outputName.append(String.format("%-41s", "│ " + RED + card.getName() + RESET));
+                outputHp.append(String.format("%-30s", "│ Effect: " + increase + type));
+                outputAtk.append(String.format("%-30s", "│ Amount: " + effectCard.getEffectValue()));
+                outputType.append(String.format("%-30s", "│ Type: " + target));
             }
+            top.append("   ");
+            bottom.append("   ");
+            outputNumber.append("      ");
+            outputName.append("  │   ");
+            outputHp.append("  │   ");
+            outputAtk.append("  │   ");
+            outputMiddle.append("  │   ");
+            outputCost.append("  │   ");
+            outputType.append("  │   ");
             ref.index++;
         });
         System.out.println(outputNumber);
-        System.out.println("\u001B[32m" + outputName + "\u001B[0m");
+        System.out.println(top);
+        System.out.println(outputName);
         System.out.println(outputHp);
         System.out.println(outputAtk);
-        System.out.println();
+        System.out.println(outputMiddle);
         System.out.println(outputCost);
         System.out.println(outputType);
+        System.out.println(bottom);
     }
 
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
