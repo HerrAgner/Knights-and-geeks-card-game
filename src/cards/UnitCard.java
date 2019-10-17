@@ -1,12 +1,13 @@
 package cards;
+import enums.*;
 
 public class UnitCard extends Card {
     private int health;
     private int currentHealth;
     private int attack;
     private int attackDefault;
-    private String rarity;
     private boolean fatigue;
+    private Rarity rarity;
 
     public UnitCard() {
         this("", 0, 0 , 0,"");
@@ -19,7 +20,7 @@ public class UnitCard extends Card {
         this.fatigue = false;
         this.currentHealth = this.health;;
         this.attackDefault = this.attack;
-        this.rarity = rarity;
+        this.rarity = rarity.length() > 0 ? Rarity.valueOf(rarity) : Rarity.COMMON;
     }
 
     public void changeCurrentHealth(int hpChange) {
@@ -86,7 +87,7 @@ public class UnitCard extends Card {
         this.fatigue = fatigue;
     }
 
-    public String getRarity(){
+    public Rarity getRarity(){
         return rarity;
     }
 }

@@ -3,6 +3,9 @@ import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
+import enums.*;
+import utilities.CardGenerator;
+import utilities.HttpGet;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -257,15 +260,15 @@ public class Game {
         CardGenerator cg = new CardGenerator();
         Type collectionType = new TypeToken<List<UnitCard>>() {
         }.getType();
-        List<Card> unitCards = cg.generateFromJson("src/cards.json", collectionType);
+        List<Card> unitCards = cg.generateFromJson("src/json/cards.json", collectionType);
 
         Type collectionType2 = new TypeToken<List<EffectCard>>() {
         }.getType();
-        List<Card> effectCards = cg.generateFromJson("src/effectcard.json", collectionType2);
+        List<Card> effectCards = cg.generateFromJson("src/json/effectcard.json", collectionType2);
 
         Type collectionType3 = new TypeToken<List<SpellCard>>() {
         }.getType();
-        List<Card> spellCards = cg.generateFromJson("src/spellcard.json", collectionType3);
+        List<Card> spellCards = cg.generateFromJson("src/json/spellcard.json", collectionType3);
 
         double amountOfUnitCards = amountOfCards * 0.8;
         double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
