@@ -264,7 +264,7 @@ public class CLI {
         };
 
         cards.forEach(card -> {
-            topBottom.append(String.format("%30s", "-").replace(" ", "-"));
+            topBottom.append(String.format("%32s", "-").replace(" ", "-"));
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index +  RED + " (fatigued)" + RESET));
             } else {
@@ -298,7 +298,7 @@ public class CLI {
                 outputAtk.append(String.format("%-30s", "| Amount: " + effectCard.getEffectValue()));
                 outputType.append(String.format("%-30s", "| Type: " + target));
             }
-            topBottom.append("-   -");
+            topBottom.append("   ");
             outputNumber.append("     ");
             outputName.append(" |   ");
             outputHp.append(" |   ");
