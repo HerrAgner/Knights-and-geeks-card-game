@@ -259,7 +259,11 @@ public class CLI {
         };
 
         cards.forEach(card -> {
+            if(card instanceof  UnitCard && ((UnitCard) card).getFatigue()){
+                outputNumber.append(String.format("%-30s", "Card #: " + ref.index + " \u001B[31m" + "is fatigued" + "\u001B[0m"));
+            } else {
             outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
+            }
             outputName.append(String.format("%-30s", card.getName()));
             outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
             if (card instanceof UnitCard) {
