@@ -276,7 +276,6 @@ class GameTest {
     @Test
     void attackPlayer() {
         Game game = new Game("Eric", "Ted", 46);
-        Game game = new Game("Eric", "Ted");
         UnitCard card = new UnitCard("Pelle", 5, 9, 5, "COMMON");
         UnitCard card2 = new UnitCard("Håkan", 5, 5, 10, "COMMON");
         UnitCard card3 = new UnitCard("Anton", 5, 3, 4, "COMMON");
