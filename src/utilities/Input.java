@@ -39,7 +39,7 @@ public class Input {
         return false;
     }
 
-    public int validateSelectedCard(int max) {
+    public int validateChosenCard(int max) {
         int input;
         while (true) {
             try {
@@ -54,7 +54,7 @@ public class Input {
         }
     }
 
-    public int validateSelectedSPELLS(int max) {
+    public int validateActionOnPlayerOrCard(int max) {
         int input;
         while (true) {
             try {
