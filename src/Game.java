@@ -26,7 +26,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        initGame(player1, player2, 50);
+        initGame(player1, player2, 46);
     }
 
     public int getRound() {
@@ -74,7 +74,7 @@ public class Game {
     }
 
     public UUID drawCard() {
-        if (getCurrentPlayer().getCardsOnHand().size() >= 10) {
+        if (getCurrentPlayer().getCardsOnHand().size() >= 7) {
             return null;
         }
         Card c = cardPile.remove(0);
@@ -238,9 +238,9 @@ public class Game {
             this.round = 1;
             this.activePlayer = 0;
             createCardPile(cardAmount);
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 players[0].addCardToHand(cardPile.remove(0));
-                players[1].addCardToHand(cardPile.remove(5));
+                players[1].addCardToHand(cardPile.remove(0));
             }
             return true;
         } catch (Exception e) {
@@ -250,7 +250,7 @@ public class Game {
     }
 
     public boolean createCardPile(int amountOfCards) {
-        if (amountOfCards < 50 || amountOfCards > 100) return false;
+        if (amountOfCards < 45 || amountOfCards > 100) return false;
 
         cardPile = new ArrayList<>();
 
