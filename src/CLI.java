@@ -133,9 +133,8 @@ public class CLI {
     private void playCard() {
         int chosenCard;
         int chosenDefendingCard;
-        // Play card
-        System.out.println("Which card do you want to play?");
 
+        System.out.println("Which card do you want to play?");
         printCards(cardsOnHand);
 
         chosenCard = input.validateChosenCard(cardsOnHand.size());
@@ -334,10 +333,10 @@ public class CLI {
                 colorName = GREEN + name + RESET;
                 break;
             case RARE:
-                colorName = CYAN + name + RESET;
+                colorName = BLUE_BRIGHT + name + RESET;
                 break;
             case EPIC:
-                colorName = BLUE_BRIGHT + name + RESET;
+                colorName = MAGENTA_BRIGHT + name + RESET;
                 break;
             case LEGENDARY:
                 colorName = YELLOW_BRIGHT + name + RESET;
