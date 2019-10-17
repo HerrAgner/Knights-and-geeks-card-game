@@ -35,7 +35,7 @@ public class Input {
         if (input <= max && input >= 0) {
             return true;
         }
-        System.out.println("Input out of range");
+//        System.out.println("Input out of range");
         return false;
     }
 

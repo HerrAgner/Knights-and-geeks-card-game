@@ -13,7 +13,7 @@ class GameTest {
 
     @Test
     void constructorTest() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
 
 
         assertEquals("Ted", game.getPlayers()[0].getName());
@@ -22,19 +22,19 @@ class GameTest {
         assertEquals(0, game.getTrashPile().size());
 
         try {
-            game = new Game("", "");
+            game = new Game("", "", 46);
             assertNull(game.getPlayers());
         } catch (Exception ignored) {
         }
 
         try {
-            game = new Game(null, null);
+            game = new Game(null, null, 46);
             assertNull(game.getPlayers());
         } catch (Exception ignored) {
         }
 
         try {
-            game = new Game("Ted", "Ted");
+            game = new Game("Ted", "Ted", 46);
             assertNull(game.getPlayers());
         } catch (Exception ignored) {
         }
@@ -43,38 +43,38 @@ class GameTest {
 
     @Test
     void getRound() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         assertEquals(1, game.getRound());
     }
 
     @Test
     void getActivePlayer() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         assertEquals(0, game.getActivePlayer());
     }
 
     @Test
     void getCardPile() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         game.createCardPile(80);
         assertNotNull(game.getCardPile());
     }
 
     @Test
     void getTrashPile() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         assertNotNull(game.getTrashPile());
     }
 
     @Test
     void getPlayers() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         assertNotNull(game.getPlayers());
     }
 
     @Test
     void setCardPile() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         ArrayList<Card> testList = new ArrayList<>();
         game.setCardPile(testList);
         assertSame(testList, game.getCardPile());
@@ -82,7 +82,7 @@ class GameTest {
 
     @Test
     void setTrashPile() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         ArrayList<Card> testList = new ArrayList<>();
         game.setTrashPile(testList);
         assertSame(testList, game.getTrashPile());
@@ -90,21 +90,21 @@ class GameTest {
 
     @Test
     void setActivePlayer() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         game.setActivePlayer(1);
         assertEquals(1, game.getActivePlayer());
     }
 
     @Test
     void setRound() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         game.setRound(2);
         assertEquals(2, game.getRound());
     }
 
     @Test
     void drawCard() {
-        Game game = new Game("Anton", "Ted");
+        Game game = new Game("Anton", "Ted", 46);
 
         assertEquals(40, game.getCardPile().size());
 
@@ -138,7 +138,7 @@ class GameTest {
 
     @Test
     void playCard() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         game.getCurrentPlayer().changeMana(10);
         Card[] testCards = {
                 new UnitCard("UnitCard", 1, 1, 1,"COMMON"),
@@ -167,7 +167,7 @@ class GameTest {
 
     @Test
     void attackCard() {
-        Game game = new Game("eric", "nisse");
+        Game game = new Game("eric", "nisse", 46);
         Player players[] = game.getPlayers();
 
         UnitCard attackingCard = new UnitCard("Krigaren", 3, 5, 6, "COMMON");
@@ -195,7 +195,7 @@ class GameTest {
 
     @Test
     void useSpellOnCard(){
-        Game game = new Game("eric", "nisse");
+        Game game = new Game("eric", "nisse", 46);
         Player players[] = game.getPlayers();
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
@@ -256,7 +256,7 @@ class GameTest {
 
     @Test
     void useSpellOnPlayer(){
-        Game game = new Game("eric", "nisse");
+        Game game = new Game("eric", "nisse", 46);
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
         SpellCard attackerMany = new SpellCard("Attacker", true, 2, "Flipp", 2);
@@ -276,7 +276,7 @@ class GameTest {
 
     @Test
     void attackPlayer() {
-        Game game = new Game("Eric", "Ted");
+        Game game = new Game("Eric", "Ted", 46);
         UnitCard card = new UnitCard("Pelle", 5, 9, 5, "COMMON");
         UnitCard card2 = new UnitCard("Håkan", 5, 5, 10, "COMMON");
         UnitCard card3 = new UnitCard("Anton", 5, 3, 4, "COMMON");
@@ -300,7 +300,7 @@ class GameTest {
 
     @Test
     void finishTurn() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
 
         assertEquals(1, game.getRound());
         assertEquals(0, game.getActivePlayer());
@@ -316,7 +316,7 @@ class GameTest {
 
     @Test
     void initGame() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         assertNotNull(game.getPlayers());
         assertEquals(0, game.getActivePlayer());
         assertEquals(1, game.getRound());
@@ -327,7 +327,7 @@ class GameTest {
 
     @Test
     void createCardPile() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         int amountOfCards = 80;
 
 
@@ -353,7 +353,7 @@ class GameTest {
 
     @Test
     void shuffleTrashPile() {
-        Game game = new Game("Anton", "Ted");
+        Game game = new Game("Anton", "Ted", 46);
         game.createCardPile(80);
 
         assertEquals(0, game.getTrashPile().size());
@@ -371,7 +371,7 @@ class GameTest {
 
     @Test
     void useEffectCard() {
-        Game game = new Game("Alle", "Ralle");
+        Game game = new Game("Alle", "Ralle", 46);
         EffectCard increaseAttack = new EffectCard("card", 2, "Atk", 2);
         EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
         EffectCard decreaseAttackBy4 = new EffectCard("card", 2, "Atk", -4);
@@ -405,7 +405,7 @@ class GameTest {
 
     @Test
     void startTurn() {
-        Game game = new Game("Ted", "Anton");
+        Game game = new Game("Ted", "Anton", 46);
         UnitCard unitCard = new UnitCard("Krigaren", 1, 5, 6, "COMMON");
         game.getCurrentPlayer().addCardToHand(unitCard);
 

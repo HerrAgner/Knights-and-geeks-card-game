@@ -19,7 +19,7 @@ public class Game {
     private int round;
 
 
-    public Game(String player1, String player2) {
+    public Game(String player1, String player2, int cardAmount) {
         if (player1 == null || player2 == null) {
             return;
         }
@@ -29,7 +29,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        initGame(player1, player2, 46);
+        initGame(player1, player2, cardAmount);
     }
 
     public int getRound() {
@@ -294,7 +294,6 @@ public class Game {
 //        r.setSeed(56);
 
         Collections.shuffle(cardPile);
-
         return true;
     }
 

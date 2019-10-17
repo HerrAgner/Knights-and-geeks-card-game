@@ -39,7 +39,17 @@ public class CLI {
             System.out.println("Invalid name. Please enter a new one.");
             playerTwoName = scan.nextLine();
         }
-        game = new Game(playerOneName, playerTwoName);
+        game = new Game(playerOneName, playerTwoName, choseCardPileSize());
+    }
+
+    public int choseCardPileSize(){
+        System.out.println("Enter your desired card pile size");
+        int cardSize = input.validatedInput(100);
+        while(cardSize < 45 || cardSize > 100) {
+            System.out.println("Invalid size, chose number between 45-100");
+            cardSize = input.validatedInput(100);
+        }
+        return cardSize;
     }
 
     private void gameloop() {
