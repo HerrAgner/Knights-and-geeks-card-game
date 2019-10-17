@@ -22,7 +22,7 @@ public class Input {
                 input = Integer.parseInt(scan.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Not a valid number");
+                System.out.printf("Not a valid choice. Please enter a number between 1 and %s\n", max);
             }
         }
         if (inputValidation(max, input)) {
@@ -32,7 +32,7 @@ public class Input {
     }
 
     public boolean inputValidation(int max, int input) {
-        if (input < max && input >= 0) {
+        if (input <= max && input >= 0) {
             return true;
         }
         System.out.println("Input out of range");

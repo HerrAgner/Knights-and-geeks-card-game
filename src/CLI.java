@@ -98,12 +98,9 @@ public class CLI {
                 //TODO Need validation for correct int here
 
                 chosenCard = input.validatedInput(cardsOnHand.toArray().length);
-//                chosenCard = scan.nextInt();
-//
-//                if (chosenCard > cardsOnHand.toArray().length) {
-//                    System.out.println("Number too high.");
-//                    break;
-//                }
+                if (chosenCard < cardsOnHand.toArray().length) {
+                    break;
+                }
 
                 Card card = (Card) cardsOnHand.toArray()[(chosenCard - 1)];
 
@@ -185,22 +182,22 @@ public class CLI {
         printCards(cardsOnHand);
     }
 
-    private void printHpAndMana(Player activePlayer, Player defendingPlayer){
+    private void printHpAndMana(Player activePlayer, Player defendingPlayer) {
         System.out.println("Your hp: " + activePlayer.getHealth());
         System.out.println("Your mana: " + activePlayer.getCurrentMana());
         System.out.println("Enemy hp: " + defendingPlayer.getHealth());
         System.out.println("Enemy mana: " + defendingPlayer.getCurrentMana());
     }
 
-    private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable ){
+    private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
         int chosenCard;
         int chosenDefendingCard;
-        if(cardsOnTable.size()>=1) {
+        if (cardsOnTable.size() >= 1) {
             System.out.println("Choose card: ");
             printCards(cardsOnTable);
             chosenCard = scan.nextInt();
             var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-            if(attackingCard.getFatigue()){
+            if (attackingCard.getFatigue()) {
                 System.out.println("\nCard is fatigue, wait one turn to attack!\n");
                 printMenu();
             } else {
@@ -215,14 +212,13 @@ public class CLI {
                     game.attackCard(attackingCard, defendingCard);
                 }
             }
-        }
-        else{
+        } else {
             System.out.println("\nNo cards on table. Choose another option\n");
             printMenu();
         }
     }
 
-    private void endPlayerTurn(){
+    private void endPlayerTurn() {
         System.out.println("Ending turn.");
         System.out.println("---------------------------------------------------------------------------------------------");
         System.out.println("\n\n");
@@ -248,7 +244,7 @@ public class CLI {
                 UnitCard unitCard = (UnitCard) card;
                 String hpString = "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")";
                 String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
-                        "\u001B[31m"+hpString+"\u001B[0m" : hpString;
+                        "\u001B[31m" + hpString + "\u001B[0m" : hpString;
                 outputHp.append(String.format("%-30s", hpColor));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
