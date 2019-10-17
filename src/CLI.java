@@ -335,7 +335,7 @@ public class CLI {
                 colorName = BLUE_BRIGHT + name + RESET;
                 break;
             case EPIC:
-                colorName = PURPLE_BRIGHT + name + RESET;
+                colorName = MAGENTA_BRIGHT + name + RESET;
                 break;
             case LEGENDARY:
                 colorName = YELLOW_BRIGHT + name + RESET;
