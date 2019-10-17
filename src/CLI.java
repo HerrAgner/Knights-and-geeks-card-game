@@ -277,7 +277,7 @@ public class CLI {
             } else if (card instanceof SpellCard) {
                 SpellCard spellCard = (SpellCard) card;
                 String type = spellCard.getType().equals("Attacker") ? "Dmg: " : "heal: ";
-                outputName.append(String.format("%-30s", card.getName()));
+                outputName.append(String.format("%-41s", CYAN_BRIGHT + card.getName() + RESET));
                 outputHp.append(String.format("%-30s", type + spellCard.getValue()));
                 outputAtk.append(String.format("%-30s", "Aoe: " + spellCard.isMany()));
                 outputType.append(String.format("%-30s", "Type: Spell card"));
@@ -286,7 +286,7 @@ public class CLI {
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
                 String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "Increase ";
-                outputName.append(String.format("%-30s", card.getName()));
+                outputName.append(String.format("%-41s", RED + card.getName() + RESET));
                 outputHp.append(String.format("%-30s", "Effect: " + increase + type));
                 outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
                 outputType.append(String.format("%-30s", "Type: " + target));
