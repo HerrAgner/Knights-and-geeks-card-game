@@ -260,7 +260,7 @@ public class CLI {
 
         cards.forEach(card -> {
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
-                outputNumber.append(String.format("%-30s", "Card #: " + ref.index + " \u001B[31m" + "is fatigued" + "\u001B[0m"));
+                outputNumber.append(String.format("%-30s", "Card #: " + ref.index +  RED + " (fatigued)" + RESET));
             } else {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
