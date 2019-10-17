@@ -284,11 +284,13 @@ public class CLI {
     }
 
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
+        if (spellCard.isMany()) {
+            game.useSpellOnCard(spellCard);
+            return;
+        }
         int chosenDefendingCard = scan.nextInt();
         if (chosenDefendingCard == 0) {
             game.useSpellOnPlayer(spellCard);
-        } else if (spellCard.isMany()) {
-            game.useSpellOnCard(spellCard);
         } else {
             UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
             game.useSpellOnCard(spellCard, unitCard);
