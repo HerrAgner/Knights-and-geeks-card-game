@@ -131,21 +131,10 @@ public class CLI {
     private void playCard() {
         int chosenCard;
         int chosenDefendingCard;
-        // Play card
+
         System.out.println("Which card do you want to play?");
-        // Print cards on hand
         printCards(cardsOnHand);
-        // enter number on card
-
-        //TODO Need validation for correct int here
-
         chosenCard = input.validatedInput(cardsOnHand.toArray().length);
-//                chosenCard = scan.nextInt();
-//
-//                if (chosenCard > cardsOnHand.toArray().length) {
-//                    System.out.println("Number too high.");
-//                    break;
-//                }
 
         Card card = (Card) cardsOnHand.toArray()[(chosenCard - 1)];
 
