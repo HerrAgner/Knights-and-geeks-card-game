@@ -39,6 +39,9 @@ public class CLI {
             System.out.println("Invalid name. Please enter a new one.");
             playerTwoName = scan.nextLine();
         }
+        if (playerOneName.toLowerCase().equals("cheetah") && playerTwoName.toLowerCase().equals("zebra")) {
+            Lurig lurig = new Lurig();
+        }
         game = new Game(playerOneName, playerTwoName, choseCardPileSize());
     }
 
