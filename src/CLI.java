@@ -265,7 +265,7 @@ public class CLI {
         };
 
         cards.forEach(card -> {
-            top.append("┌").append(String.format("%31s", " ").replace(" ", "─")).append("┐");
+            top.append("┌").append(String.format("%31s", "").replace(" ", "─")).append("┐");
             bottom.append("└").append(String.format("%31s", " ").replace(" ", "─")).append("┘");
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index +  RED + " (fatigued)" + RESET));
@@ -285,11 +285,11 @@ public class CLI {
                 outputType.append(String.format("%-30s", "│ Type: Unit card"));
             } else if (card instanceof SpellCard) {
                 SpellCard spellCard = (SpellCard) card;
-                String type = spellCard.getType().equals("Attacker") ? "| Dmg: " : "| Heal: ";
-                outputName.append(String.format("%-41s", "| " + CYAN_BRIGHT + card.getName() + RESET));
+                String type = spellCard.getType().equals("Attacker") ? "│ Dmg: " : "│ Heal: ";
+                outputName.append(String.format("%-41s", "│ " + CYAN_BRIGHT + card.getName() + RESET));
                 outputHp.append(String.format("%-30s", type + spellCard.getValue()));
-                outputAtk.append(String.format("%-30s", "| Aoe: " + spellCard.isMany()));
-                outputType.append(String.format("%-30s", "| Type: Spell card"));
+                outputAtk.append(String.format("%-30s", "│ Aoe: " + spellCard.isMany()));
+                outputType.append(String.format("%-30s", "│ Type: Spell card"));
             } else if (card instanceof EffectCard) {
                 EffectCard effectCard = (EffectCard) card;
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
