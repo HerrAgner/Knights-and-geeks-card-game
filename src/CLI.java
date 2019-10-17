@@ -128,7 +128,7 @@ public class CLI {
                                 printCards(enemyCardsOnTable);
                                 System.out.println("Which card do you want to debuff?");
 
-                                chosenDefendingCard = scan.nextInt();
+                                chosenDefendingCard = input.validateSelectedCard(enemyCardsOnTable.size());
                                 unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
 
                                 game.useEffectCard(effectCard, unitCard);
@@ -136,7 +136,7 @@ public class CLI {
                                 printCards(cardsOnTable);
                                 System.out.println("Which card do you want to buff?");
 
-                                chosenDefendingCard = scan.nextInt();
+                                chosenDefendingCard = input.validateSelectedCard(cardsOnTable.size());
                                 unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
 
                                 game.useEffectCard(effectCard, unitCard);
@@ -277,7 +277,7 @@ public class CLI {
     }
 
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
-        int chosenDefendingCard = scan.nextInt();
+        int chosenDefendingCard = input.validateSelectedSPELLS(cards.size());
         if (chosenDefendingCard == 0) {
             game.useSpellOnPlayer(spellCard);
         } else if (spellCard.isMany()) {
