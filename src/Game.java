@@ -3,6 +3,9 @@ import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
 import com.google.gson.reflect.TypeToken;
+import enums.*;
+import utilities.CardGenerator;
+import utilities.HttpGet;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -16,7 +19,7 @@ public class Game {
     private int round;
 
 
-    public Game(String player1, String player2) {
+    public Game(String player1, String player2, int cardAmount) {
         if (player1 == null || player2 == null) {
             return;
         }
@@ -26,7 +29,7 @@ public class Game {
         if (player1.equals(player2)) {
             return;
         }
-        initGame(player1, player2, 50);
+        initGame(player1, player2, cardAmount);
     }
 
     public int getRound() {
@@ -74,7 +77,7 @@ public class Game {
     }
 
     public UUID drawCard() {
-        if (getCurrentPlayer().getCardsOnHand().size() >= 10) {
+        if (getCurrentPlayer().getCardsOnHand().size() >= 7) {
             return null;
         }
         Card c = cardPile.remove(0);
@@ -238,9 +241,9 @@ public class Game {
             this.round = 1;
             this.activePlayer = 0;
             createCardPile(cardAmount);
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 players[0].addCardToHand(cardPile.remove(0));
-                players[1].addCardToHand(cardPile.remove(5));
+                players[1].addCardToHand(cardPile.remove(0));
             }
             return true;
         } catch (Exception e) {
@@ -250,22 +253,22 @@ public class Game {
     }
 
     public boolean createCardPile(int amountOfCards) {
-        if (amountOfCards < 50 || amountOfCards > 100) return false;
+        if (amountOfCards < 45 || amountOfCards > 100) return false;
 
         cardPile = new ArrayList<>();
 
         CardGenerator cg = new CardGenerator();
         Type collectionType = new TypeToken<List<UnitCard>>() {
         }.getType();
-        List<Card> unitCards = cg.generateFromJson("src/cards.json", collectionType);
+        List<Card> unitCards = cg.generateFromJson("src/json/cards.json", collectionType);
 
         Type collectionType2 = new TypeToken<List<EffectCard>>() {
         }.getType();
-        List<Card> effectCards = cg.generateFromJson("src/effectcard.json", collectionType2);
+        List<Card> effectCards = cg.generateFromJson("src/json/effectcard.json", collectionType2);
 
         Type collectionType3 = new TypeToken<List<SpellCard>>() {
         }.getType();
-        List<Card> spellCards = cg.generateFromJson("src/spellcard.json", collectionType3);
+        List<Card> spellCards = cg.generateFromJson("src/json/spellcard.json", collectionType3);
 
         double amountOfUnitCards = amountOfCards * 0.8;
         double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
@@ -291,7 +294,6 @@ public class Game {
 //        r.setSeed(56);
 
         Collections.shuffle(cardPile);
-
         return true;
     }
 

@@ -1,16 +1,16 @@
 import cards.UnitCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import enums.*;
 
 class UnitCardTest {
     private UnitCard card;
     private UnitCard card2;
     @BeforeEach
     void init(){
-        card = new UnitCard("Eric", 4, 10, 3);
-        card2 = new UnitCard("Eric", 4, 10, 3);
+        card = new UnitCard("Eric", 4, 10, 3, "RARE");
+        card2 = new UnitCard("Eric", 4, 10, 3, "COMMON");
     }
 
     @Test
@@ -31,6 +31,7 @@ class UnitCardTest {
         assertEquals(card.getCost(), 4);
         assertEquals(card.getName(), "Eric");
         assertNull(new UnitCard().getName());
+        assertSame(Rarity.RARE, card.getRarity());
     }
 
     @Test
