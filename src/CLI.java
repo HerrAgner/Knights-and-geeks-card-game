@@ -61,6 +61,7 @@ public class CLI {
                 menu = menuSwitch(activePlayer, defendingPlayer, cardsOnHand, cardsOnTable, enemyCardsOnTable);
             }
 
+
         }
     }
 
@@ -173,7 +174,10 @@ public class CLI {
                 printMenu();
                 break;
         }
-        return game.shouldGameContinue();
+        if (!game.shouldGameContinue()) {
+            running = false;
+        }
+        return true;
     }
 
     private void printBoardAndCardsOnHand(Collection<Card> cardsOnHand, Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
