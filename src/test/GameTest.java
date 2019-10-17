@@ -280,18 +280,22 @@ class GameTest {
         UnitCard card = new UnitCard("Pelle", 5, 9, 5);
         UnitCard card2 = new UnitCard("Håkan", 5, 5, 10);
         UnitCard card3 = new UnitCard("Anton", 5, 3, 4);
-
+        card.setFatigue(false);
+        card2.setFatigue(false);
+        card3.setFatigue(false);
         game.getPlayers()[1].changeHealth(-25);
-        assertFalse(game.attackPlayer(card2));
+        game.attackPlayer(card);
+        assertFalse(game.shouldGameContinue());
         game.getPlayers()[1].changeHealth(10);
         assertTrue(game.attackPlayer(card3));
 
         game.setActivePlayer(1);
-        assertFalse(card.getFatigue());
+        assertFalse(game.attackPlayer(card));
+        card.setFatigue(false);
         assertTrue(game.attackPlayer(card));
         assertEquals(25, game.getPlayers()[0].getHealth());
         assertTrue(card.getFatigue());
-
+        assertTrue(game.shouldGameContinue());
     }
 
     @Test
