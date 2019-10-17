@@ -8,6 +8,8 @@ import enums.*;
 import java.util.Collection;
 import java.util.Scanner;
 
+import static utilities.CLIColors.*;
+
 public class CLI {
     private String playerOneName, playerTwoName;
     private Scanner scan;
@@ -262,7 +264,6 @@ public class CLI {
             } else {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
-            outputName.append(String.format("%-30s", card.getName()));
             outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
@@ -270,11 +271,13 @@ public class CLI {
                 String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
                         String.format("%-39s", "\u001B[31m" + hpString + "\u001B[0m") : String.format("%-38s", "\u001B[0m" + hpString + "\u001B[0m");
                 outputHp.append(hpColor);
+                outputName.append(String.format("%-41s", colorizeName(card.getName(), ((UnitCard) card).getRarity())));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
             } else if (card instanceof SpellCard) {
                 SpellCard spellCard = (SpellCard) card;
                 String type = spellCard.getType().equals("Attacker") ? "Dmg: " : "heal: ";
+                outputName.append(String.format("%-30s", card.getName()));
                 outputHp.append(String.format("%-30s", type + spellCard.getValue()));
                 outputAtk.append(String.format("%-30s", "Aoe: " + spellCard.isMany()));
                 outputType.append(String.format("%-30s", "Type: Spell card"));
@@ -283,6 +286,7 @@ public class CLI {
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
                 String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "Increase ";
+                outputName.append(String.format("%-30s", card.getName()));
                 outputHp.append(String.format("%-30s", "Effect: " + increase + type));
                 outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
                 outputType.append(String.format("%-30s", "Type: " + target));
@@ -319,5 +323,25 @@ public class CLI {
 
     public String getPlayerTwoName() {
         return playerTwoName;
+    }
+
+    private String colorizeName(String name, Rarity rarity) {
+        String colorName = "";
+        switch (rarity) {
+            case COMMON:
+                colorName = GREEN + name + RESET;
+                break;
+            case RARE:
+                colorName = CYAN + name + RESET;
+                break;
+            case EPIC:
+                colorName = BLUE_BRIGHT + name + RESET;
+                break;
+            case LEGENDARY:
+                colorName = YELLOW_BRIGHT + name + RESET;
+                break;
+        }
+        return colorName;
+
     }
 }
