@@ -1,5 +1,6 @@
 import cards.*;
 import org.junit.jupiter.api.*;
+import enums.*;
 
 import java.util.ArrayList;
 import java.util.UUID;

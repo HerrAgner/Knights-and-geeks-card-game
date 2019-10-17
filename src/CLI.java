@@ -3,6 +3,7 @@ import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
 import utilities.Input;
+import enums.*;
 
 import java.util.Collection;
 import java.util.Scanner;
