@@ -96,7 +96,11 @@ public class Game {
         } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_FULL;
-        } else {
+        } else if (getCurrentPlayer().getCardFromHand(id) instanceof EffectCard && getCurrentPlayer().getCardsOnTable().size() == 0 && ((EffectCard) getCurrentPlayer().getCardFromHand(id)).getEffectValue() > 0){
+            res[0] = Response.ERROR;
+            res[1] = Response.TABLE_EMPTY;
+        }
+        else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
             getCurrentPlayer().changeMana(-c.getCost());
@@ -111,6 +115,7 @@ public class Game {
             } else {
                 res[0] = Response.ERROR;
             }
+
         }
         return res;
     }
@@ -224,9 +229,9 @@ public class Game {
     }
 
     public boolean shouldGameContinue() {
-        if(getDefendingPlayer().getHealth() > 0) {
-        return true;}
-        else {
+        if (getDefendingPlayer().getHealth() > 0) {
+            return true;
+        } else {
             String winner = players[activePlayer].getName();
             int round = getRound();
             HttpGet httpGet = new HttpGet(getCurrentPlayer().getName(), round);

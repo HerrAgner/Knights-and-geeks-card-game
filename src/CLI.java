@@ -193,6 +193,9 @@ public class CLI {
                 case TABLE_FULL:
                     System.out.println("To many cards on the table. Max 7.");
                     break;
+                case TABLE_EMPTY:
+                    System.out.println("No cards on table");
+                    break;
                 case COST:
                     System.out.println("Not enough mana.");
                     break;
