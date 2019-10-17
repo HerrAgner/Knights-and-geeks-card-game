@@ -188,8 +188,10 @@ public class CLI {
         } else if (response[0] == Response.ERROR) {
             switch (response[1]) {
                 case TABLE_FULL:
+                    System.out.println("To many cards on the table. Max 7.");
                     break;
                 case COST:
+                    System.out.println("Not enough mana.");
                     break;
             }
         }
