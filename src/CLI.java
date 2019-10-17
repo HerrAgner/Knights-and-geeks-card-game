@@ -98,7 +98,8 @@ public class CLI {
                 //TODO Need validation for correct int here
 
                 chosenCard = input.validatedInput(cardsOnHand.toArray().length);
-                if (chosenCard < cardsOnHand.toArray().length) {
+                if (chosenCard > cardsOnHand.toArray().length || chosenCard < 1) {
+                    printMenu();
                     break;
                 }
 
