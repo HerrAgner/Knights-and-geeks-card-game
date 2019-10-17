@@ -8,6 +8,8 @@ import enums.*;
 import java.util.Collection;
 import java.util.Scanner;
 
+import static utilities.CLIColors.*;
+
 public class CLI {
     private String playerOneName, playerTwoName;
     private Scanner scan;
@@ -45,10 +47,10 @@ public class CLI {
         game = new Game(playerOneName, playerTwoName, choseCardPileSize());
     }
 
-    public int choseCardPileSize(){
+    public int choseCardPileSize() {
         System.out.println("Enter your desired card pile size");
         int cardSize = input.validatedInput(100);
-        while(cardSize < 45 || cardSize > 100) {
+        while (cardSize < 45 || cardSize > 100) {
             System.out.println("Invalid size, chose number between 45-100");
             cardSize = input.validatedInput(100);
         }
@@ -206,22 +208,22 @@ public class CLI {
         printCards(cardsOnHand);
     }
 
-    private void printHpAndMana(Player activePlayer, Player defendingPlayer){
+    private void printHpAndMana(Player activePlayer, Player defendingPlayer) {
         System.out.println("Your hp: " + activePlayer.getHealth());
         System.out.println("Your mana: " + activePlayer.getCurrentMana());
         System.out.println("Enemy hp: " + defendingPlayer.getHealth());
         System.out.println("Enemy mana: " + defendingPlayer.getCurrentMana());
     }
 
-    private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable ){
+    private void attackWithCard(Collection<Card> cardsOnTable, Collection<Card> enemyCardsOnTable) {
         int chosenCard;
         int chosenDefendingCard;
-        if(cardsOnTable.size()>=1) {
+        if (cardsOnTable.size() >= 1) {
             System.out.println("Choose card: ");
             printCards(cardsOnTable);
             chosenCard = scan.nextInt();
             var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-            if(attackingCard.getFatigue()){
+            if (attackingCard.getFatigue()) {
                 System.out.println("\nCard is fatigue, wait one turn to attack!\n");
                 printMenu();
             } else {
@@ -236,14 +238,13 @@ public class CLI {
                     game.attackCard(attackingCard, defendingCard);
                 }
             }
-        }
-        else{
+        } else {
             System.out.println("\nNo cards on table. Choose another option\n");
             printMenu();
         }
     }
 
-    private void endPlayerTurn(){
+    private void endPlayerTurn() {
         System.out.println("Ending turn.");
         System.out.println("---------------------------------------------------------------------------------------------");
         System.out.println("\n\n");
@@ -262,24 +263,25 @@ public class CLI {
         };
 
         cards.forEach(card -> {
-            if(card instanceof  UnitCard && ((UnitCard) card).getFatigue()){
+            if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index + " \u001B[31m" + "is fatigued" + "\u001B[0m"));
             } else {
-            outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
+                outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
-            outputName.append(String.format("%-30s", card.getName()));
             outputCost.append(String.format("%-30s", "Cost: " + card.getCost()));
             if (card instanceof UnitCard) {
                 UnitCard unitCard = (UnitCard) card;
                 String hpString = "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")";
                 String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
-                        String.format("%-39s", "\u001B[31m"+hpString+"\u001B[0m") : String.format("%-38s", "\u001B[0m"+hpString+"\u001B[0m");
+                        String.format("%-39s", "\u001B[31m" + hpString + "\u001B[0m") : String.format("%-38s", "\u001B[0m" + hpString + "\u001B[0m");
                 outputHp.append(hpColor);
+                outputName.append(String.format("%-41s", colorizeName(card.getName(), ((UnitCard) card).getRarity())));
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
             } else if (card instanceof SpellCard) {
                 SpellCard spellCard = (SpellCard) card;
                 String type = spellCard.getType().equals("Attacker") ? "Dmg: " : "heal: ";
+                outputName.append(String.format("%-30s", card.getName()));
                 outputHp.append(String.format("%-30s", type + spellCard.getValue()));
                 outputAtk.append(String.format("%-30s", "Aoe: " + spellCard.isMany()));
                 outputType.append(String.format("%-30s", "Type: Spell card"));
@@ -288,6 +290,7 @@ public class CLI {
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
                 String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "Increase ";
+                outputName.append(String.format("%-30s", card.getName()));
                 outputHp.append(String.format("%-30s", "Effect: " + increase + type));
                 outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
                 outputType.append(String.format("%-30s", "Type: " + target));
@@ -324,5 +327,25 @@ public class CLI {
 
     public String getPlayerTwoName() {
         return playerTwoName;
+    }
+
+    private String colorizeName(String name, Rarity rarity) {
+        String colorName = "";
+        switch (rarity) {
+            case COMMON:
+                colorName = GREEN + name + RESET;
+                break;
+            case RARE:
+                colorName = CYAN + name + RESET;
+                break;
+            case EPIC:
+                colorName = BLUE_BRIGHT + name + RESET;
+                break;
+            case LEGENDARY:
+                colorName = YELLOW_BRIGHT + name + RESET;
+                break;
+        }
+        return colorName;
+
     }
 }
