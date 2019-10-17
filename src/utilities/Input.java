@@ -20,7 +20,7 @@ public class Input {
 
         while (!scan.hasNextInt()) {
             String input = scan.next();
-            System.out.printf("\"%s\" is not a valid number.\n", input);
+            System.out.printf("\"%s\" is not a valid choice. Please enter a number between 1 and %s\n", input, max);
         }
 
         inputNumber = scan.nextInt();
@@ -33,7 +33,7 @@ public class Input {
     }
 
     public boolean inputValidation(int max, int input) {
-        if (input < max) {
+        if (input <= max) {
             return true;
         }
         System.out.println("Input too high");

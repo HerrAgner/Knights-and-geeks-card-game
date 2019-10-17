@@ -77,9 +77,9 @@ public class CLI {
 
         int chosenCard;
         int chosenDefendingCard;
+        int userInput;
 
-
-        int userInput = input.validatedInput(6);
+        userInput = input.validatedInput(5);
 
         switch (userInput) {
             case 1:
@@ -96,14 +96,16 @@ public class CLI {
                 // enter number on card
 
                 //TODO Need validation for correct int here
-                chosenCard = scan.nextInt();
 
-                if (chosenCard > cardsOnHand.toArray().length) {
-                    System.out.println("Number too high.");
-                    break;
-                }
+                chosenCard = input.validatedInput(cardsOnHand.toArray().length);
+//                chosenCard = scan.nextInt();
+//
+//                if (chosenCard > cardsOnHand.toArray().length) {
+//                    System.out.println("Number too high.");
+//                    break;
+//                }
 
-                Card card = (Card) cardsOnHand.toArray()[chosenCard - 1];
+                Card card = (Card) cardsOnHand.toArray()[(chosenCard - 1)];
 
                 Response[] response = game.playCard(card.getId());
 
