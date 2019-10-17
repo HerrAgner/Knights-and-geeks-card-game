@@ -28,7 +28,6 @@ public class UnitCard extends Card {
         else if(currentHealth+hpChange > health) {
             setCurrentHealth(health);
         } else setCurrentHealth(currentHealth+hpChange);
-        System.out.println("newCURR " + currentHealth + "\n");
     }
 
     public void changeMaxHealth(int hpChange) {
