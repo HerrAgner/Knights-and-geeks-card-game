@@ -9,8 +9,8 @@ class UnitCardTest {
     private UnitCard card2;
     @BeforeEach
     void init(){
-        card = new UnitCard("Eric", 4, 10, 3);
-        card2 = new UnitCard("Eric", 4, 10, 3);
+        card = new UnitCard("Eric", 4, 10, 3, "RARE");
+        card2 = new UnitCard("Eric", 4, 10, 3, "COMMON");
     }
 
     @Test
@@ -31,6 +31,7 @@ class UnitCardTest {
         assertEquals(card.getCost(), 4);
         assertEquals(card.getName(), "Eric");
         assertNull(new UnitCard().getName());
+        assertSame("RARE", card.getRarity());
     }
 
     @Test

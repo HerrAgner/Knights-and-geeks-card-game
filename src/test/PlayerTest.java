@@ -73,7 +73,7 @@ class PlayerTest {
 
 	@Test
 	void addCardToHand() {
-		Card testCard = new UnitCard("name", 1,1, 1);
+		Card testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		assertTrue(player.addCardToHand(testCard));
 		assertEquals(testCard, player.getCardFromHand(testCard.getId()));
 		testCard = null;
@@ -82,21 +82,21 @@ class PlayerTest {
 
 	@Test
 	void getCardFromHand() {
-		Card testCard = new UnitCard("name", 1,1, 1);
+		Card testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		player.addCardToHand(testCard);
 		assertSame(testCard.getId(), player.getCardFromHand(testCard.getId()).getId());
-		testCard = new UnitCard("name", 1,1, 1);
+		testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		assertNull(player.getCardFromHand(testCard.getId()));
 		assertNull(player.getCardFromHand(null));
 	}
 
 	@Test
 	void removeCardFromHand(){
-		Card testCard = new UnitCard("name", 1,1, 1);
+		Card testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		player.addCardToHand(testCard);
 		assertEquals(testCard, player.removeCardFromHand(testCard.getId()));
 		assertTrue(player.getCardsOnHand().isEmpty());
-		testCard = new UnitCard("name", 1,1, 1);
+		testCard = new UnitCard("name", 1, 1, 1, "COMMON");
 		assertNull(player.removeCardFromHand(testCard.getId()));
 		assertNull(player.removeCardFromHand(null));
 	}
@@ -108,7 +108,7 @@ class PlayerTest {
 
 	@Test
 	void addCardToTable() {
-		Card testCard = new UnitCard("name", 1,1, 1);
+		Card testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		assertTrue(player.addCardToTable(testCard));
 		assertEquals(testCard, player.getCardFromTable(testCard.getId()));
 		testCard = null;
@@ -117,21 +117,21 @@ class PlayerTest {
 
 	@Test
 	void getCardFromTable() {
-		Card testCard = new UnitCard("name", 1,1, 1);
+		Card testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		player.addCardToTable(testCard);
 		assertSame(testCard.getId(), player.getCardFromTable(testCard.getId()).getId());
-		testCard = new UnitCard("name", 1,1, 1);
+		testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		assertNull(player.getCardFromTable(testCard.getId()));
 		assertNull(player.getCardFromTable(null));
 	}
 
 	@Test
 	void removeCardFromTable(){
-		Card testCard = new UnitCard("name", 1,1, 1);
+		Card testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		player.addCardToTable(testCard);
 		assertEquals(testCard, player.removeCardFromTable(testCard.getId()));
 		assertTrue(player.getCardsOnTable().isEmpty());
-		testCard = new UnitCard("name", 1,1, 1);
+		testCard = new UnitCard("name", 1,1, 1, "COMMON");
 		assertNull(player.removeCardFromTable(testCard.getId()));
 		assertNull(player.removeCardFromTable(null));
 	}

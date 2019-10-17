@@ -5,19 +5,21 @@ public class UnitCard extends Card {
     private int currentHealth;
     private int attack;
     private int attackDefault;
+    private String rarity;
     private boolean fatigue;
 
     public UnitCard() {
-        this("", 0, 0 , 0);
+        this("", 0, 0 , 0,"");
     }
 
-    public UnitCard(String name, int cost, int hp, int attack) {
+    public UnitCard(String name, int cost, int hp, int attack, String rarity) {
         super(name, cost);
         this.health = hp;
         this.attack = attack;
         this.fatigue = false;
         this.currentHealth = this.health;;
         this.attackDefault = this.attack;
+        this.rarity = rarity;
     }
 
     public void changeCurrentHealth(int hpChange) {
@@ -82,5 +84,9 @@ public class UnitCard extends Card {
 
     public void setFatigue(boolean fatigue) {
         this.fatigue = fatigue;
+    }
+
+    public String getRarity(){
+        return rarity;
     }
 }

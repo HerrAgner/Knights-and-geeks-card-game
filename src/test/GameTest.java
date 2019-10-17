@@ -140,8 +140,8 @@ class GameTest {
         Game game = new Game("Ted", "Anton");
         game.getCurrentPlayer().changeMana(10);
         Card[] testCards = {
-                new UnitCard("UnitCard", 1, 1, 1),
-                new UnitCard("UnitCard", 11, 1, 1),
+                new UnitCard("UnitCard", 1, 1, 1,"COMMON"),
+                new UnitCard("UnitCard", 11, 1, 1, "COMMON"),
                 new EffectCard("EffectCard", 1, "type", 1),
                 new EffectCard("EffectCard", 11, "type", 1)
         };
@@ -169,9 +169,9 @@ class GameTest {
         Game game = new Game("eric", "nisse");
         Player players[] = game.getPlayers();
 
-        UnitCard attackingCard = new UnitCard("Krigaren", 3, 5, 6);
-        UnitCard defendingCard = new UnitCard("Hästen", 4, 5, 4);
-        UnitCard fatiugeCard = new UnitCard("Fail", 4, 5, 2);
+        UnitCard attackingCard = new UnitCard("Krigaren", 3, 5, 6, "COMMON");
+        UnitCard defendingCard = new UnitCard("Hästen", 4, 5, 4, "COMMON");
+        UnitCard fatiugeCard = new UnitCard("Fail", 4, 5, 2, "COMMON");
 
         fatiugeCard.setFatigue(true);
 
@@ -201,9 +201,9 @@ class GameTest {
         SpellCard healerMany = new SpellCard("Healer", true, 2, "Hasse", 2);
         SpellCard attackerMany = new SpellCard("Attacker", true, 2, "Frasse", 2);
 
-        UnitCard receiver = new UnitCard("receiver", 3, 5, 6);
-        UnitCard receiver2 = new UnitCard("receiver2", 3, 7, 6);
-        UnitCard receiver3 = new UnitCard("receiver3", 5, 4, 5);
+        UnitCard receiver = new UnitCard("receiver", 3, 5, 6, "COMMON");
+        UnitCard receiver2 = new UnitCard("receiver2", 3, 7, 6, "COMMON");
+        UnitCard receiver3 = new UnitCard("receiver3", 5, 4, 5, "COMMON");
 
         players[game.getActivePlayer()].addCardToHand(healer);
         players[game.getActivePlayer()].addCardToHand(attacker);
@@ -276,9 +276,9 @@ class GameTest {
     @Test
     void attackPlayer() {
         Game game = new Game("Eric", "Ted");
-        UnitCard card = new UnitCard("Pelle", 5, 9, 5);
-        UnitCard card2 = new UnitCard("Håkan", 5, 5, 10);
-        UnitCard card3 = new UnitCard("Anton", 5, 3, 4);
+        UnitCard card = new UnitCard("Pelle", 5, 9, 5, "COMMON");
+        UnitCard card2 = new UnitCard("Håkan", 5, 5, 10, "COMMON");
+        UnitCard card3 = new UnitCard("Anton", 5, 3, 4, "COMMON");
         card.setFatigue(false);
         card2.setFatigue(false);
         card3.setFatigue(false);
@@ -375,8 +375,8 @@ class GameTest {
         EffectCard decreaseAttack = new EffectCard("card", 2, "Atk", -2);
         EffectCard decreaseAttackBy4 = new EffectCard("card", 2, "Atk", -4);
         EffectCard decreaseHealth = new EffectCard("card", 2, "Hp", -2);
-        UnitCard unitCard = new UnitCard("Anton", 0, 2, 3);
-        UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5);
+        UnitCard unitCard = new UnitCard("Anton", 0, 2, 3, "COMMON");
+        UnitCard unitCard2 = new UnitCard("Kalle", 0, 4, 5, "COMMON");
         unitCard2.changeCurrentHealth(4);
 
         assertTrue(game.useEffectCard(decreaseAttack, unitCard));
@@ -405,7 +405,7 @@ class GameTest {
     @Test
     void startTurn() {
         Game game = new Game("Ted", "Anton");
-        UnitCard unitCard = new UnitCard("Krigaren", 1, 5, 6);
+        UnitCard unitCard = new UnitCard("Krigaren", 1, 5, 6, "COMMON");
         game.getCurrentPlayer().addCardToHand(unitCard);
 
         game.startTurn();
