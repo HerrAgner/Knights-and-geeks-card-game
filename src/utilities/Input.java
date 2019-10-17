@@ -32,7 +32,7 @@ public class Input {
     }
 
     public boolean inputValidation(int max, int input) {
-        if (input < max && input >= 0) {
+        if (input <= max && input >= 0) {
             return true;
         }
         System.out.println("Input out of range");
