@@ -45,10 +45,10 @@ public class Input {
     } */
 
     public boolean inputValidation(int max, int input) {
-        if (input < max) {
+        if (input < max && input >= 0) {
             return true;
         }
-        System.out.println("Input too high");
+        System.out.println("Input out of range");
         return false;
     }
 
