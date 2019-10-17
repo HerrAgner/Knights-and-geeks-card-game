@@ -252,8 +252,8 @@ public class CLI {
                 UnitCard unitCard = (UnitCard) card;
                 String hpString = "Hp: " + unitCard.getCurrentHealth() + " max:(" + unitCard.getMaxHealth() + ")";
                 String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
-                        "\u001B[31m"+hpString+"\u001B[0m" : hpString;
-                outputHp.append(String.format("%-30s", hpColor));
+                        String.format("%-39s", "\u001B[31m"+hpString+"\u001B[0m") : String.format("%-38s", "\u001B[0m"+hpString+"\u001B[0m");
+                outputHp.append(hpColor);
                 outputAtk.append(String.format("%-30s", "Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "Type: Unit card"));
             } else if (card instanceof SpellCard) {
@@ -266,8 +266,8 @@ public class CLI {
                 EffectCard effectCard = (EffectCard) card;
                 String target = effectCard.getEffectValue() < 0 ? "Debuff card" : "Buff card";
                 String type = effectCard.getType().equals("Hp") ? "max hp" : "atk";
-                String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "increase ";
-                outputHp.append(String.format("%-30s", "Effect: Will " + increase + type));
+                String increase = effectCard.getEffectValue() < 0 ? "Decrease " : "Increase ";
+                outputHp.append(String.format("%-30s", "Effect: " + increase + type));
                 outputAtk.append(String.format("%-30s", "Amount: " + effectCard.getEffectValue()));
                 outputType.append(String.format("%-30s", "Type: " + target));
 
