@@ -291,8 +291,6 @@ public class Game {
 //        r.setSeed(56);
 
         Collections.shuffle(cardPile);
-        System.out.println(cardPile.size());
-
         return true;
     }
 
