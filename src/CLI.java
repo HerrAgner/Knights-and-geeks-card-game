@@ -343,7 +343,7 @@ public class CLI {
                 colorName = GREEN + name + RESET;
                 break;
             case RARE:
-                colorName = CYAN + name + RESET;
+                colorName = RED + name + RESET;
                 break;
             case EPIC:
                 colorName = BLUE_BRIGHT + name + RESET;
