@@ -110,19 +110,19 @@ class GameTest {
 
         game.drawCard();
         assertEquals(game.getCardPile().size(), 39);
-        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 6);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 4);
         game.setActivePlayer(1);
         game.drawCard();
         assertEquals(game.getCardPile().size(), 38);
-        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 6);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 4);
         game.setActivePlayer(0);
         game.drawCard();
         assertEquals(game.getCardPile().size(), 37);
-        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 7);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 5);
         game.setActivePlayer(1);
         game.drawCard();
         assertEquals(game.getCardPile().size(), 36);
-        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 7);
+        assertEquals(game.getCurrentPlayer().getCardsOnHand().size(), 5);
 
         while (game.getCardPile().size() > 1) {
             UUID id = game.drawCard();
@@ -321,8 +321,8 @@ class GameTest {
         assertEquals(0, game.getActivePlayer());
         assertEquals(1, game.getRound());
         assertEquals(2, game.getPlayers().length);
-        assertEquals(5, game.getPlayers()[0].getCardsOnHand().size());
-        assertEquals(5, game.getPlayers()[1].getCardsOnHand().size());
+        assertEquals(3, game.getPlayers()[0].getCardsOnHand().size());
+        assertEquals(3, game.getPlayers()[1].getCardsOnHand().size());
     }
 
     @Test
@@ -344,7 +344,7 @@ class GameTest {
         assertEquals(77, game.getCardPile().size());
 
         assertFalse(game.createCardPile(101));
-        assertFalse(game.createCardPile(49));
+        assertFalse(game.createCardPile(44));
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
 
@@ -411,26 +411,26 @@ class GameTest {
 
         game.startTurn();
         assertEquals(1, game.getCurrentPlayer().getCurrentMana());
-        assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
+        assertEquals(5, game.getCurrentPlayer().getCardsOnHand().size());
 
         game.playCard(unitCard.getId());
 
         assertEquals(1, game.getCurrentPlayer().getCardsOnTable().size());
         unitCard.setFatigue(true);
-        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
+        assertEquals(4, game.getCurrentPlayer().getCardsOnHand().size());
         var tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertTrue(tableCard.getFatigue());
         assertEquals(0, game.getCurrentPlayer().getCurrentMana());
 
         game.startTurn();
         assertEquals(2, game.getCurrentPlayer().getCurrentMana());
-        assertEquals(7, game.getCurrentPlayer().getCardsOnHand().size());
+        assertEquals(5, game.getCurrentPlayer().getCardsOnHand().size());
         tableCard = (UnitCard) game.getCurrentPlayer().getCardsOnTable().toArray()[0];
         assertFalse(tableCard.getFatigue());
 
         game.startTurn();
         assertEquals(3, game.getCurrentPlayer().getCurrentMana());
-        assertEquals(8, game.getCurrentPlayer().getCardsOnHand().size());
+        assertEquals(6, game.getCurrentPlayer().getCardsOnHand().size());
 
         for(int i=0; i<15; i++){
             game.startTurn();

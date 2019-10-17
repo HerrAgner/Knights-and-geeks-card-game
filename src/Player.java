@@ -57,7 +57,6 @@ public class Player {
     }
 
     public void changeMana(int mana) {
-        System.out.println("Mana " + mana);
         this.currentMana = this.currentMana + mana;
     }
 
