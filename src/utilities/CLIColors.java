@@ -1,6 +1,6 @@
 package utilities;
 
-public class Colors {
+public class CLIColors {
     public static final String RESET = "\033[0m";  // Text Reset
 
     // Regular Colors
