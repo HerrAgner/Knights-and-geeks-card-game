@@ -48,11 +48,8 @@ public class UnitCard extends Card {
         currentHealth = hp;
     }
 
-    public void changeCurrentHealth(int hpChange) {
-        if(currentHealth+hpChange <= 0) setCurrentHealth(0);
-        else if(currentHealth+hpChange > health) {
-            setCurrentHealth(health);
-        } else setCurrentHealth(currentHealth+hpChange);
+    public int getMaxHealth() {
+        return health;
     }
 
     private void setMaxHealth(int maxHealth){
