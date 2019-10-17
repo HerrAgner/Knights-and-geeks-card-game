@@ -75,6 +75,7 @@ public class CLI {
             System.out.println(activePlayer.getName() + "'s turn");
 
             printBoardAndCardsOnHand();
+            printHpAndMana();
             printMenu();
 
             boolean menu = true;
@@ -126,6 +127,7 @@ public class CLI {
         if (printAll) {
             printBoardAndCardsOnHand();
         }
+        printHpAndMana();
         printMenu();
         return true;
     }
@@ -206,10 +208,12 @@ public class CLI {
     }
 
     private void printHpAndMana() {
-        System.out.println("Your hp: " + activePlayer.getHealth());
-        System.out.println("Your mana: " + activePlayer.getCurrentMana());
-        System.out.println("Enemy hp: " + defendingPlayer.getHealth());
-        System.out.println("Enemy mana: " + defendingPlayer.getCurrentMana());
+        String active = String.format("%-46s","\n" + BLACK + GREEN_BACKGROUND + " Your hp: " + activePlayer.getHealth() + "/30 " +
+                "Your mana: " + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
+        String enemy = String.format("%-45s",BLACK + RED_BACKGROUND + " Enemy hp: " + defendingPlayer.getHealth() +
+                "/30 ");
+        System.out.println(active + RESET);
+        System.out.println(enemy + RESET);
     }
 
     private void attackWithCard() {
@@ -235,6 +239,7 @@ public class CLI {
                     game.attackCard(attackingCard, defendingCard);
                 }
             }
+//            printHpAndMana();
         } else {
             System.out.println("\nNo cards on table. Choose another option\n");
             printMenu();
@@ -261,7 +266,7 @@ public class CLI {
 
         cards.forEach(card -> {
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
-                outputNumber.append(String.format("%-30s", "Card #: " + ref.index +  RED + " (fatigued)" + RESET));
+                outputNumber.append(String.format("%-30s", "Card #: " + ref.index + RED + " (fatigued)" + RESET));
             } else {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
