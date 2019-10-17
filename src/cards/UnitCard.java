@@ -4,6 +4,7 @@ public class UnitCard extends Card {
     private int health;
     private int currentHealth;
     private int attack;
+    private int attackDefault;
     private boolean fatigue;
 
     public UnitCard() {
@@ -16,6 +17,15 @@ public class UnitCard extends Card {
         this.attack = attack;
         this.fatigue = false;
         this.currentHealth = this.health;;
+        this.attackDefault = this.attack;
+    }
+
+    public void changeCurrentHealth(int hpChange) {
+        if(currentHealth+hpChange <= 0) setCurrentHealth(0);
+        else if(currentHealth+hpChange > health) {
+            setCurrentHealth(health);
+        } else setCurrentHealth(currentHealth+hpChange);
+        System.out.println("newCURR " + currentHealth + "\n");
     }
 
     public void changeMaxHealth(int hpChange) {
@@ -45,29 +55,30 @@ public class UnitCard extends Card {
         } else setCurrentHealth(currentHealth+hpChange);
     }
 
-    public boolean changeAttack(int attackChange) {
+    private void setMaxHealth(int maxHealth){
+        this.health = maxHealth;
+    }
+
+    public void changeAttack(int attackChange) {
         if (getAttack() + attackChange <= 0) {
             setAttack(1);
         } else {
             attack = attack + attackChange;
         }
-        return true;
-    }
-
-    private void setAttack(int attack){
-        this.attack = attack;
-    }
-    public int getMaxHealth() {
-        return health;
     }
 
     public int getAttack() {
         return attack;
     }
 
-    private void setMaxHealth(int maxHealth){
-        this.health = maxHealth;
+    private void setAttack(int attack){
+        this.attack = attack;
     }
+
+    public int getAttackDefault() {
+        return attack;
+    }
+
     public boolean getFatigue() {
         return fatigue;
     }
