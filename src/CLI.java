@@ -12,6 +12,7 @@ import static utilities.CLIColors.*;
 
 public class CLI {
     private String playerOneName, playerTwoName;
+    private int maxNameLength;
     private Scanner scan;
     private boolean running;
     private Game game;
@@ -49,6 +50,8 @@ public class CLI {
         if (playerOneName.toLowerCase().equals("cheetah") && playerTwoName.toLowerCase().equals("zebra")) {
             Lurig lurig = new Lurig();
         }
+        maxNameLength = playerOneName.length() >= playerTwoName.length() ?
+                playerTwoName.length() : playerTwoName.length();
         game = new Game(playerOneName, playerTwoName, choseCardPileSize());
     }
 
@@ -212,13 +215,29 @@ public class CLI {
         printCards(cardsOnHand);
     }
 
+    private String fixedNameString(String name, String extra, String colorDefault, String nameStyle) {
+        int length = 1 + maxNameLength;
+        if(extra != null) length += extra.length();
+        if(colorDefault != null) length += colorDefault.length();
+        if(nameStyle != null) length += nameStyle.length();
+        String returnString = (nameStyle != null ? nameStyle : (colorDefault != null ? colorDefault : ""))
+                + name + (nameStyle != null ? colorDefault : "") + (extra != null ? extra : "");
+        return String.format("%-" + length + "s", returnString);
+    }
+
     private void printHpAndMana() {
-        String active = String.format("%-46s","\n" + BLACK + GREEN_BACKGROUND + " Your hp: " + activePlayer.getHealth() + "/30 " +
-                "Your mana: " + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
-        String enemy = String.format("%-45s",BLACK + RED_BACKGROUND + " Enemy hp: " + defendingPlayer.getHealth() +
-                "/30 ");
+        String active = fixedNameString(" " + activePlayer.getName(), "'s health: "
+                , BLACK + GREEN_BACKGROUND, BLACK_BOLD+GREEN_BACKGROUND)
+                + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
+                + (activePlayer.getCurrentMana() < activePlayer.getMana() ? MAGENTA + GREEN_BACKGROUND : "")
+                + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
+
+        String defending = fixedNameString(" " +  defendingPlayer.getName(), "'s health: "
+                , BLACK + RED_BACKGROUND, BLACK_BOLD+RED_BACKGROUND    )
+                + String.format("%-20s", activePlayer.getHealth() + "/30 ");
+
         System.out.println(active + RESET);
-        System.out.println(enemy + RESET);
+        System.out.println(defending + RESET);
     }
 
     private void attackWithCard() {
@@ -288,7 +307,7 @@ public class CLI {
                 String hpColor = unitCard.getCurrentHealth() < unitCard.getMaxHealth() ?
                         String.format("%-39s", "\u001B[31m" + hpString + "\u001B[0m") : String.format("%-38s", "\u001B[0m" + hpString + "\u001B[0m");
                 outputHp.append(hpColor);
-                outputName.append(String.format("%-41s", "│ " + colorizeName(card.getName(), ((UnitCard) card).getRarity())));
+                outputName.append(String.format("%-41s", "│ " + colorizeUnitCardName(card.getName(), ((UnitCard) card).getRarity())));
                 outputAtk.append(String.format("%-30s", "│ Atk: " + unitCard.getAttack()));
                 outputType.append(String.format("%-30s", "│ Type: Unit card"));
             } else if (card instanceof SpellCard) {
@@ -352,7 +371,7 @@ public class CLI {
         return playerTwoName;
     }
 
-    private String colorizeName(String name, Rarity rarity) {
+    private String colorizeUnitCardName(String name, Rarity rarity) {
         String colorName = "";
         switch (rarity) {
             case COMMON:
