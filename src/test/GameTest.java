@@ -178,7 +178,6 @@ class GameTest {
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
-        // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
@@ -215,8 +214,6 @@ class GameTest {
 
 
         game.getDefendingPlayer().addCardToHand(attacker);
-        //SETUP ------------------------------------
-
 
         assertTrue(game.useSpellOnCard(healer, receiver));
         assertEquals(receiver.getCurrentHealth(), 5);
@@ -285,15 +282,19 @@ class GameTest {
         card3.setFatigue(false);
         game.getPlayers()[1].changeHealth(-25);
         game.attackPlayer(card);
+        assertEquals(0, game.getDefendingPlayer().getHealth());
+        assertEquals(30, game.getCurrentPlayer().getHealth());
         assertFalse(game.shouldGameContinue());
         game.getPlayers()[1].changeHealth(10);
         assertTrue(game.attackPlayer(card3));
+        assertEquals(6, game.getDefendingPlayer().getHealth());
 
         game.setActivePlayer(1);
         assertFalse(game.attackPlayer(card));
         card.setFatigue(false);
         assertTrue(game.attackPlayer(card));
         assertEquals(25, game.getPlayers()[0].getHealth());
+        assertEquals(6, game.getPlayers()[1].getHealth());
         assertTrue(card.getFatigue());
         assertTrue(game.shouldGameContinue());
     }
@@ -327,15 +328,22 @@ class GameTest {
 
     @Test
     void createCardPile() {
-        Game game = new Game("Ted", "Anton", 46);
+        Game game = new Game("Ted", "Anton", 80);
         int amountOfCards = 80;
 
-
-
         assertTrue(game.createCardPile(amountOfCards));
+        var ref = new Object() {
+            int cheapCards = 0;
+        };
+        game.getCardPile().stream().filter(card -> card instanceof UnitCard).forEach(c -> {
+            if (c.getCost() <= 1){
+                ref.cheapCards++;
+            }
+        });
         assertEquals(8, game.getCardPile().stream().filter(card -> card instanceof SpellCard).count());
-
-
+        assertEquals(8, game.getCardPile().stream().filter(card -> card instanceof EffectCard).count());
+        assertEquals(64, game.getCardPile().stream().filter(card -> card instanceof UnitCard).count());
+        assertTrue(ref.cheapCards >= 8);
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
@@ -347,8 +355,6 @@ class GameTest {
         assertFalse(game.createCardPile(44));
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
-
-
     }
 
     @Test
