@@ -241,8 +241,11 @@ public class CLI {
                 , BLACK + RED_BACKGROUND, BLACK_BOLD + RED_BACKGROUND)
                 + String.format("%-20s", defendingPlayer.getHealth() + "/30 ");
 
+
+
         System.out.println(active + RESET);
         System.out.println(defending + RESET);
+
     }
 
     private void attackWithCard() {
@@ -305,8 +308,34 @@ public class CLI {
     }
 
     private void attackPlayerInfo(UnitCard attackingCard) {
+        String hpAmount = String.format("%s", BLACK + RED_BACKGROUND + defendingPlayer.getHealth());
+        String oneHp = String.format("%s", BLACK + RED_BACKGROUND + " ");
+        String hp = "";
+        int counter = defendingPlayer.getHealth() + attackingCard.getAttack();
+        int counter2 = defendingPlayer.getHealth() + attackingCard.getAttack();
+
         System.out.println(defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ");
         System.out.println("New health: " + defendingPlayer.getHealth());
+
+
+        for (int i = defendingPlayer.getHealth(); i <= counter; i++) {
+            hp = "";
+            for (int j = 0; j < counter2; j++) {
+                if (j == counter2 / 2){
+                    hp = hp.concat(String.valueOf(counter2));
+                } else {
+                    hp = hp.concat(oneHp);
+                }
+            }
+            System.out.print("\r" + hp + RESET);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            counter2--;
+        }
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
