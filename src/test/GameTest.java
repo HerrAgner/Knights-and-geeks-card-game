@@ -178,7 +178,6 @@ class GameTest {
 
         players[game.getActivePlayer()].addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
-        // SET UP -----------------------------------------------
 
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
@@ -215,8 +214,6 @@ class GameTest {
 
 
         game.getDefendingPlayer().addCardToHand(attacker);
-        //SETUP ------------------------------------
-
 
         assertTrue(game.useSpellOnCard(healer, receiver));
         assertEquals(receiver.getCurrentHealth(), 5);
@@ -285,15 +282,19 @@ class GameTest {
         card3.setFatigue(false);
         game.getPlayers()[1].changeHealth(-25);
         game.attackPlayer(card);
+        assertEquals(0, game.getDefendingPlayer().getHealth());
+        assertEquals(30, game.getCurrentPlayer().getHealth());
         assertFalse(game.shouldGameContinue());
         game.getPlayers()[1].changeHealth(10);
         assertTrue(game.attackPlayer(card3));
+        assertEquals(6, game.getDefendingPlayer().getHealth());
 
         game.setActivePlayer(1);
         assertFalse(game.attackPlayer(card));
         card.setFatigue(false);
         assertTrue(game.attackPlayer(card));
         assertEquals(25, game.getPlayers()[0].getHealth());
+        assertEquals(6, game.getPlayers()[1].getHealth());
         assertTrue(card.getFatigue());
         assertTrue(game.shouldGameContinue());
     }
