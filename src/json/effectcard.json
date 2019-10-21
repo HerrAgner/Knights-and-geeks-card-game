@@ -24,7 +24,7 @@
     "effectValue": -4
   },
   {
-    "name": "Demoralizing of Strength",
+    "name": "Demonitized",
     "cost": 5,
     "type": "Atk",
     "effectValue": -5
@@ -78,7 +78,7 @@
     "effectValue": 3
   },
   {
-    "name": "Conjuration of Spectral Energy",
+    "name": "Conjuration",
     "cost": 4,
     "type": "Atk",
     "effectValue": 4
@@ -96,7 +96,7 @@
     "effectValue": 1
   },
   {
-    "name": "Rain of Guardian Spirits",
+    "name": "Olles Steel",
     "cost": 2,
     "type": "Hp",
     "effectValue": 2
