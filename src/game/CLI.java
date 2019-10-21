@@ -173,7 +173,7 @@ public class CLI {
                     EffectCard effectCard = (EffectCard) card;
                     if (effectCard.getEffectValue() < 0) {
                         printCards(enemyCardsOnTable);
-                        System.out.println("Which card do you want to debuff? [0] to return");
+                        System.out.println("Which card do you want to debuff?");
 
                         chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                         unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
@@ -182,7 +182,7 @@ public class CLI {
 
                     } else {
                         printCards(cardsOnTable);
-                        System.out.println("Which card do you want to buff? [0] to return");
+                        System.out.println("Which card do you want to buff?");
                         chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                         unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
                         game.useEffectCard(effectCard, unitCard);
@@ -447,15 +447,15 @@ public class CLI {
     private void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
         if (effectCard.getEffectValue() > 0) {
             if (effectCard.getType().equals("Hp")) {
-                System.out.printf("You buffed the card %50s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+                System.out.printf("You buffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
             } else {
-                System.out.printf("You buffed the card %50s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+                System.out.printf("You buffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
             }
         } else {
             if (effectCard.getType().equals("Hp")) {
-                System.out.printf("You debuffed the card %50s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+                System.out.printf("You debuffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
             } else {
-                System.out.printf("You debuffed the card %50s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+                System.out.printf("You debuffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
             }
         }
         try {

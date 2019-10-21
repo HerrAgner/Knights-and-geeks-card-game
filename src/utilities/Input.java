@@ -79,7 +79,12 @@ public class Input {
     }
 
     public boolean validateEmptyTable(UUID id, Player activePlayer, Player defendingPlayer) {
-
+        if (activePlayer.getCardFromHand(id) instanceof EffectCard) {
+            if (activePlayer.getCardsOnTable().size() == 0 && ((EffectCard) activePlayer.getCardFromHand(id)).getEffectValue() > 0) {
+                return true;
+            } else if (defendingPlayer.getCardsOnTable().size() == 0 && ((EffectCard) activePlayer.getCardFromHand(id)).getEffectValue() < 0)
+                return true;
+        }
         return false;
     }
 }
