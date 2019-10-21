@@ -2,6 +2,7 @@ import cards.Card;
 import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
+import javafx.scene.effect.Effect;
 import utilities.Input;
 import enums.*;
 
@@ -175,16 +176,16 @@ public class CLI {
 
                         chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                         unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-
                         game.useEffectCard(effectCard, unitCard);
+                        printEffectCardInfo(effectCard, unitCard);
+
                     } else {
                         printCards(cardsOnTable);
                         System.out.println("Which card do you want to buff?");
-
                         chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                         unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
-
                         game.useEffectCard(effectCard, unitCard);
+                        printEffectCardInfo(effectCard, unitCard);
                     }
 
                     break;
@@ -344,6 +345,27 @@ public class CLI {
         }
         try {
             Thread.sleep(3000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    private void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
+        if (effectCard.getEffectValue() > 0) {
+            if (effectCard.getType().equals("Hp")) {
+                System.out.printf("You buffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+            } else {
+                System.out.printf("You buffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+            }
+        } else {
+            if (effectCard.getType().equals("Hp")) {
+                System.out.printf("You debuffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+            } else {
+                System.out.printf("You debuffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+            }
+        }
+        try {
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
 
         }
