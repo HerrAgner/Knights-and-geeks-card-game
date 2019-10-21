@@ -313,6 +313,24 @@ public class CLI {
         }
     }
 
+    private void printSpellOnPlayerInfo(SpellCard spell) {
+        if (spell.getType().equals("Attacker")) {
+            if (defendingPlayer.getHealth() <= 0) {
+                System.out.println(spell.getName() + " killed " + defendingPlayer.getName() + " with dark magic!");
+            } else {
+                System.out.println(spell.getName() + " inflicted " + spell.getValue() + " to " + defendingPlayer.getName());
+                System.out.println("New health: " + defendingPlayer.getHealth());
+            }
+        } else {
+            System.out.println(spell.getName() + " healed " + activePlayer.getName() + " with " + spell.getValue() + " hp.");
+        }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
     private void printAoeSpellInfo(SpellCard spell) {
         if (spell.getType().equals("Attacker")) {
             System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg to all enemy cards.");
@@ -348,16 +366,6 @@ public class CLI {
 
         }
     }
-
-
-  /*  private void printSpellOnCardInfo(SpellCard spell) {
-        if (card.getCurrentHealth() <= 0) {
-            System.out.println(spell.getName() + " killed " + card.getName() + " with dark magic.");
-        } else {
-            System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg with dark magic");
-            System.out.println(card.getName() + "'s new hp: " + card.getCurrentHealth());
-        }
-    } */
 
     private void printCards(Collection<Card> cards) {
         StringBuilder top = new StringBuilder();
@@ -440,6 +448,7 @@ public class CLI {
         int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
         if (chosenDefendingCard == 0) {
             game.useSpellOnPlayer(spellCard);
+            printSpellOnPlayerInfo(spellCard);
         } else {
             UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
             game.useSpellOnCard(spellCard, unitCard);
