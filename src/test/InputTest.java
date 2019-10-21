@@ -31,13 +31,16 @@ class InputTest {
         EffectCard debuff = new EffectCard("Debuff", 1, "Hp", -2);
 
         game.getCurrentPlayer().addCardToHand(buff);
-        game.getDefendingPlayer().addCardToHand(debuff);
+        game.getCurrentPlayer().addCardToHand(debuff);
 
-
+        assertTrue(input.validateEmptyTable(debuff.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
         assertTrue(input.validateEmptyTable(buff.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
         assertEquals(0, game.getCurrentPlayer().getCardsOnTable().size());
 
         game.getCurrentPlayer().addCardToTable(testCard);
+        game.getDefendingPlayer().addCardToTable(testCard);
         assertFalse(input.validateEmptyTable(buff.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
+        assertFalse(input.validateEmptyTable(debuff.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
+        assertEquals(1, game.getCurrentPlayer().getCardsOnTable().size());
     }
 }
