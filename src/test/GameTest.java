@@ -176,9 +176,10 @@ class GameTest {
 
         fatiugeCard.setFatigue(true);
 
-        players[game.getActivePlayer()].addCardToTable(attackingCard);
+        game.getCurrentPlayer().addCardToTable(attackingCard);
         game.getDefendingPlayer().addCardToTable(defendingCard);
 
+        assertTrue(game.getCurrentPlayer().getCardsOnTable().contains(attackingCard));
         assertFalse(game.attackCard(fatiugeCard, attackingCard));
         assertTrue(game.attackCard(attackingCard, defendingCard));
         assertFalse(game.attackCard(attackingCard, attackingCard));
@@ -189,7 +190,9 @@ class GameTest {
         assertNotNull(players[game.getActivePlayer()].getCardFromTable(attackingCard.getId()));
         assertTrue(game.getTrashPile().contains(defendingCard));
         assertFalse(game.getTrashPile().contains(attackingCard));
+        assertFalse(game.getTrashPile().contains(fatiugeCard));
         assertTrue(attackingCard.getFatigue());
+        assertFalse(defendingCard.getFatigue());
     }
 
     @Test
