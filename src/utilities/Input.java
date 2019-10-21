@@ -1,10 +1,15 @@
 package utilities;
 
+import cards.Card;
+import cards.EffectCard;
+import game.Player;
+
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.UUID;
+
 
 public class Input {
-
     Scanner scan;
 
     public Input() {
@@ -60,18 +65,21 @@ public class Input {
                 input = Integer.parseInt(scan.nextLine());
                 if (input == 0 || input <= max && input > -1) {
                     return input;
-                }
-                else{
-                    if(max==0){
+                } else {
+                    if (max == 0) {
                         System.out.println("You can only attack the player, option 0.");
+                    } else {
+                        System.out.println("Select a number between 0 and " + max);
                     }
-                    else {
-                    System.out.println("Select a number between 0 and " + max);}
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input");
             }
         }
+    }
 
+    public boolean validateEmptyTable(UUID id, Player activePlayer, Player defendingPlayer) {
+
+        return false;
     }
 }

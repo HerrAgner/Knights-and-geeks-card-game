@@ -1,5 +1,6 @@
 import cards.Card;
 import cards.UnitCard;
+import game.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,3 +1,5 @@
+package game;
+
 import cards.Card;
 import cards.EffectCard;
 import cards.SpellCard;
@@ -6,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import enums.*;
 import utilities.CardGenerator;
 import utilities.HttpGet;
+import utilities.Input;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -17,6 +20,8 @@ public class Game {
     private Player[] players;
     private int activePlayer;
     private int round;
+    private Input input = new Input();
+
 
 
     public Game(String player1, String player2, int cardAmount) {
@@ -97,7 +102,9 @@ public class Game {
         } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_FULL;
-        } else if (getCurrentPlayer().getCardFromHand(id) instanceof EffectCard && getCurrentPlayer().getCardsOnTable().size() == 0 && ((EffectCard) getCurrentPlayer().getCardFromHand(id)).getEffectValue() > 0){
+        }
+//        else if(input.validateEmptyTable(id, getCurrentPlayer(), getDefendingPlayer()));
+        else if (getCurrentPlayer().getCardFromHand(id) instanceof EffectCard && getCurrentPlayer().getCardsOnTable().size() == 0 && ((EffectCard) getCurrentPlayer().getCardFromHand(id)).getEffectValue() > 0){
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_EMPTY;
         }
