@@ -335,6 +335,7 @@ public class CLI {
         }
 
         if (healer) {
+            //TODO fix max hp
             for (int i = counter2; i <= defendingPlayer.getHealth(); i++) {
                 hp = "";
                 for (int j = 0; j < counter2; j++) {
