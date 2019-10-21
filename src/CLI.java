@@ -155,11 +155,15 @@ public class CLI {
                     SpellCard spellCard = (SpellCard) card;
                     if (spellCard.getType().equals("Healer")) {
                         printCards(cardsOnTable);
-                        System.out.println("Which card do you want to heal? (0 to heal you)");
+                        if (!spellCard.isMany()) {
+                            System.out.println("Which card do you want to heal? (0 to heal you)");
+                        }
                         useSpell(spellCard, cardsOnHand);
                     } else if (spellCard.getType().equals("Attacker")) {
                         printCards(enemyCardsOnTable);
-                        System.out.println("Which card do you want to attack? (0 to attack player)");
+                        if (!spellCard.isMany()) {
+                            System.out.println("Which card do you want to attack? (0 to attack player)");
+                        }
                         useSpell(spellCard, enemyCardsOnTable);
                     }
                     break;
@@ -217,9 +221,9 @@ public class CLI {
 
     private String fixedNameString(String name, String extra, String colorDefault, String nameStyle) {
         int length = 1 + maxNameLength;
-        if(extra != null) length += extra.length();
-        if(colorDefault != null) length += colorDefault.length();
-        if(nameStyle != null) length += nameStyle.length();
+        if (extra != null) length += extra.length();
+        if (colorDefault != null) length += colorDefault.length();
+        if (nameStyle != null) length += nameStyle.length();
         String returnString = (nameStyle != null ? nameStyle : (colorDefault != null ? colorDefault : ""))
                 + name + (nameStyle != null ? colorDefault : "") + (extra != null ? extra : "");
         return String.format("%-" + length + "s", returnString);
@@ -227,14 +231,14 @@ public class CLI {
 
     private void printHpAndMana() {
         String active = fixedNameString(" " + activePlayer.getName(), "'s health: "
-                , BLACK + GREEN_BACKGROUND, BLACK_BOLD+GREEN_BACKGROUND)
+                , BLACK + GREEN_BACKGROUND, BLACK_BOLD + GREEN_BACKGROUND)
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
                 + (activePlayer.getCurrentMana() < activePlayer.getMana() ? MAGENTA + GREEN_BACKGROUND : "")
                 + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
 
-        String defending = fixedNameString(" " +  defendingPlayer.getName(), "'s health: "
-                , BLACK + RED_BACKGROUND, BLACK_BOLD+RED_BACKGROUND    )
-                + String.format("%-20s", activePlayer.getHealth() + "/30 ");
+        String defending = fixedNameString(" " + defendingPlayer.getName(), "'s health: "
+                , BLACK + RED_BACKGROUND, BLACK_BOLD + RED_BACKGROUND)
+                + String.format("%-20s", defendingPlayer.getHealth() + "/30 ");
 
         System.out.println(active + RESET);
         System.out.println(defending + RESET);
@@ -258,9 +262,11 @@ public class CLI {
 
                 if (chosenDefendingCard == 0) {
                     game.attackPlayer(attackingCard);
+                    attackPlayerInfo(attackingCard);
                 } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                     var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                     game.attackCard(attackingCard, defendingCard);
+                    printAttackInfo(attackingCard, defendingCard);
                 }
             }
 //            printHpAndMana();
@@ -276,6 +282,82 @@ public class CLI {
         System.out.println("\n\n");
         game.finishTurn();
     }
+
+    private void printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
+        if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
+            System.out.println("Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. ");
+        } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
+            System.out.println(attackingCard.getName() + " killed " + defendingCard.getName() + " with a lethal attack.");
+            System.out.println(attackingCard.getName() + "s' health is now: " + attackingCard.getCurrentHealth());
+        } else if (attackingCard.getCurrentHealth() <= defendingCard.getAttack()) {
+            System.out.println(attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".");
+            System.out.println(defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp.");
+        } else {
+            System.out.println(attackingCard.getName() + " attacked " + defendingCard.getName() + ".");
+            System.out.println(attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth());
+            System.out.println(defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth());
+        }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    private void attackPlayerInfo(UnitCard attackingCard) {
+        System.out.println(defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ");
+        System.out.println("New health: " + defendingPlayer.getHealth());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    private void printAoeSpellInfo(SpellCard spell) {
+        if (spell.getType().equals("Attacker")) {
+            System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg to all enemy cards.");
+        } else {
+            System.out.println(spell.getName() + " healed " + spell.getValue() + " hp to all your wounded cards.");
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    private void printSpellOnCardInfo(SpellCard spell, UnitCard card) {
+        if (spell.getType().equals("Attacker")) {
+            if (card.getCurrentHealth() <= 0) {
+                System.out.println(spell.getName() + " killed " + card.getName() + " with dark magic.");
+            } else {
+                System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg with dark magic");
+                System.out.println(card.getName() + "'s new hp: " + card.getCurrentHealth());
+            }
+        } else {
+            if (card.getCurrentHealth() == card.getMaxHealth()) {
+                System.out.println("You healed for nothing, you fool!");
+            } else {
+                System.out.println(spell.getName() + " healed " + spell.getValue() + " hp with light magic");
+                System.out.println(card.getName() + "'s new hp: " + card.getCurrentHealth());
+            }
+        }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+
+  /*  private void printSpellOnCardInfo(SpellCard spell) {
+        if (card.getCurrentHealth() <= 0) {
+            System.out.println(spell.getName() + " killed " + card.getName() + " with dark magic.");
+        } else {
+            System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg with dark magic");
+            System.out.println(card.getName() + "'s new hp: " + card.getCurrentHealth());
+        }
+    } */
 
     private void printCards(Collection<Card> cards) {
         StringBuilder top = new StringBuilder();
@@ -352,6 +434,7 @@ public class CLI {
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
         if (spellCard.isMany()) {
             game.useSpellOnCard(spellCard);
+            printAoeSpellInfo(spellCard);
             return;
         }
         int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
@@ -360,6 +443,7 @@ public class CLI {
         } else {
             UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
             game.useSpellOnCard(spellCard, unitCard);
+            printSpellOnCardInfo(spellCard, unitCard);
         }
     }
 
