@@ -327,15 +327,22 @@ class GameTest {
 
     @Test
     void createCardPile() {
-        Game game = new Game("Ted", "Anton", 46);
+        Game game = new Game("Ted", "Anton", 80);
         int amountOfCards = 80;
 
-
-
         assertTrue(game.createCardPile(amountOfCards));
+        var ref = new Object() {
+            int cheapCards = 0;
+        };
+        game.getCardPile().stream().filter(card -> card instanceof UnitCard).forEach(c -> {
+            if (c.getCost() <= 1){
+                ref.cheapCards++;
+            }
+        });
         assertEquals(8, game.getCardPile().stream().filter(card -> card instanceof SpellCard).count());
-
-
+        assertEquals(8, game.getCardPile().stream().filter(card -> card instanceof EffectCard).count());
+        assertEquals(64, game.getCardPile().stream().filter(card -> card instanceof UnitCard).count());
+        assertTrue(ref.cheapCards >= 8);
 
         assertNotNull(game.getCardPile());
         assertEquals(amountOfCards, game.getCardPile().size());
@@ -347,8 +354,6 @@ class GameTest {
         assertFalse(game.createCardPile(44));
         assertTrue(game.createCardPile(50));
         assertTrue(game.createCardPile(100));
-
-
     }
 
     @Test

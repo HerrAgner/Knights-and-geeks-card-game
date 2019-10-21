@@ -276,13 +276,21 @@ public class Game {
         }.getType();
         List<Card> spellCards = cg.generateFromJson("src/json/spellcard.json", collectionType3);
 
-        double amountOfUnitCards = amountOfCards * 0.8;
+        Type collectionType4 = new TypeToken<List<UnitCard>>() {
+        }.getType();
+        List<Card> cheapUnitCards = cg.generateFromJson("src/json/cheapcards.json", collectionType4);
+
+        double amountOfUnitCards = amountOfCards * 0.7;
+        double amountOfCheapCards = amountOfCards * 0.1;
         double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
         double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
-            var unitCard = (UnitCard) unitCards.get(i);
             cardPile.add(unitCards.get(i));
+        }
+
+        for (int i = 0; i < amountOfCheapCards; i++) {
+            cardPile.add(cheapUnitCards.get(i));
         }
 
         for (int i = 0; i < amountOfEffectCards; i++) {
@@ -295,9 +303,6 @@ public class Game {
         if (amountOfCards > cardPile.size()) {
             cardPile.add(unitCards.get(0));
         }
-//
-//        Random r = new Random();
-//        r.setSeed(56);
 
         Collections.shuffle(cardPile);
         return true;
