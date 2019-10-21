@@ -241,7 +241,6 @@ public class CLI {
                 + String.format("%-20s", defendingPlayer.getHealth() + "/30 ");
 
 
-
         System.out.println(active + RESET);
         System.out.println(defending + RESET);
 
@@ -306,35 +305,77 @@ public class CLI {
         }
     }
 
-    private void attackPlayerInfo(UnitCard attackingCard) {
-        String hpAmount = String.format("%s", BLACK + RED_BACKGROUND + defendingPlayer.getHealth());
+    private void hpBarAnimation(Card card) {
         String oneHp = String.format("%s", BLACK + RED_BACKGROUND + " ");
+        String oneHpPlus = String.format("%s", BLACK + GREEN_BACKGROUND + " ");
         String hp = "";
-        int counter = defendingPlayer.getHealth() + attackingCard.getAttack();
-        int counter2 = defendingPlayer.getHealth() + attackingCard.getAttack();
-
-        System.out.println(defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ");
-        System.out.println("New health: " + defendingPlayer.getHealth());
+        int counter = 0;
+        int counter2 = 0;
+        boolean healer = false;
 
 
-        for (int i = defendingPlayer.getHealth(); i <= counter; i++) {
-            hp = "";
-            for (int j = 0; j < counter2; j++) {
-                if (j == counter2 / 2){
-                    hp = hp.concat(String.valueOf(counter2));
-                } else {
-                    hp = hp.concat(oneHp);
+        if (card instanceof UnitCard) {
+            UnitCard unitCard = (UnitCard) card;
+            counter = defendingPlayer.getHealth() + unitCard.getAttack();
+            counter2 = counter;
+
+        } else if (card instanceof SpellCard) {
+            SpellCard spellCard = (SpellCard) card;
+            counter = defendingPlayer.getHealth() + spellCard.getValue();
+            counter2 = counter;
+            if (spellCard.getType().equals("Healer")) {
+                healer = true;
+                 counter = defendingPlayer.getHealth() - spellCard.getValue();
+                 counter2 = counter;
+            }}
+
+        if (healer) {
+            for (int i = defendingPlayer.getHealth(); i > counter; i--) {
+                hp = "";
+                for (int j = 0; j < counter2; j++) {
+                    if (j == counter2 / 2) {
+                        hp = hp.concat(String.valueOf(counter2));
+                    } else {
+                        hp = hp.concat(oneHpPlus);
+                    }
                 }
+                System.out.print("\r" + hp + RESET);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                counter2++;
             }
-            System.out.print("\r" + hp + RESET);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        } else {
+            for (int i = defendingPlayer.getHealth(); i <= counter; i++) {
+                hp = "";
+                for (int j = 0; j < counter2; j++) {
+                    if (j == counter2 / 2) {
+                        hp = hp.concat(String.valueOf(counter2));
+                    } else {
+                        hp = hp.concat(oneHp);
+                    }
+                }
+                System.out.print("\r" + hp + RESET);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                counter2--;
             }
-            counter2--;
         }
 
+    }
+
+    private void attackPlayerInfo(UnitCard attackingCard) {
+        if (defendingPlayer.getHealth() <= 0) {
+            System.out.println(attackingCard.getName() + " killed " + defendingPlayer.getName() + " with a deadly blow!");
+        } else {
+            System.out.println(defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ");
+        }
+        hpBarAnimation(attackingCard);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -342,17 +383,18 @@ public class CLI {
         }
     }
 
-    private void printSpellOnPlayerInfo(SpellCard spell) {
-        if (spell.getType().equals("Attacker")) {
+    private void printSpellOnPlayerInfo(SpellCard spellCard) {
+        if (spellCard.getType().equals("Attacker")) {
             if (defendingPlayer.getHealth() <= 0) {
-                System.out.println(spell.getName() + " killed " + defendingPlayer.getName() + " with dark magic!");
+                System.out.println(spellCard.getName() + " killed " + defendingPlayer.getName() + " with dark magic!");
             } else {
-                System.out.println(spell.getName() + " inflicted " + spell.getValue() + " to " + defendingPlayer.getName());
+                System.out.println(spellCard.getName() + " inflicted " + spellCard.getValue() + " to " + defendingPlayer.getName());
                 System.out.println("New health: " + defendingPlayer.getHealth());
             }
         } else {
-            System.out.println(spell.getName() + " healed " + activePlayer.getName() + " with " + spell.getValue() + " hp.");
+            System.out.println(spellCard.getName() + " healed " + activePlayer.getName() + " with " + spellCard.getValue() + " hp.");
         }
+        hpBarAnimation(spellCard);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -395,6 +437,7 @@ public class CLI {
 
         }
     }
+
     private void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
         if (effectCard.getEffectValue() > 0) {
             if (effectCard.getType().equals("Hp")) {
