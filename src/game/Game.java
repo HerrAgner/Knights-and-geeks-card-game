@@ -23,7 +23,6 @@ public class Game {
     private Input input = new Input();
 
 
-
     public Game(String player1, String player2, int cardAmount) {
         if (player1 == null || player2 == null) {
             return;
@@ -102,13 +101,10 @@ public class Game {
         } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_FULL;
-        }
-//        else if(input.validateEmptyTable(id, getCurrentPlayer(), getDefendingPlayer()));
-        else if (getCurrentPlayer().getCardFromHand(id) instanceof EffectCard && getCurrentPlayer().getCardsOnTable().size() == 0 && ((EffectCard) getCurrentPlayer().getCardFromHand(id)).getEffectValue() > 0){
+        } else if (input.validateEmptyTable(id, getCurrentPlayer(), getDefendingPlayer())) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_EMPTY;
-        }
-        else {
+        } else {
             res[0] = Response.OK;
             Card c = getCurrentPlayer().removeCardFromHand(id);
             getCurrentPlayer().changeMana(-c.getCost());
