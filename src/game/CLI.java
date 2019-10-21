@@ -323,16 +323,19 @@ public class CLI {
 
         } else if (card instanceof SpellCard) {
             SpellCard spellCard = (SpellCard) card;
-            counter = defendingPlayer.getHealth() + spellCard.getValue();
-            counter2 = counter;
             if (spellCard.getType().equals("Healer")) {
                 healer = true;
-                 counter = defendingPlayer.getHealth() - spellCard.getValue();
-                 counter2 = counter;
-            }}
+                counter = defendingPlayer.getHealth() - spellCard.getValue();
+                counter2 = counter;
+            } else {
+                healer = false;
+                counter = defendingPlayer.getHealth() + spellCard.getValue();
+                counter2 = counter;
+            }
+        }
 
         if (healer) {
-            for (int i = defendingPlayer.getHealth(); i > counter; i--) {
+            for (int i = counter2; i <= defendingPlayer.getHealth(); i++) {
                 hp = "";
                 for (int j = 0; j < counter2; j++) {
                     if (j == counter2 / 2) {

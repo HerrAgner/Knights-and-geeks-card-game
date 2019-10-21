@@ -258,6 +258,7 @@ public class Game {
                 players[0].addCardToHand(cardPile.remove(0));
                 players[1].addCardToHand(cardPile.remove(0));
             }
+            players[0].addCardToHand(new SpellCard("Healer", false, 2, "Eric", 1));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
