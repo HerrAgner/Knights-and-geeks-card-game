@@ -1,5 +1,6 @@
 import cards.Card;
 import cards.EffectCard;
+import cards.UnitCard;
 import game.Game;
 import org.junit.jupiter.api.Test;
 import utilities.Input;
@@ -25,14 +26,18 @@ class InputTest {
     void validateEmptyTable() {
         input = new Input();
         game = new Game("Arne", "Kjell", 100);
-        EffectCard card = new EffectCard("Buff", 1, "Hp", 2);
-        EffectCard card1 = new EffectCard("Debuff", 1, "Hp", -2);
+        UnitCard testCard = new UnitCard("Test", 1, 2, 3, "COMMON");
+        EffectCard buff = new EffectCard("Buff", 1, "Hp", 2);
+        EffectCard debuff = new EffectCard("Debuff", 1, "Hp", -2);
 
-        game.getCurrentPlayer().addCardToHand(card);
-        game.getDefendingPlayer().addCardToHand(card1);
+        game.getCurrentPlayer().addCardToHand(buff);
+        game.getDefendingPlayer().addCardToHand(debuff);
 
 
-        assertFalse(input.validateEmptyTable(card.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
-        assertTrue(input.validateEmptyTable(card1.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
+        assertTrue(input.validateEmptyTable(buff.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
+        assertEquals(0, game.getCurrentPlayer().getCardsOnTable().size());
+
+        game.getCurrentPlayer().addCardToTable(testCard);
+        assertFalse(input.validateEmptyTable(buff.getId(), game.getCurrentPlayer(), game.getDefendingPlayer()));
     }
 }
