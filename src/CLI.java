@@ -399,7 +399,7 @@ public class CLI {
             top.append("┌").append(String.format("%31s", "").replace(" ", "─")).append("┐");
             bottom.append("└").append(String.format("%31s", " ").replace(" ", "─")).append("┘");
             if (card instanceof UnitCard && ((UnitCard) card).getFatigue()) {
-                outputNumber.append(String.format("%-30s", "Card #: " + ref.index + RED + " (fatigued)" + RESET));
+                outputNumber.append(String.format("%-41s", "Card #: " + ref.index + RED + " (fatigued)" + RESET));
             } else {
                 outputNumber.append(String.format("%-30s", "Card #: " + ref.index));
             }
