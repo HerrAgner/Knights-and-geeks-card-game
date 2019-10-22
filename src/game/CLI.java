@@ -35,25 +35,24 @@ public class CLI {
         createPlayers();
         gameloop();
     }
-
     public void createPlayers() {
         System.out.println("Enter name for player 1");
         playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
-            System.out.println("Invalid name. Please enter a new one.");
+            System.out.println("Invalid name. Max length is 10 characters, please enter a new one.");
             playerOneName = scan.nextLine();
         }
         System.out.println("Enter name for player 2");
         playerTwoName = scan.nextLine();
         while (playerTwoName.length() == 0 || playerTwoName.length() > 10 || playerOneName.equals(playerTwoName)) {
-            System.out.println("Invalid name. Please enter a new one.");
+            System.out.println("Invalid name. Max length is 10 characters and has to be different from Player One. " +
+                    "\nPlease enter a new name!");
             playerTwoName = scan.nextLine();
         }
         if (playerOneName.toLowerCase().equals("cheetah") && playerTwoName.toLowerCase().equals("zebra")) {
             Lurig lurig = new Lurig();
         }
-        maxNameLength = playerOneName.length() >= playerTwoName.length() ?
-                playerTwoName.length() : playerTwoName.length();
+        maxNameLength = Math.max(playerOneName.length(), playerTwoName.length());
         game = new Game(playerOneName, playerTwoName, choseCardPileSize());
     }
 
