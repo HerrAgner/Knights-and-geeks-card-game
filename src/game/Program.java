@@ -15,12 +15,13 @@ public class Program {
         cli.createPlayers();
     }
 
-    public void startGame(String playerOneName, String playerTwoName, int cardPileSize) {
+    void startGame(String playerOneName, String playerTwoName, int cardPileSize) {
         game = new Game(playerOneName, playerTwoName, cardPileSize);
+        cli.setGame(game);
         gameLoop();
     }
 
-    public void gameLoop() {
+    private void gameLoop() {
         while (running) {
             Player activePlayer = game.getCurrentPlayer();
 
@@ -40,11 +41,11 @@ public class Program {
         }
     }
 
-    protected void setRunning(boolean running) {
+    void setRunning(boolean running) {
         this.running = running;
     }
 
-    protected boolean menuSwitch() {
+    private boolean menuSwitch() {
         int userInput;
         boolean printAll = true;
 
@@ -84,9 +85,5 @@ public class Program {
         print(cli.printHpAndMana());
         print(cli.menu);
         return true;
-    }
-
-    public Game getGame() {
-        return game;
     }
 }
