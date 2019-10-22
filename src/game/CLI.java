@@ -125,7 +125,7 @@ public class CLI {
         int userInput;
         boolean printAll = true;
 
-        userInput = input.validatedInput(5);
+        userInput = input.validatedInput(6);
 
         switch (userInput) {
             case 1:
@@ -145,6 +145,9 @@ public class CLI {
                 print(endTurn);
                 game.finishTurn();
                 return false;
+            case 6:
+                endGame();
+                break;
             default:
                 print(menu);
                 break;
@@ -158,6 +161,10 @@ public class CLI {
         print(printHpAndMana());
         print(menu);
         return true;
+    }
+
+    private void endGame(){
+        System.exit(0);
     }
 
     private void playCard() {
