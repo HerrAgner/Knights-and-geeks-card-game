@@ -12,9 +12,7 @@ public class Printer {
                 System.out.println(text);
         }
     }
-//    public static void print(String s){
-//        System.out.print(s);
-//    }
+
     public static void printf(String format, Object ... args){
         System.out.printf(format, args);
     }

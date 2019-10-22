@@ -6,10 +6,8 @@ import cards.SpellCard;
 import cards.UnitCard;
 import utilities.Input;
 import enums.*;
-
 import java.util.Collection;
 import java.util.Scanner;
-
 import static utilities.CLIColors.*;
 import static utilities.Printer.print;
 import static utilities.Printer.printf;
@@ -35,9 +33,10 @@ public class CLI {
             "6. End game"};
     Object[] endTurn = {
             "Ending turn.",
-            "---------------------------------------------------------------------------------------------",
-            "",
-            ""};
+            String.format("%-200s", BLACK_BACKGROUND_BRIGHT
+                    + "\n" + YELLOW_BACKGROUND
+                    + "\n" + BLACK_BACKGROUND_BRIGHT),
+            RESET};
 
 
     public CLI(Program program) {
@@ -73,7 +72,7 @@ public class CLI {
         maxNameLength = Math.max(playerOneName.length(), playerTwoName.length());
 
         program.startGame(playerOneName, playerTwoName, choseCardPileSize());
-        System.out.println(activePlayer.getName() + "'s turn");
+        print(activePlayer.getName() + "'s turn");
 
     }
 
@@ -111,15 +110,15 @@ public class CLI {
 
     Object[] printHpAndMana() {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
-                + String.format("%-" + (maxNameLength+1) + "s", activePlayer.getName()) + " HP: "
+                + String.format("%-" + (maxNameLength + 1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
                 + (activePlayer.getCurrentMana() < activePlayer.getMana() ? MAGENTA_BOLD + GREEN_BACKGROUND : "")
                 + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
         String defending = BLACK_BOLD + RED_BACKGROUND + " "
-                + String.format("%-" + (maxNameLength+1) + "s", defendingPlayer.getName()) + " HP: "
+                + String.format("%-" + (maxNameLength + 1) + "s", defendingPlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30");
         return new Object[]{
-                "",
+                "\n",
                 active + RESET,
                 defending + RESET
         };
@@ -134,13 +133,13 @@ public class CLI {
                     attackingCard.getName() + "s' health is now: " + attackingCard.getCurrentHealth()};
         } else if (attackingCard.getCurrentHealth() <= defendingCard.getAttack()) {
             return new Object[]{
-                attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".",
-                defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp."};
+                    attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".",
+                    defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp."};
         } else {
             return new Object[]{
-                attackingCard.getName() + " attacked " + defendingCard.getName() + ".",
-                attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth(),
-                defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth()};
+                    attackingCard.getName() + " attacked " + defendingCard.getName() + ".",
+                    attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth(),
+                    defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth()};
         }
     }
 
@@ -218,11 +217,11 @@ public class CLI {
                 return spellCard.getName() + " killed " + defendingPlayer.getName() + " with dark magic!";
             } else {
                 return new Object[]{
-                        spellCard.getName() + " inflicted " + spellCard.getValue()+" to "+defendingPlayer.getName(),
+                        spellCard.getName() + " inflicted " + spellCard.getValue() + " to " + defendingPlayer.getName(),
                         "New health: " + defendingPlayer.getHealth()};
             }
         } else {
-            return spellCard.getName() + " healed " + activePlayer.getName() + " with " +spellCard.getValue() + " hp.";
+            return spellCard.getName() + " healed " + activePlayer.getName() + " with " + spellCard.getValue() + " hp.";
         }
     }
 
