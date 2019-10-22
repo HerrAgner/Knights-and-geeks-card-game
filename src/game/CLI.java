@@ -5,7 +5,6 @@ import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
 import utilities.Input;
-import utilities.Printer;
 import enums.*;
 
 import java.util.Collection;
@@ -13,7 +12,7 @@ import java.util.Scanner;
 
 import static utilities.CLIColors.*;
 import static utilities.Printer.print;
-import static utilities.Printer.println;
+import static utilities.Printer.printf;
 
 public class CLI {
     private String playerOneName, playerTwoName;
@@ -27,7 +26,18 @@ public class CLI {
     private Collection<Card> cardsOnHand;
     private Collection<Card> cardsOnTable;
     private Collection<Card> enemyCardsOnTable;
-
+    private Object[] menu = {
+            "\nMake a move!",
+            "1. Print cards from hand and table",
+            "2. Print hp and mana",
+            "3. Play card",
+            "4. Attack with card",
+            "5. End turn"};
+    private Object[] endTurn = {
+            "Ending turn.",
+            "---------------------------------------------------------------------------------------------",
+            "",
+            ""};
     public CLI() {
         scan = new Scanner(System.in);
         input = new Input();
@@ -39,16 +49,16 @@ public class CLI {
         gameloop();
     }
     public void createPlayers() {
-        System.out.println("Enter name for player 1");
+        print("Enter name for player 1");
         playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
-            System.out.println("Invalid name. Max length is 10 characters, please enter a new one.");
+            print("Invalid name. Max length is 10 characters, please enter a new one.");
             playerOneName = scan.nextLine();
         }
-        System.out.println("Enter name for player 2");
+        print("Enter name for player 2");
         playerTwoName = scan.nextLine();
         while (playerTwoName.length() == 0 || playerTwoName.length() > 10 || playerOneName.equals(playerTwoName)) {
-            System.out.println("Invalid name. Max length is 10 characters and has to be different from Player One. " +
+            print("Invalid name. Max length is 10 characters and has to be different from Player One. " +
                     "\nPlease enter a new name!");
             playerTwoName = scan.nextLine();
         }
@@ -60,10 +70,10 @@ public class CLI {
     }
 
     public int choseCardPileSize() {
-        System.out.println("Enter your desired card pile size");
+        print("Enter your desired card pile size");
         int cardSize = input.validatedInput(100);
         while (cardSize < 45 || cardSize > 100) {
-            System.out.println("Invalid size, chose number between 45-100");
+            print("Invalid size, chose number between 45-100");
             cardSize = input.validatedInput(100);
         }
         return cardSize;
@@ -79,11 +89,11 @@ public class CLI {
 
             game.startTurn();
 
-            System.out.println(activePlayer.getName() + "'s turn");
+            print(activePlayer.getName() + "'s turn");
 
-            printBoardAndCardsOnHand();
-            printHpAndMana();
-            printMenu();
+            print(printBoardAndCardsOnHand());
+            print(printHpAndMana());
+            print(menu);
 
             boolean menu = true;
             while (menu) {
@@ -93,14 +103,23 @@ public class CLI {
         }
     }
 
-    private void printMenu() {
-        System.out.println("\nMake a move!");
-        System.out.println("1. Print cards from hand and table\n" +
-                "2. Print hp and mana\n" +
-                "3. Play card\n" +
-                "4. Attack with card\n" +
-                "5. End turn\n");
-    }
+//    private Object[] printMenu() {
+//        return new Object[]{
+//                "\nMake a move!",
+//                "1. Print cards from hand and table",
+//                "2. Print hp and mana",
+//                "3. Play card",
+//                "3. Play card",
+//                "4. Attack with card",
+//                "5. End turn"};
+////        );
+////        print("\nMake a move!");
+////        print("1. Print cards from hand and table\n" +
+////                "2. Print hp and mana\n" +
+////                "3. Play card\n" +
+////                "4. Attack with card\n" +
+////                "5. End turn\n");
+//    }
 
     private boolean menuSwitch() {
         int userInput;
@@ -122,20 +141,22 @@ public class CLI {
                 attackWithCard();
                 break;
             case 5:
-                endPlayerTurn();
+//                endPlayerTurn();
+                print(endTurn);
+                game.finishTurn();
                 return false;
             default:
-                printMenu();
+                print(menu);
                 break;
         }
         if (!game.shouldGameContinue()) {
             running = false;
         }
         if (printAll) {
-            printBoardAndCardsOnHand();
+            print(printBoardAndCardsOnHand());
         }
-        printHpAndMana();
-        printMenu();
+        print(printHpAndMana());
+        print(menu);
         return true;
     }
 
@@ -143,8 +164,8 @@ public class CLI {
         int chosenCard;
         int chosenDefendingCard;
 
-        System.out.println("Which card do you want to play?");
-        printCards(cardsOnHand);
+        print("Which card do you want to play?");
+        print(printCards(cardsOnHand));
 
         chosenCard = input.validateChosenCard(cardsOnHand.size());
 
@@ -158,15 +179,15 @@ public class CLI {
                 case SPELL_CARD:
                     SpellCard spellCard = (SpellCard) card;
                     if (spellCard.getType().equals("Healer")) {
-                        printCards(cardsOnTable);
+                        print(printCards(cardsOnTable));
                         if (!spellCard.isMany()) {
-                            System.out.println("Which card do you want to heal? (0 to heal you)");
+                            print("Which card do you want to heal? (0 to heal you)");
                         }
                         useSpell(spellCard, cardsOnHand);
                     } else if (spellCard.getType().equals("Attacker")) {
-                        printCards(enemyCardsOnTable);
+                        print(printCards(enemyCardsOnTable));
                         if (!spellCard.isMany()) {
-                            System.out.println("Which card do you want to attack? (0 to attack player)");
+                            print("Which card do you want to attack? (0 to attack player)");
                         }
                         useSpell(spellCard, enemyCardsOnTable);
                     }
@@ -174,26 +195,27 @@ public class CLI {
                 case EFFECT_CARD:
                     EffectCard effectCard = (EffectCard) card;
                     if (effectCard.getEffectValue() < 0) {
-                        printCards(enemyCardsOnTable);
-                        System.out.println("Which card do you want to debuff?");
+                        print(printCards(enemyCardsOnTable));
+                        print("Which card do you want to debuff?");
 
                         chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                         unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                         game.useEffectCard(effectCard, unitCard);
                         printEffectCardInfo(effectCard, unitCard);
 
+
                     } else {
-                        printCards(cardsOnTable);
-                        System.out.println("Which card do you want to buff?");
+                        print(printCards(cardsOnTable));
+                        print("Which card do you want to buff?");
                         chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                         unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
                         game.useEffectCard(effectCard, unitCard);
                         printEffectCardInfo(effectCard, unitCard);
                     }
-
+                    sleep(4000);
                     break;
                 case UNIT_CARD:
-                    System.out.println("Played card " + card.getName());
+                    print("Played card " + card.getName());
                     break;
                 default:
                     // Crazy place! How did you get here?
@@ -202,28 +224,39 @@ public class CLI {
         } else if (response[0] == Response.ERROR) {
             switch (response[1]) {
                 case TABLE_FULL:
-                    System.out.println("To many cards on the table. Max 7.");
+                    print("To many cards on the table. Max 7.");
                     break;
                 case TABLE_EMPTY:
-                    System.out.println("No cards on table");
+                    print("No cards on table");
                     break;
                 case COST:
-                    System.out.println("Not enough mana.");
+                    print("Not enough mana.");
                     break;
             }
         }
     }
 
-    private void printBoardAndCardsOnHand() {
-        System.out.println("\nDefending cards on table:");
-        printCards(enemyCardsOnTable);
-        System.out.println("\nYour cards on table: ");
-        printCards(cardsOnTable);
-        System.out.println("\nCards on hand:");
-        printCards(cardsOnHand);
+    private Object[] printBoardAndCardsOnHand() {
+        return new Object[]{
+                "",
+                "Defending cards on table:",
+                printCards(enemyCardsOnTable),
+                "",
+                "Your cards on table: ",
+                printCards(cardsOnTable),
+                "",
+                "Cards on hand:",
+                printCards(cardsOnHand)
+        };
+//        print("\nDefending cards on table:");
+//        print(printCards(enemyCardsOnTable));
+//        print("\nYour cards on table: ");
+//        print(printCards(cardsOnTable));
+//        print("\nCards on hand:");
+//        print(printCards(cardsOnHand));
     }
 
-    private void printHpAndMana() {
+    private Object[] printHpAndMana() {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength+1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
@@ -232,67 +265,87 @@ public class CLI {
         String defending = BLACK_BOLD + RED_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength+1) + "s", defendingPlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30");
-        System.out.println("\n" + active + RESET);
-        System.out.println(defending + RESET);
+//        print("\n" + active + RESET);
+//        print(defending + RESET);
+        return new Object[]{
+                "",
+                active + RESET,
+                defending + RESET
+        };
     }
 
     private void attackWithCard() {
         int chosenCard;
         int chosenDefendingCard;
         if (cardsOnTable.size() >= 1) {
-            System.out.println("Choose card: ");
-            printCards(cardsOnTable);
+            print("Choose card: ");
+            print(printCards(cardsOnTable));
             chosenCard = input.validateChosenCard(cardsOnTable.size());
             var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
             if (attackingCard.getFatigue()) {
-                System.out.println("\nCard is fatigue, wait one turn to attack!\n");
-                printMenu();
+                print("\nCard is fatigue, wait one turn to attack!\n");
+                print(menu);
             } else {
-                System.out.println("Attack card or player (0 for player): ");
-                printCards(enemyCardsOnTable);
+                print("Attack card or player (0 for player): ");
+                print(printCards(enemyCardsOnTable));
                 chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
 
                 if (chosenDefendingCard == 0) {
                     game.attackPlayer(attackingCard);
-                    attackPlayerInfo(attackingCard);
+                    print(attackPlayerInfo(attackingCard));
+                    sleep(3000);
+                    hpBarAnimation(attackingCard);
                 } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                     var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                     game.attackCard(attackingCard, defendingCard);
-                    printAttackInfo(attackingCard, defendingCard);
+                    print(printAttackInfo(attackingCard, defendingCard));
+                    sleep(3000);
                 }
             }
-//            printHpAndMana();
+//            print(printHpAndMana());
         } else {
-            System.out.println("\nNo cards on table. Choose another option\n");
-            printMenu();
+            print(
+                    "",
+                    "No cards on table. Choose another option",
+                    "",
+                    menu);
+//            print(menu);
         }
     }
 
-    private void endPlayerTurn() {
-        System.out.println("Ending turn.");
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.println("\n\n");
-        game.finishTurn();
-    }
+//    private void endPlayerTurn() {
+//        print(
+//                "Ending turn.",
+//                "---------------------------------------------------------------------------------------------",
+//                "",
+//                "");
+////        print("---------------------------------------------------------------------------------------------");
+////        print("\n\n");
+//        game.finishTurn();
+//    }
 
-    private void printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
+    private Object[] printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
         if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
-            System.out.println("Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. ");
+            return new Object[]{"Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. "};
         } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
-            System.out.println(attackingCard.getName() + " killed " + defendingCard.getName() + " with a lethal attack.");
-            System.out.println(attackingCard.getName() + "s' health is now: " + attackingCard.getCurrentHealth());
+            return new Object[]{
+                    attackingCard.getName() + " killed " + defendingCard.getName() + " with a lethal attack.",
+                    attackingCard.getName() + "s' health is now: " + attackingCard.getCurrentHealth()};
+//            print(attackingCard.getName() + "s' health is now: " + attackingCard.getCurrentHealth());
         } else if (attackingCard.getCurrentHealth() <= defendingCard.getAttack()) {
-            System.out.println(attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".");
-            System.out.println(defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp.");
+            return new Object[]{
+                attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".",
+                defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp."};
         } else {
-            System.out.println(attackingCard.getName() + " attacked " + defendingCard.getName() + ".");
-            System.out.println(attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth());
-            System.out.println(defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth());
+            return new Object[]{
+                attackingCard.getName() + " attacked " + defendingCard.getName() + ".",
+                attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth(),
+                defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth()};
         }
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-        }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//        }
     }
 
     private void hpBarAnimation(Card card) {
@@ -334,11 +387,7 @@ public class CLI {
                     }
                 }
                 System.out.print("\r" + hp + RESET);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep(500);
                 counter2++;
             }
         } else {
@@ -352,108 +401,107 @@ public class CLI {
                     }
                 }
                 System.out.print("\r" + hp + RESET);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep(500);
                 counter2--;
             }
         }
 
     }
 
-    private void attackPlayerInfo(UnitCard attackingCard) {
+    private Object attackPlayerInfo(UnitCard attackingCard) {
         if (defendingPlayer.getHealth() <= 0) {
-            System.out.println(attackingCard.getName() + " killed " + defendingPlayer.getName() + " with a deadly blow!");
+            return attackingCard.getName() + " killed " + defendingPlayer.getName() + " with a deadly blow!";
         } else {
-            System.out.println(defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ");
+            return defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ";
         }
-        hpBarAnimation(attackingCard);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-
-        }
+//        hpBarAnimation(attackingCard);
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//
+//        }
     }
 
-    private void printSpellOnPlayerInfo(SpellCard spellCard) {
+    private Object printSpellOnPlayerInfo(SpellCard spellCard) {
         if (spellCard.getType().equals("Attacker")) {
             if (defendingPlayer.getHealth() <= 0) {
-                System.out.println(spellCard.getName() + " killed " + defendingPlayer.getName() + " with dark magic!");
+                return spellCard.getName() + " killed " + defendingPlayer.getName() + " with dark magic!";
             } else {
-                System.out.println(spellCard.getName() + " inflicted " + spellCard.getValue() + " to " + defendingPlayer.getName());
-                System.out.println("New health: " + defendingPlayer.getHealth());
+                return new Object[]{
+                        spellCard.getName() + " inflicted " + spellCard.getValue()+" to "+defendingPlayer.getName(),
+                        "New health: " + defendingPlayer.getHealth()};
             }
         } else {
-            System.out.println(spellCard.getName() + " healed " + activePlayer.getName() + " with " + spellCard.getValue() + " hp.");
+            return spellCard.getName() + " healed " + activePlayer.getName() + " with " +spellCard.getValue() + " hp.";
         }
-        hpBarAnimation(spellCard);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-
-        }
+//        hpBarAnimation(spellCard);
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//
+//        }
     }
 
-    private void printAoeSpellInfo(SpellCard spell) {
+    private Object printAoeSpellInfo(SpellCard spell) {
         if (spell.getType().equals("Attacker")) {
-            System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg to all enemy cards.");
+            return spell.getName() + " inflicted " + spell.getValue() + " dmg to all enemy cards.";
         } else {
-            System.out.println(spell.getName() + " healed " + spell.getValue() + " hp to all your wounded cards.");
+            return spell.getName() + " healed " + spell.getValue() + " hp to all your wounded cards.";
         }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//
+//        }
     }
 
-    private void printSpellOnCardInfo(SpellCard spell, UnitCard card) {
+    private Object printSpellOnCardInfo(SpellCard spell, UnitCard card) {
         if (spell.getType().equals("Attacker")) {
             if (card.getCurrentHealth() <= 0) {
-                System.out.println(spell.getName() + " killed " + card.getName() + " with dark magic.");
+                return spell.getName() + " killed " + card.getName() + " with dark magic.";
             } else {
-                System.out.println(spell.getName() + " inflicted " + spell.getValue() + " dmg with dark magic");
-                System.out.println(card.getName() + "'s new hp: " + card.getCurrentHealth());
+                return new Object[]{
+                        spell.getName() + " inflicted " + spell.getValue() + " dmg with dark magic",
+                        card.getName() + "'s new hp: " + card.getCurrentHealth()};
             }
         } else {
             if (card.getCurrentHealth() == card.getMaxHealth()) {
-                System.out.println("You healed for nothing, you fool!");
+                return ("You healed for nothing, you fool!");
             } else {
-                System.out.println(spell.getName() + " healed " + spell.getValue() + " hp with light magic");
-                System.out.println(card.getName() + "'s new hp: " + card.getCurrentHealth());
+                return new Object[]{
+                        spell.getName() + " healed " + spell.getValue() + " hp with light magic",
+                        card.getName() + "'s new hp: " + card.getCurrentHealth()};
             }
         }
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-
-        }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//
+//        }
     }
 
     private void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
         if (effectCard.getEffectValue() > 0) {
             if (effectCard.getType().equals("Hp")) {
-                System.out.printf("You buffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+                printf("You buffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
             } else {
-                System.out.printf("You buffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+                printf("You buffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
             }
         } else {
             if (effectCard.getType().equals("Hp")) {
-                System.out.printf("You debuffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+                printf("You debuffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
             } else {
-                System.out.printf("You debuffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+                printf("You debuffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
             }
         }
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-
-        }
+//        try {
+//            Thread.sleep(4000);
+//        } catch (InterruptedException e) {
+//
+//        }
     }
 
-    private void printCards(Collection<Card> cards) {
+    private Object[] printCards(Collection<Card> cards) {
         StringBuilder top = new StringBuilder();
         StringBuilder bottom = new StringBuilder();
         StringBuilder outputNumber = new StringBuilder();
@@ -514,41 +562,55 @@ public class CLI {
             outputType.append("  │   ");
             ref.index++;
         });
-        System.out.println(outputNumber);
-        System.out.println(top);
-        System.out.println(outputName);
-        System.out.println(outputHp);
-        System.out.println(outputAtk);
-        System.out.println(outputMiddle);
-        System.out.println(outputCost);
-        System.out.println(outputType);
-        System.out.println(bottom);
+        return new Object[]{
+                outputNumber,
+                top,
+                outputName,
+                outputHp,
+                outputAtk,
+                outputMiddle,
+                outputCost,
+                outputType,
+                bottom};
+//        print(outputNumber);
+//        print(top);
+//        print(outputName);
+//        print(outputHp);
+//        print(outputAtk);
+//        print(outputMiddle);
+//        print(outputCost);
+//        print(outputType);
+//        print(bottom);
     }
 
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
         if (spellCard.isMany()) {
             game.useSpellOnCard(spellCard);
-            printAoeSpellInfo(spellCard);
+            print(printAoeSpellInfo(spellCard));
+            sleep(3000);
             return;
         }
         int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
         if (chosenDefendingCard == 0) {
             game.useSpellOnPlayer(spellCard);
-            printSpellOnPlayerInfo(spellCard);
+            print(printSpellOnPlayerInfo(spellCard));
+            hpBarAnimation(spellCard);
+            sleep(3000);
         } else {
             UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
             game.useSpellOnCard(spellCard, unitCard);
-            printSpellOnCardInfo(spellCard, unitCard);
+            print(printSpellOnCardInfo(spellCard, unitCard));
+            sleep(3000);
         }
     }
 
-    public String getPlayerOneName() {
-        return playerOneName;
-    }
-
-    public String getPlayerTwoName() {
-        return playerTwoName;
-    }
+//    public String getPlayerOneName() {
+//        return playerOneName;
+//    }
+//
+//    public String getPlayerTwoName() {
+//        return playerTwoName;
+//    }
 
     private String colorizeUnitCardName(String name, Rarity rarity) {
         String colorName = "";
@@ -568,5 +630,13 @@ public class CLI {
         }
         return colorName;
 
+    }
+
+    private void sleep(int ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
