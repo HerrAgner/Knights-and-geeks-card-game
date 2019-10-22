@@ -224,12 +224,12 @@ public class CLI {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength+1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
-                + (activePlayer.getCurrentMana() < activePlayer.getMana() ? MAGENTA + GREEN_BACKGROUND : "")
+                + (activePlayer.getCurrentMana() < activePlayer.getMana() ? MAGENTA_BOLD + GREEN_BACKGROUND : "")
                 + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
         String defending = BLACK_BOLD + RED_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength+1) + "s", defendingPlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30");
-        System.out.println(active + RESET);
+        System.out.println("\n" + active + RESET);
         System.out.println(defending + RESET);
     }
 
