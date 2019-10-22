@@ -1,8 +1,6 @@
 package game;
 
 import utilities.Input;
-import utilities.Printer.*;
-
 import static utilities.Printer.print;
 
 public class Program {
@@ -10,7 +8,6 @@ public class Program {
     protected Game game;
     private boolean running;
     private Input input;
-
 
     public Program() {
         input = new Input();
