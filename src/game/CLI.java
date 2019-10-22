@@ -182,7 +182,7 @@ public class CLI {
                     }
                 }
                 System.out.print("\r" + hp + RESET);
-                sleep(500);
+                program.sleep(500);
                 counter2++;
             }
         } else {
@@ -196,7 +196,7 @@ public class CLI {
                     }
                 }
                 System.out.print("\r" + hp + RESET);
-                sleep(500);
+                program.sleep(500);
                 counter2--;
             }
         }
@@ -360,13 +360,5 @@ public class CLI {
         }
         return colorName;
 
-    }
-
-    void sleep(int ms){
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

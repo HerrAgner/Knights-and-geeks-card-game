@@ -8,8 +8,6 @@ import enums.Response;
 import utilities.Input;
 
 import java.util.Collection;
-
-import static java.lang.Thread.sleep;
 import static utilities.Printer.print;
 
 public class Program {
@@ -157,7 +155,7 @@ public class Program {
                         game.useEffectCard(effectCard, unitCard);
                         cli.printEffectCardInfo(effectCard, unitCard);
                     }
-                    cli.sleep(4000);
+                    sleep(4000);
                     break;
                 case UNIT_CARD:
                     print("Played card " + card.getName());
@@ -196,17 +194,17 @@ public class Program {
                 print("Attack card or player (0 for player): ");
                 print(cli.printCards(enemyCardsOnTable));
                 chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
-                
+
                 if (chosenDefendingCard == 0) {
                     game.attackPlayer(attackingCard);
                     print(cli.attackPlayerInfo(attackingCard));
-
+                    sleep(3000);
                     cli.hpBarAnimation(attackingCard);
                 } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                     var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                     game.attackCard(attackingCard, defendingCard);
                     print(cli.printAttackInfo(attackingCard, defendingCard));
-
+                    sleep(3000);
                 }
             }
         } else {
@@ -222,7 +220,7 @@ public class Program {
         if (spellCard.isMany()) {
             game.useSpellOnCard(spellCard);
             print(cli.printAoeSpellInfo(spellCard));
-//            sleep(3000);
+            sleep(3000);
             return;
         }
         int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
@@ -230,15 +228,22 @@ public class Program {
             game.useSpellOnPlayer(spellCard);
             print(cli.printSpellOnPlayerInfo(spellCard));
             cli.hpBarAnimation(spellCard);
-//            sleep(3000);
         } else {
             UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
             game.useSpellOnCard(spellCard, unitCard);
             print(cli.printSpellOnCardInfo(spellCard, unitCard));
-//            sleep(3000);
         }
+        sleep(3000);
     }
-    private void endGame(){
+
+    private void endGame() {
         System.exit(0);
+    }
+    void sleep(int ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
