@@ -52,6 +52,7 @@ public class Program {
 
         switch (userInput) {
             case 1:
+                print(cli.printBoardAndCardsOnHand());
                 break;
             case 2:
                 cli.printHpAndMana();
@@ -80,7 +81,7 @@ public class Program {
         if (printAll) {
             cli.printBoardAndCardsOnHand();
         }
-        cli.printHpAndMana();
+        print(cli.printHpAndMana());
         print(cli.menu);
         return true;
     }
