@@ -15,7 +15,6 @@ import static utilities.Printer.print;
 import static utilities.Printer.printf;
 
 public class CLI {
-    private String playerOneName, playerTwoName;
     private int maxNameLength;
     private Scanner scan;
     private Program program;
@@ -53,6 +52,8 @@ public class CLI {
     }
 
     void createPlayers() {
+        String playerOneName;
+        String playerTwoName;
         System.out.println("Enter name for player 1");
         playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
@@ -76,6 +77,14 @@ public class CLI {
 
     }
 
+    public void setVariables() {
+        activePlayer = game.getCurrentPlayer();
+        defendingPlayer = game.getDefendingPlayer();
+        cardsOnHand = activePlayer.getCardsOnHand();
+        cardsOnTable = activePlayer.getCardsOnTable();
+        enemyCardsOnTable = defendingPlayer.getCardsOnTable();
+    }
+
     public int choseCardPileSize() {
         print("Enter your desired card pile size");
         int cardSize = input.validatedInput(100);
@@ -84,95 +93,6 @@ public class CLI {
             cardSize = input.validatedInput(100);
         }
         return cardSize;
-    }
-
-    public void setVariables() {
-            activePlayer = game.getCurrentPlayer();
-            defendingPlayer = game.getDefendingPlayer();
-            cardsOnHand = activePlayer.getCardsOnHand();
-            cardsOnTable = activePlayer.getCardsOnTable();
-            enemyCardsOnTable = defendingPlayer.getCardsOnTable();
-    }
-
-
-    void endGame(){
-        System.exit(0);
-    }
-
-    void playCard() {
-        int chosenCard;
-        int chosenDefendingCard;
-
-        print("Which card do you want to play?");
-        print(printCards(cardsOnHand));
-
-        chosenCard = input.validateChosenCard(cardsOnHand.size());
-
-        Card card = (Card) cardsOnHand.toArray()[(chosenCard - 1)];
-
-        Response[] response = program.game.playCard(card.getId());
-
-        if (response[0] == Response.OK) {
-            UnitCard unitCard;
-            switch (response[1]) {
-                case SPELL_CARD:
-                    SpellCard spellCard = (SpellCard) card;
-                    if (spellCard.getType().equals("Healer")) {
-                        print(printCards(cardsOnTable));
-                        if (!spellCard.isMany()) {
-                            print("Which card do you want to heal? (0 to heal you)");
-                        }
-                        useSpell(spellCard, cardsOnHand);
-                    } else if (spellCard.getType().equals("Attacker")) {
-                        print(printCards(enemyCardsOnTable));
-                        if (!spellCard.isMany()) {
-                            print("Which card do you want to attack? (0 to attack player)");
-                        }
-                        useSpell(spellCard, enemyCardsOnTable);
-                    }
-                    break;
-                case EFFECT_CARD:
-                    EffectCard effectCard = (EffectCard) card;
-                    if (effectCard.getEffectValue() < 0) {
-                        print(printCards(enemyCardsOnTable));
-                        print("Which card do you want to debuff?");
-
-                        chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
-                        unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                        program.game.useEffectCard(effectCard, unitCard);
-                        printEffectCardInfo(effectCard, unitCard);
-
-
-                    } else {
-                        print(printCards(cardsOnTable));
-                        print("Which card do you want to buff?");
-                        chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
-                        unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
-                        program.game.useEffectCard(effectCard, unitCard);
-                        printEffectCardInfo(effectCard, unitCard);
-                    }
-                    sleep(4000);
-                    break;
-                case UNIT_CARD:
-                    print("Played card " + card.getName());
-                    break;
-                default:
-                    // Crazy place! How did you get here?
-                    break;
-            }
-        } else if (response[0] == Response.ERROR) {
-            switch (response[1]) {
-                case TABLE_FULL:
-                    print("To many cards on the table. Max 7.");
-                    break;
-                case TABLE_EMPTY:
-                    print("No cards on table");
-                    break;
-                case COST:
-                    print("Not enough mana.");
-                    break;
-            }
-        }
     }
 
     Object[] printBoardAndCardsOnHand() {
@@ -205,44 +125,7 @@ public class CLI {
         };
     }
 
-    void attackWithCard() {
-        int chosenCard;
-        int chosenDefendingCard;
-        if (cardsOnTable.size() >= 1) {
-            print("Choose card: ");
-            print(printCards(cardsOnTable));
-            chosenCard = input.validateChosenCard(cardsOnTable.size());
-            var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
-            if (attackingCard.getFatigue()) {
-                print("\nCard is fatigue, wait one turn to attack!\n");
-                print(menu);
-            } else {
-                print("Attack card or player (0 for player): ");
-                print(printCards(enemyCardsOnTable));
-                chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
-
-                if (chosenDefendingCard == 0) {
-                    program.game.attackPlayer(attackingCard);
-                    print(attackPlayerInfo(attackingCard));
-                    sleep(3000);
-                    hpBarAnimation(attackingCard);
-                } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
-                    var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                    program.game.attackCard(attackingCard, defendingCard);
-                    print(printAttackInfo(attackingCard, defendingCard));
-                    sleep(3000);
-                }
-            }
-        } else {
-            print(
-                    "",
-                    "No cards on table. Choose another option",
-                    "",
-                    menu);
-        }
-    }
-
-    private Object[] printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
+    Object[] printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
         if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
             return new Object[]{"Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. "};
         } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
@@ -261,7 +144,7 @@ public class CLI {
         }
     }
 
-    private void hpBarAnimation(Card card) {
+    void hpBarAnimation(Card card) {
         String oneHp = String.format("%s", BLACK + RED_BACKGROUND + " ");
         String oneHpPlus = String.format("%s", BLACK + GREEN_BACKGROUND + " ");
         String hp = "";
@@ -321,7 +204,7 @@ public class CLI {
 
     }
 
-    private Object attackPlayerInfo(UnitCard attackingCard) {
+    Object attackPlayerInfo(UnitCard attackingCard) {
         if (defendingPlayer.getHealth() <= 0) {
             return attackingCard.getName() + " killed " + defendingPlayer.getName() + " with a deadly blow!";
         } else {
@@ -329,7 +212,7 @@ public class CLI {
         }
     }
 
-    private Object printSpellOnPlayerInfo(SpellCard spellCard) {
+    Object printSpellOnPlayerInfo(SpellCard spellCard) {
         if (spellCard.getType().equals("Attacker")) {
             if (defendingPlayer.getHealth() <= 0) {
                 return spellCard.getName() + " killed " + defendingPlayer.getName() + " with dark magic!";
@@ -343,7 +226,7 @@ public class CLI {
         }
     }
 
-    private Object printAoeSpellInfo(SpellCard spell) {
+    Object printAoeSpellInfo(SpellCard spell) {
         if (spell.getType().equals("Attacker")) {
             return spell.getName() + " inflicted " + spell.getValue() + " dmg to all enemy cards.";
         } else {
@@ -351,7 +234,7 @@ public class CLI {
         }
     }
 
-    private Object printSpellOnCardInfo(SpellCard spell, UnitCard card) {
+    Object printSpellOnCardInfo(SpellCard spell, UnitCard card) {
         if (spell.getType().equals("Attacker")) {
             if (card.getCurrentHealth() <= 0) {
                 return spell.getName() + " killed " + card.getName() + " with dark magic.";
@@ -371,7 +254,7 @@ public class CLI {
         }
     }
 
-    private void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
+    void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
         if (effectCard.getEffectValue() > 0) {
             if (effectCard.getType().equals("Hp")) {
                 printf("You buffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
@@ -387,7 +270,7 @@ public class CLI {
         }
     }
 
-    private Object[] printCards(Collection<Card> cards) {
+    Object[] printCards(Collection<Card> cards) {
         StringBuilder top = new StringBuilder();
         StringBuilder bottom = new StringBuilder();
         StringBuilder outputNumber = new StringBuilder();
@@ -460,28 +343,7 @@ public class CLI {
                 bottom};
     }
 
-    private void useSpell(SpellCard spellCard, Collection<Card> cards) {
-        if (spellCard.isMany()) {
-            program.game.useSpellOnCard(spellCard);
-            print(printAoeSpellInfo(spellCard));
-            sleep(3000);
-            return;
-        }
-        int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
-        if (chosenDefendingCard == 0) {
-            program.game.useSpellOnPlayer(spellCard);
-            print(printSpellOnPlayerInfo(spellCard));
-            hpBarAnimation(spellCard);
-            sleep(3000);
-        } else {
-            UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
-            program.game.useSpellOnCard(spellCard, unitCard);
-            print(printSpellOnCardInfo(spellCard, unitCard));
-            sleep(3000);
-        }
-    }
-
-    private String colorizeUnitCardName(String name, Rarity rarity) {
+    String colorizeUnitCardName(String name, Rarity rarity) {
         String colorName = "";
         switch (rarity) {
             case COMMON:
@@ -501,7 +363,7 @@ public class CLI {
 
     }
 
-    private void sleep(int ms){
+    void sleep(int ms){
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
