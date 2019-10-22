@@ -24,7 +24,7 @@ class SpellCardTest {
     @Test
     void superConstructorTest() {
         assertNull(new SpellCard().getName());
-        assertEquals(new SpellCard().getCost(), 0);
+        assertEquals(0, new SpellCard().getCost());
         assertNotNull(healer.getId());
         assertNotEquals(healer.getId(), attacker.getId());
 

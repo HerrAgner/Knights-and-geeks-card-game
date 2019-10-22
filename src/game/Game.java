@@ -250,11 +250,10 @@ public class Game {
             this.round = 1;
             this.activePlayer = 0;
             createCardPile(cardAmount);
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
                 players[0].addCardToHand(cardPile.remove(0));
                 players[1].addCardToHand(cardPile.remove(0));
             }
-            players[0].addCardToHand(new SpellCard("Healer", false, 2, "Eric", 1));
             return true;
         } catch (Exception e) {
             e.printStackTrace();

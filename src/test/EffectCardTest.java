@@ -24,14 +24,14 @@ class EffectCardTest {
         assertNull(new EffectCard().getName());
         assertNotNull(card);
         assertEquals(card3.getName(), "Eric");
-        assertEquals(card3.getEffectValue(), 3);
-        assertEquals(card3.getCost(), 1);
+        assertEquals(3, card3.getEffectValue());
+        assertEquals(1, card3.getCost());
     }
 
     @Test
     void superConstructorTest() {
         assertNull(new UnitCard().getName());
-        assertEquals(new UnitCard().getCost(), 0);
+        assertEquals(0, new UnitCard().getCost());
         assertNotNull(card.getId());
         assertNotEquals(card.getId(), card2.getId());
     }
@@ -42,6 +42,6 @@ class EffectCardTest {
     }
 
     @Test void getEffectValue(){
-        assertEquals(card2.getEffectValue(), 4);
+        assertEquals(4, card2.getEffectValue());
     }
 }

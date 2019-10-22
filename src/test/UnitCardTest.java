@@ -16,7 +16,7 @@ class UnitCardTest {
     @Test
     void superConstructorTest() {
         assertNull(new UnitCard().getName());
-        assertEquals(new UnitCard().getCost(), 0);
+        assertEquals(0, new UnitCard().getCost());
 
         assertNotNull(card.getId());
         assertNotEquals(card.getId(), card2.getId());
@@ -26,22 +26,22 @@ class UnitCardTest {
     @Test
     void constructorTest() {
         assertNotNull(card);
-        assertEquals(card.getAttack(), 3);
-        assertEquals(card.getMaxHealth(), 10);
-        assertEquals(card.getCost(), 4);
-        assertEquals(card.getName(), "Eric");
+        assertEquals(3, card.getAttack());
+        assertEquals(10, card.getMaxHealth());
+        assertEquals(4, card.getCost());
+        assertEquals("Eric", card.getName());
         assertNull(new UnitCard().getName());
         assertSame(Rarity.RARE, card.getRarity());
     }
 
     @Test
     void getHp() {
-        assertEquals(card.getMaxHealth(), 10);
+        assertEquals(10, card.getMaxHealth());
     }
 
     @Test
     void getAttack() {
-        assertEquals(card.getAttack(), 3);
+        assertEquals(3, card.getAttack());
     }
 
     @Test
