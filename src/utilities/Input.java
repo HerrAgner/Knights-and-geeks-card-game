@@ -1,10 +1,6 @@
 package utilities;
-
-import cards.Card;
 import cards.EffectCard;
 import game.Player;
-
-import java.io.InputStream;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -48,7 +44,6 @@ public class Input {
         while (true) {
             try {
                 input = Integer.parseInt(scan.nextLine());
-                System.out.println("MAX " + max);
                 if (input > 0 && input <= max) {
                     return input;
                 }
