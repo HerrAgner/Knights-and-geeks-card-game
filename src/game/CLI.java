@@ -5,12 +5,15 @@ import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
 import utilities.Input;
+import utilities.Printer;
 import enums.*;
 
 import java.util.Collection;
 import java.util.Scanner;
 
 import static utilities.CLIColors.*;
+import static utilities.Printer.print;
+import static utilities.Printer.println;
 
 public class CLI {
     private String playerOneName, playerTwoName;
