@@ -1,6 +1,9 @@
 package game;
 
 import utilities.Input;
+import utilities.Printer.*;
+
+import static utilities.Printer.print;
 
 public class Program {
     private CLI cli;
@@ -29,9 +32,9 @@ public class Program {
 
             System.out.println(activePlayer.getName() + "'s turn");
 
-            cli.printBoardAndCardsOnHand();
-            cli.printHpAndMana();
-            cli.printMenu();
+            print(cli.printBoardAndCardsOnHand());
+            print(cli.printHpAndMana());
+            print(cli.menu);
 
             boolean menu = true;
             while (menu) {
@@ -64,13 +67,14 @@ public class Program {
                 cli.attackWithCard();
                 break;
             case 5:
-                cli.endPlayerTurn();
+                print(cli.endTurn);
+                game.finishTurn();
                 return false;
             case 6:
                 cli.endGame();
                 break;
             default:
-                cli.printMenu();
+                print(cli.menu);
                 break;
         }
         if (!game.shouldGameContinue()) {
@@ -80,7 +84,7 @@ public class Program {
             cli.printBoardAndCardsOnHand();
         }
         cli.printHpAndMana();
-        cli.printMenu();
+        print(cli.menu);
         return true;
     }
 
