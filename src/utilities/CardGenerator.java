@@ -24,6 +24,12 @@ public class CardGenerator {
         Gson gson = new Gson();
         List<Card> cards = gson.fromJson(br, collectionType);
 
+        try {
+            cards.removeIf(card -> card.getName().length() > 28);
+        } catch (Exception e){
+            e.printStackTrace();;
+        }
+
         Collections.shuffle(cards);
 
 

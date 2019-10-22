@@ -221,31 +221,17 @@ public class CLI {
         printCards(cardsOnHand);
     }
 
-    private String fixedNameString(String name, String extra, String colorDefault, String nameStyle) {
-        int length = 1 + maxNameLength;
-        if (extra != null) length += extra.length();
-        if (colorDefault != null) length += colorDefault.length();
-        if (nameStyle != null) length += nameStyle.length();
-        String returnString = (nameStyle != null ? nameStyle : (colorDefault != null ? colorDefault : ""))
-                + name + (nameStyle != null ? colorDefault : "") + (extra != null ? extra : "");
-        return String.format("%-" + length + "s", returnString);
-    }
-
     private void printHpAndMana() {
-        String active = fixedNameString(" " + activePlayer.getName(), "'s health: "
-                , BLACK + GREEN_BACKGROUND, BLACK_BOLD + GREEN_BACKGROUND)
+        String active = BLACK_BOLD + GREEN_BACKGROUND + " "
+                + String.format("%-" + (maxNameLength+1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
                 + (activePlayer.getCurrentMana() < activePlayer.getMana() ? MAGENTA + GREEN_BACKGROUND : "")
                 + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
-
-        String defending = fixedNameString(" " + defendingPlayer.getName(), "'s health: "
-                , BLACK + RED_BACKGROUND, BLACK_BOLD + RED_BACKGROUND)
-                + String.format("%-20s", defendingPlayer.getHealth() + "/30 ");
-
-
+        String defending = BLACK_BOLD + RED_BACKGROUND + " "
+                + String.format("%-" + (maxNameLength+1) + "s", defendingPlayer.getName()) + " HP: "
+                + String.format("%-20s", activePlayer.getHealth() + "/30");
         System.out.println(active + RESET);
         System.out.println(defending + RESET);
-
     }
 
     private void attackWithCard() {
