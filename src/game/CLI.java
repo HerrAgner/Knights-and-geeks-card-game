@@ -25,7 +25,8 @@ public class CLI {
     private Collection<Card> cardsOnHand;
     private Collection<Card> cardsOnTable;
     private Collection<Card> enemyCardsOnTable;
-    protected Object[] menu = {
+    private Game game;
+    Object[] menu = {
             "\nMake a move!",
             "1. Print cards from hand and table",
             "2. Print hp and mana",
@@ -33,11 +34,12 @@ public class CLI {
             "4. Attack with card",
             "5. End turn",
             "6. End game"};
-    protected Object[] endTurn = {
+    Object[] endTurn = {
             "Ending turn.",
             "---------------------------------------------------------------------------------------------",
             "",
             ""};
+
 
     public CLI(Program program) {
         scan = new Scanner(System.in);
@@ -46,7 +48,11 @@ public class CLI {
         this.program = program;
     }
 
-    protected void createPlayers() {
+    void setGame(Game game){
+        this.game = game;
+    }
+
+    void createPlayers() {
         System.out.println("Enter name for player 1");
         playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
@@ -81,19 +87,19 @@ public class CLI {
     }
 
     public void setVariables() {
-            activePlayer = program.game.getCurrentPlayer();
-            defendingPlayer = program.game.getDefendingPlayer();
+            activePlayer = game.getCurrentPlayer();
+            defendingPlayer = game.getDefendingPlayer();
             cardsOnHand = activePlayer.getCardsOnHand();
             cardsOnTable = activePlayer.getCardsOnTable();
             enemyCardsOnTable = defendingPlayer.getCardsOnTable();
     }
 
 
-    protected void endGame(){
+    void endGame(){
         System.exit(0);
     }
 
-    protected void playCard() {
+    void playCard() {
         int chosenCard;
         int chosenDefendingCard;
 
@@ -169,7 +175,7 @@ public class CLI {
         }
     }
 
-    protected Object[] printBoardAndCardsOnHand() {
+    Object[] printBoardAndCardsOnHand() {
         return new Object[]{
                 "",
                 "Defending cards on table:",
@@ -183,7 +189,7 @@ public class CLI {
         };
     }
 
-    protected Object[] printHpAndMana() {
+    Object[] printHpAndMana() {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength+1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
@@ -199,7 +205,7 @@ public class CLI {
         };
     }
 
-    protected void attackWithCard() {
+    void attackWithCard() {
         int chosenCard;
         int chosenDefendingCard;
         if (cardsOnTable.size() >= 1) {
