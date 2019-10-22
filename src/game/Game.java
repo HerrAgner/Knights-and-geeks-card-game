@@ -106,11 +106,12 @@ public class Game {
             res[1] = Response.TABLE_EMPTY;
         } else {
             res[0] = Response.OK;
-            Card c = getCurrentPlayer().removeCardFromHand(id);
+            Card c = getCurrentPlayer().getCardFromHand(id);
             getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 ((UnitCard) c).setFatigue(true);
+                getCurrentPlayer().removeCardFromHand(id);
                 getCurrentPlayer().addCardToTable(c);
             } else if (c instanceof EffectCard) {
                 res[1] = Response.EFFECT_CARD;
@@ -128,9 +129,11 @@ public class Game {
         if (card.getType().equals("Atk") || card.getType().equals("Hp")) {
             if (card.getType().equals("Atk")) {
                 receivingCard.changeAttack(card.getEffectValue());
+                getCurrentPlayer().removeCardFromHand(card.getId());
             }
             if (card.getType().equals("Hp")) {
                 receivingCard.changeMaxHealth(card.getEffectValue());
+                getCurrentPlayer().removeCardFromHand(card.getId());
             }
             return true;
         }
@@ -285,8 +288,8 @@ public class Game {
 
         double amountOfUnitCards = amountOfCards * 0.7;
         double amountOfCheapCards = amountOfCards * 0.1;
-        double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
-        double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
+//        double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
+        double amountOfSpellCards = Math.floor(amountOfCards * 0.2);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
             cardPile.add(unitCards.get(i));
@@ -296,9 +299,9 @@ public class Game {
             cardPile.add(cheapUnitCards.get(i));
         }
 
-        for (int i = 0; i < amountOfEffectCards; i++) {
-            cardPile.add(effectCards.get(i));
-        }
+//        for (int i = 0; i < amountOfEffectCards; i++) {
+//            cardPile.add(effectCards.get(i));
+//        }
         for (int i = 0; i < amountOfSpellCards; i++) {
             cardPile.add(spellCards.get(i));
         }

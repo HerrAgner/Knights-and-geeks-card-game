@@ -18,7 +18,7 @@ public class UnitCard extends Card {
         this.health = hp;
         this.attack = attack;
         this.fatigue = false;
-        this.currentHealth = this.health;;
+        this.currentHealth = this.health;
         this.attackDefault = this.attack;
         this.rarity = rarity.length() > 0 ? Rarity.valueOf(rarity) : Rarity.COMMON;
     }
