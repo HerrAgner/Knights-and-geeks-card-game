@@ -96,14 +96,15 @@ public class CLI {
                 "2. Print hp and mana\n" +
                 "3. Play card\n" +
                 "4. Attack with card\n" +
-                "5. End turn\n");
+                "5. End turn\n" +
+                "6. End game\n");
     }
 
     private boolean menuSwitch() {
         int userInput;
         boolean printAll = true;
 
-        userInput = input.validatedInput(5);
+        userInput = input.validatedInput(6);
 
         switch (userInput) {
             case 1:
@@ -121,6 +122,9 @@ public class CLI {
             case 5:
                 endPlayerTurn();
                 return false;
+            case 6:
+                endGame();
+                break;
             default:
                 printMenu();
                 break;
@@ -134,6 +138,10 @@ public class CLI {
         printHpAndMana();
         printMenu();
         return true;
+    }
+
+    private void endGame(){
+        System.exit(0);
     }
 
     private void playCard() {
