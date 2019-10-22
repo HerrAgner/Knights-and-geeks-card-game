@@ -32,7 +32,7 @@ public class CLI {
             "5. End turn",
             "6. End game"};
     Object[] endTurn = {
-            "Ending turn.",
+            "Ending turn.\n",
             String.format("%-200s", BLACK_BACKGROUND_BRIGHT
                     + "\n" + YELLOW_BACKGROUND
                     + "\n" + BLACK_BACKGROUND_BRIGHT),
