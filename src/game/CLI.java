@@ -96,19 +96,16 @@ public class CLI {
 
     Object[] printBoardAndCardsOnHand() {
         return new Object[]{
-                "",
-                "Defending cards on table:",
+                "\nDefending cards on table:",
                 printCards(enemyCardsOnTable),
-                "",
-                "Your cards on table: ",
+                "\nYour cards on table: ",
                 printCards(cardsOnTable),
-                "",
-                "Cards on hand:",
+                "\nCards on hand:",
                 printCards(cardsOnHand)
         };
     }
 
-    Object[] printHpAndMana() {
+    Object printHpAndMana() {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength + 1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
@@ -116,17 +113,14 @@ public class CLI {
                 + activePlayer.getCurrentMana() + "/" + activePlayer.getMana() + " ");
         String defending = BLACK_BOLD + RED_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength + 1) + "s", defendingPlayer.getName()) + " HP: "
-                + String.format("%-20s", activePlayer.getHealth() + "/30");
-        return new Object[]{
-                "\n",
-                active + RESET,
-                defending + RESET
-        };
+                + String.format("%-20s", defendingPlayer.getHealth() + "/30");
+
+        return new Object[]{"\n", active + RESET, defending + RESET};
     }
 
-    Object[] printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
+    Object printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
         if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
-            return new Object[]{"Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. "};
+            return "Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. ";
         } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
             return new Object[]{
                     attackingCard.getName() + " killed " + defendingCard.getName() + " with a lethal attack.",
@@ -135,12 +129,10 @@ public class CLI {
             return new Object[]{
                     attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".",
                     defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp."};
-        } else {
-            return new Object[]{
+        } else return new Object[]{
                     attackingCard.getName() + " attacked " + defendingCard.getName() + ".",
                     attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth(),
                     defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth()};
-        }
     }
 
     void hpBarAnimation(Card card) {
@@ -359,6 +351,5 @@ public class CLI {
                 break;
         }
         return colorName;
-
     }
 }
