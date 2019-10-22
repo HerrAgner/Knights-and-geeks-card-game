@@ -153,7 +153,7 @@ public class CLI {
             SpellCard spellCard = (SpellCard) card;
             if (spellCard.getType().equals("Healer")) {
                 healer = true;
-                counter = defendingPlayer.getHealth() - spellCard.getValue();
+                counter = activePlayer.getHealth() - spellCard.getValue();
                 counter2 = counter;
             } else {
                 healer = false;
@@ -164,7 +164,7 @@ public class CLI {
 
         if (healer) {
             //TODO fix max hp
-            for (int i = counter2; i <= defendingPlayer.getHealth(); i++) {
+            for (int i = counter2; i <= activePlayer.getHealth(); i++) {
                 hp = "";
                 for (int j = 0; j < counter2; j++) {
                     if (j == counter2 / 2) {
