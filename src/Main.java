@@ -1,7 +1,7 @@
-import game.CLI;
+import game.Program;
+
 public class Main {
     public static void main(String[] args) {
-        CLI cli = new CLI();
-        cli.run();
+        new Program();
     }
 }

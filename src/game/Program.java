@@ -1,0 +1,90 @@
+package game;
+
+import utilities.Input;
+
+public class Program {
+    private CLI cli;
+    protected Game game;
+    private boolean running;
+    private Input input;
+
+
+    public Program() {
+        input = new Input();
+        cli = new CLI(this);
+        cli.createPlayers();
+    }
+
+    public void startGame(String playerOneName, String playerTwoName, int cardPileSize) {
+        game = new Game(playerOneName, playerTwoName, cardPileSize);
+        gameLoop();
+    }
+
+    public void gameLoop() {
+        while (running) {
+            Player activePlayer = game.getCurrentPlayer();
+
+            cli.setVariables();
+            game.startTurn();
+
+            System.out.println(activePlayer.getName() + "'s turn");
+
+            cli.printBoardAndCardsOnHand();
+            cli.printHpAndMana();
+            cli.printMenu();
+
+            boolean menu = true;
+            while (menu) {
+                menu = menuSwitch();
+            }
+        }
+    }
+
+    protected void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    protected boolean menuSwitch() {
+        int userInput;
+        boolean printAll = true;
+
+        userInput = input.validatedInput(6);
+
+        switch (userInput) {
+            case 1:
+                break;
+            case 2:
+                cli.printHpAndMana();
+                printAll = false;
+                break;
+            case 3:
+                cli.playCard();
+                break;
+            case 4:
+                cli.attackWithCard();
+                break;
+            case 5:
+                cli.endPlayerTurn();
+                return false;
+            case 6:
+                cli.endGame();
+                break;
+            default:
+                cli.printMenu();
+                break;
+        }
+        if (!game.shouldGameContinue()) {
+            running = false;
+        }
+        if (printAll) {
+            cli.printBoardAndCardsOnHand();
+        }
+        cli.printHpAndMana();
+        cli.printMenu();
+        return true;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+}

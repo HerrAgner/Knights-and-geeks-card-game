@@ -8,6 +8,7 @@ import utilities.Input;
 import enums.*;
 
 import java.util.Collection;
+import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
 import static utilities.CLIColors.*;
@@ -18,8 +19,7 @@ public class CLI {
     private String playerOneName, playerTwoName;
     private int maxNameLength;
     private Scanner scan;
-    private boolean running;
-    private Game game;
+    private Program program;
     private Input input;
     private Player activePlayer;
     private Player defendingPlayer;
@@ -38,18 +38,16 @@ public class CLI {
             "---------------------------------------------------------------------------------------------",
             "",
             ""};
-    public CLI() {
+
+    public CLI(Program program) {
         scan = new Scanner(System.in);
         input = new Input();
-        running = true;
+        program.setRunning(true);
+        this.program = program;
     }
 
-    public void run() {
-        createPlayers();
-        gameloop();
-    }
-    public void createPlayers() {
-        print("Enter name for player 1");
+    protected void createPlayers() {
+        System.out.println("Enter name for player 1");
         playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
             print("Invalid name. Max length is 10 characters, please enter a new one.");
@@ -66,7 +64,10 @@ public class CLI {
             Lurig lurig = new Lurig();
         }
         maxNameLength = Math.max(playerOneName.length(), playerTwoName.length());
-        game = new Game(playerOneName, playerTwoName, choseCardPileSize());
+
+        program.startGame(playerOneName, playerTwoName, choseCardPileSize());
+        System.out.println(activePlayer.getName() + "'s turn");
+
     }
 
     public int choseCardPileSize() {
@@ -79,15 +80,14 @@ public class CLI {
         return cardSize;
     }
 
-    private void gameloop() {
-        while (running) {
-            activePlayer = game.getCurrentPlayer();
-            defendingPlayer = game.getDefendingPlayer();
+    public void setVariables() {
+            activePlayer = program.game.getCurrentPlayer();
+            defendingPlayer = program.game.getDefendingPlayer();
             cardsOnHand = activePlayer.getCardsOnHand();
             cardsOnTable = activePlayer.getCardsOnTable();
             enemyCardsOnTable = defendingPlayer.getCardsOnTable();
+    }
 
-            game.startTurn();
 
             print(activePlayer.getName() + "'s turn");
 
@@ -167,7 +167,7 @@ public class CLI {
         System.exit(0);
     }
 
-    private void playCard() {
+    protected void playCard() {
         int chosenCard;
         int chosenDefendingCard;
 
@@ -178,7 +178,7 @@ public class CLI {
 
         Card card = (Card) cardsOnHand.toArray()[(chosenCard - 1)];
 
-        Response[] response = game.playCard(card.getId());
+        Response[] response = program.game.playCard(card.getId());
 
         if (response[0] == Response.OK) {
             UnitCard unitCard;
@@ -207,7 +207,7 @@ public class CLI {
 
                         chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                         unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                        game.useEffectCard(effectCard, unitCard);
+                        program.game.useEffectCard(effectCard, unitCard);
                         printEffectCardInfo(effectCard, unitCard);
 
 
@@ -216,7 +216,7 @@ public class CLI {
                         print("Which card do you want to buff?");
                         chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                         unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
-                        game.useEffectCard(effectCard, unitCard);
+                        program.game.useEffectCard(effectCard, unitCard);
                         printEffectCardInfo(effectCard, unitCard);
                     }
                     sleep(4000);
@@ -281,7 +281,7 @@ public class CLI {
         };
     }
 
-    private void attackWithCard() {
+    protected void attackWithCard() {
         int chosenCard;
         int chosenDefendingCard;
         if (cardsOnTable.size() >= 1) {
@@ -298,13 +298,13 @@ public class CLI {
                 chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
 
                 if (chosenDefendingCard == 0) {
-                    game.attackPlayer(attackingCard);
+                    program.game.attackPlayer(attackingCard);
                     print(attackPlayerInfo(attackingCard));
                     sleep(3000);
                     hpBarAnimation(attackingCard);
                 } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                     var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
-                    game.attackCard(attackingCard, defendingCard);
+                    program.game.attackCard(attackingCard, defendingCard);
                     print(printAttackInfo(attackingCard, defendingCard));
                     sleep(3000);
                 }
@@ -592,20 +592,20 @@ public class CLI {
 
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
         if (spellCard.isMany()) {
-            game.useSpellOnCard(spellCard);
+            program.game.useSpellOnCard(spellCard);
             print(printAoeSpellInfo(spellCard));
             sleep(3000);
             return;
         }
         int chosenDefendingCard = input.validateActionOnPlayerOrCard(cards.size());
         if (chosenDefendingCard == 0) {
-            game.useSpellOnPlayer(spellCard);
+            program.game.useSpellOnPlayer(spellCard);
             print(printSpellOnPlayerInfo(spellCard));
             hpBarAnimation(spellCard);
             sleep(3000);
         } else {
             UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
-            game.useSpellOnCard(spellCard, unitCard);
+            program.game.useSpellOnCard(spellCard, unitCard);
             print(printSpellOnCardInfo(spellCard, unitCard));
             sleep(3000);
         }
