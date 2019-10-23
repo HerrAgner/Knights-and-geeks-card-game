@@ -45,10 +45,10 @@ public class Program {
             cli.setVariables();
             game.startTurn();
 
+            System.out.println(activePlayer.getName() + TURN);
 
             boolean menu = true;
             while (menu) {
-                System.out.println(activePlayer.getName() + TURN);
                 print(cli.printBoardAndCardsOnHand());
                 print(cli.printHpAndMana());
                 print(MENU);
