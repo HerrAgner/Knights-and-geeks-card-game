@@ -5,11 +5,10 @@ import static utilities.CLIColors.*;
 public class Messages {
     public static final Object[] MENU =             {"\nMake a move!",
             "1. Print cards from hand and table",
-                    "2. Print hp and mana",
-                    "3. Play card",
-                    "4. Attack with card",
-                    "5. End turn",
-                    "6. End game"};
+                    "2. Play card",
+                    "3. Attack with card",
+                    "4. End turn",
+                    "5. End game"};
     public static final Object[] END_TURN = {
             "Ending turn.\n",
             String.format("%-200s", BLACK_BACKGROUND_BRIGHT

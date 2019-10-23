@@ -48,18 +48,10 @@ public class Program {
 
             boolean menu = true;
             while (menu) {
-                System.out.println(activePlayer.getName() + "'s turn");
+                System.out.println(activePlayer.getName() + TURN);
                 print(cli.printBoardAndCardsOnHand());
                 print(cli.printHpAndMana());
-                print(cli.menu);
-            System.out.println(activePlayer.getName() + TURN);
-
-            print(cli.printBoardAndCardsOnHand());
-            print(cli.printHpAndMana());
-            print(MENU);
-
-            boolean menu = true;
-            while (menu) {
+                print(MENU);
                 menu = menuSwitch();
             }
         }
