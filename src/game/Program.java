@@ -198,8 +198,8 @@ public class Program {
                 if (chosenDefendingCard == 0) {
                     game.attackPlayer(attackingCard);
                     print(cli.attackPlayerInfo(attackingCard));
-                    sleep(3000);
                     cli.hpBarAnimation(attackingCard);
+                    sleep(3000);
                 } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                     var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                     game.attackCard(attackingCard, defendingCard);
