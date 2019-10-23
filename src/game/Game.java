@@ -95,10 +95,11 @@ public class Game {
 
     public Response[] playCard(UUID id) {
         Response[] res = {null, null};
-        if (getCurrentPlayer().getCurrentMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
+        Card c = getCurrentPlayer().getCardFromHand(id);
+        if (getCurrentPlayer().getCurrentMana() < c.getCost()) {
             res[0] = Response.ERROR;
             res[1] = Response.COST;
-        } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
+        } else if (c instanceof UnitCard && getCurrentPlayer().getCardsOnTable().size() > 6) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_FULL;
         } else if (input.validateEmptyTable(id, getCurrentPlayer(), getDefendingPlayer())) {
@@ -106,7 +107,7 @@ public class Game {
             res[1] = Response.TABLE_EMPTY;
         } else {
             res[0] = Response.OK;
-            Card c = getCurrentPlayer().getCardFromHand(id);
+            getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 ((UnitCard) c).setFatigue(true);
