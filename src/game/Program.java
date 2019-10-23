@@ -109,7 +109,6 @@ public class Program {
         int chosenDefendingCard;
 
         print(ENT_PLAY_CARD);
-        print("Which card do you want to play? [0 to return to main menu]");
         print(cli.printCards(cardsOnHand));
         chosenCard = input.validateChosenCard(cardsOnHand.size());
 
@@ -124,13 +123,13 @@ public class Program {
                         if (spellCard.getType().equals("Healer")) {
                             print(cli.printCards(cardsOnTable));
                             if (!spellCard.isMany()) {
-                                print("Which card do you want to heal? [9 to heal yourself] [0 to return to main menu] ");
+                                print(ENT_HEAL_CARD);
                             }
                             useSpell(spellCard, cardsOnTable);
                         } else if (spellCard.getType().equals("Attacker")) {
                             print(cli.printCards(enemyCardsOnTable));
                             if (!spellCard.isMany()) {
-                                print("Which card do you want to attack? [9 to attack player] [0 to return to main menu]");
+                                print(ENT_DEF_CARD);
                             }
                             useSpell(spellCard, enemyCardsOnTable);
                         }
@@ -139,7 +138,7 @@ public class Program {
                         EffectCard effectCard = (EffectCard) card;
                         if (effectCard.getEffectValue() < 0) {
                             print(cli.printCards(enemyCardsOnTable));
-                            print("Which card do you want to debuff? [0 to return to main menu]");
+                            print(ENT_DEBUFF_CARD);
                             chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                             if (chosenDefendingCard == 0) {
                                 break;
@@ -150,7 +149,7 @@ public class Program {
 
                         } else {
                             print(cli.printCards(cardsOnTable));
-                            print("Which card do you want to buff? [0 to return to main menu]");
+                            print(ENT_BUFF_CARD);
                             chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                             if (chosenDefendingCard == 0) {
                                 break;
@@ -162,7 +161,8 @@ public class Program {
                         sleep(4000);
                         break;
                     case UNIT_CARD:
-                        print("Played card " + card.getName());
+                        print(UNIT_USED + card.getName());
+                        print(cli.printBoardAndCardsOnHand());
                         break;
                     default:
                         // Crazy place! How did you get here?
@@ -171,18 +171,18 @@ public class Program {
             } else if (response[0] == Response.ERROR) {
                 switch (response[1]) {
                     case TABLE_FULL:
-                        print("To many cards on the table. Max 7.");
+                        print(FULL_CARDS);
                         break;
                     case TABLE_EMPTY:
-                        print("No cards on table");
+                        print(NO_CARDS);
                         break;
                     case COST:
-                        print("Not enough mana.");
+                        print(NO_MANA);
                         break;
                 }
             }
         } else {
-            print(cli.menu);
+            print(MENU);
         }
     }
 
@@ -190,16 +190,16 @@ public class Program {
         int chosenCard;
         int chosenDefendingCard;
         if (cardsOnTable.size() >= 1) {
-            print("Choose card: [0 to return to main menu]");
+            print(ENT_ATK_CARD);
             print(cli.printCards(cardsOnTable));
             chosenCard = input.validateChosenCard(cardsOnTable.size());
             if (chosenCard != 0) {
                 var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
                 if (attackingCard.getFatigue()) {
-                    print("\nCard is fatigue, wait one turn to attack!\n");
-                    print(cli.menu);
+                    print(INV_FATIGUE);
+                    print(MENU);
                 } else {
-                    print("Attack card or player [9 for player]: [0 to return to main menu]");
+                    print(ENT_DEF_CARD);
                     print(cli.printCards(enemyCardsOnTable));
                     chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
                     if (chosenDefendingCard != 0) {
@@ -242,7 +242,7 @@ public class Program {
             }
             sleep(3000);
         } else {
-            print(cli.menu);
+            print(MENU);
         }
     }
 
