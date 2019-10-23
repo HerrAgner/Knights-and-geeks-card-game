@@ -123,7 +123,7 @@ public class CLI {
                     defendingCard.getName() + NEW_HP + defendingCard.getCurrentHealth()};
     }
 
-    void hpBarAnimation(Card card, Card ... defendingCard) {
+    void hpBarAnimation(Card card) {
         String oneHp = String.format("%s", BLACK + RED_BACKGROUND + " ");
         String oneHpPlus = String.format("%s", BLACK + GREEN_BACKGROUND + " ");
         String hp = "";
@@ -131,9 +131,6 @@ public class CLI {
         int counter2 = 0;
         boolean healer = false;
 
-        if (defendingCard.length > 0) {
-            UnitCard defender = (UnitCard) defendingCard[0];
-        }
         if (card instanceof UnitCard) {
             UnitCard unitCard = (UnitCard) card;
             counter = defendingPlayer.getHealth() + unitCard.getAttack();
