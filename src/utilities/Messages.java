@@ -3,17 +3,16 @@ package utilities;
 import static utilities.CLIColors.*;
 
 public class Messages {
-    public static final Object[] MENU =             {"\nMake a move!",
+    public static final Object[] MENU = {
+            "\nMake a move!",
             "1. Print cards from hand and table",
-                    "2. Play card",
-                    "3. Attack with card",
-                    "4. End turn",
-                    "5. End game"};
+            "2. Play card",
+            "3. Attack with card",
+            "4. End turn",
+            "5. End game"};
     public static final Object[] END_TURN = {
             "Ending turn.\n",
-            String.format("%-200s", BLACK_BACKGROUND_BRIGHT
-                    + "\n" + YELLOW_BACKGROUND
-                    + "\n" + BLACK_BACKGROUND_BRIGHT),
+            String.format("%-200s", BLACK_BACKGROUND_BRIGHT + "\n" + YELLOW_BACKGROUND + "\n" + BLACK_BACKGROUND_BRIGHT),
             RESET};
     public static final String ENTER_NAME = "Enter name for player";
     public static final String INV_NAME_1 = "Invalid name. Max length is 10 characters, please enter a new one.";
@@ -41,11 +40,11 @@ public class Messages {
     public static final String INV_FATIGUE = "\nCard is fatigue, wait one turn to attack!\n";
     public static final String INV_NO_CARDS = "No cards on table. Choose another option";
     public static final String TURN = "'s turn";
-    public static final String BOTH = "Both " ;
+    public static final String BOTH = "Both ";
     public static final String AND = " and ";
     public static final String DIE_FIGHT = " died fighting. ";
-    public static final String KILLED =  " killed ";
-    public static final String LETHAL_ATK =  " with a lethal attack.";
+    public static final String KILLED = " killed ";
+    public static final String LETHAL_ATK = " with a lethal attack.";
     public static final String NEW_HP = " new health: ";
     public static final String DIE_ATK = " died while attacking ";
     public static final String LIVES = " lives with ";
@@ -62,7 +61,8 @@ public class Messages {
     public static final String ALL_HEAL = " hp to all your wounded cards.";
     public static final String LIGHT_MAGIC = " hp with light magic!";
     public static final String NO_HEAL = "You healed for nothing, you fool!";
+
+
     public static final String LUR1 = "cheetah";
     public static final String LUR2 = "zebra";
-
 }

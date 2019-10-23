@@ -9,5 +9,4 @@ public enum Response {
     UNIT_CARD,
     SPELL_CARD,
     EFFECT_CARD
-
 }

@@ -8,7 +8,6 @@ public abstract class Card {
     private UUID id;
 
     public Card() {
-
     }
 
     public Card(String name, int cost) {
@@ -21,7 +20,6 @@ public abstract class Card {
             this.name = name;
             this.cost = cost;
             this.id = UUID.randomUUID();
-
         }
     }
 
@@ -33,9 +31,7 @@ public abstract class Card {
         return cost;
     }
 
-
     public UUID getId() {
         return id;
     }
-    
 }

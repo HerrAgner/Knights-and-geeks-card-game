@@ -1,14 +1,17 @@
 import cards.UnitCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import enums.*;
 
 class UnitCardTest {
     private UnitCard card;
     private UnitCard card2;
+
     @BeforeEach
-    void init(){
+    void init() {
         card = new UnitCard("Eric", 4, 10, 3, "RARE");
         card2 = new UnitCard("Eric", 4, 10, 3, "COMMON");
     }
@@ -47,7 +50,7 @@ class UnitCardTest {
     @Test
     void changeMaxHealth() {
         card.changeMaxHealth(5);
-        assertEquals(15,card.getMaxHealth());
+        assertEquals(15, card.getMaxHealth());
         card.changeMaxHealth(-5);
         assertEquals(10, card.getMaxHealth());
         card.changeMaxHealth(-20);
@@ -65,7 +68,7 @@ class UnitCardTest {
     }
 
     @Test
-    void setFatigue(){
+    void setFatigue() {
         card.setFatigue(true);
         assertTrue(card.getFatigue());
 
@@ -74,7 +77,7 @@ class UnitCardTest {
     }
 
     @Test
-    void getFatigue(){
+    void getFatigue() {
         assertNotNull(card.getFatigue());
     }
 

@@ -41,7 +41,8 @@ class EffectCardTest {
         assertEquals(card.getType(), "debuffHp");
     }
 
-    @Test void getEffectValue(){
+    @Test
+    void getEffectValue() {
         assertEquals(4, card2.getEffectValue());
     }
 }

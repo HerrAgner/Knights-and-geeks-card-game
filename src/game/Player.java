@@ -22,7 +22,7 @@ public class Player {
             this.name = name;
             this.health = 30;
             this.currentMana = 0;
-            this.mana =0;
+            this.mana = 0;
             this.cardsOnHand = new ConcurrentHashMap<>();
             this.cardsOnTable = new ConcurrentHashMap<>();
         } else this.name = null;
@@ -43,14 +43,14 @@ public class Player {
         }
     }
 
-    public void changeMaxMana(){
-        if (this.mana <10){
+    public void changeMaxMana() {
+        if (this.mana < 10) {
             this.mana++;
         }
-        this.currentMana =this.mana;
+        this.currentMana = this.mana;
     }
 
-    public int getMana(){
+    public int getMana() {
         return this.mana;
     }
 

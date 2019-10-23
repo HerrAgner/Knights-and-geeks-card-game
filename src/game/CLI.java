@@ -10,6 +10,7 @@ import utilities.Messages;
 
 import java.util.Collection;
 import java.util.Scanner;
+
 import static utilities.CLIColors.*;
 import static utilities.Messages.*;
 import static utilities.Printer.print;
@@ -35,7 +36,7 @@ public class CLI {
         this.program = program;
     }
 
-    void setGame(Game game){
+    void setGame(Game game) {
         this.game = game;
     }
 
@@ -153,9 +154,9 @@ public class CLI {
                     attackingCard.getName() + DIE_ATK + defendingCard.getName() + ".",
                     defendingCard.getName() + LIVES + defendingCard.getCurrentHealth() + " hp."};
         } else return new Object[]{
-                    attackingCard.getName() + ATTACKED + defendingCard.getName() + ".",
-                    attackingCard.getName() + NEW_HP + attackingCard.getCurrentHealth(),
-                    defendingCard.getName() + NEW_HP + defendingCard.getCurrentHealth()};
+                attackingCard.getName() + ATTACKED + defendingCard.getName() + ".",
+                attackingCard.getName() + NEW_HP + attackingCard.getCurrentHealth(),
+                defendingCard.getName() + NEW_HP + defendingCard.getCurrentHealth()};
     }
 
     void hpBarAnimation(Card card) {
