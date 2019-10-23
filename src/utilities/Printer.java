@@ -3,13 +3,13 @@ package utilities;
 public class Printer {
 
     public static void print(Object ... args) {
-        for(Object text : args){
-            if(text instanceof Object[]){
-                for(Object innerText : (Object[]) text) {
-                    System.out.println(innerText);
+        for(Object printObject : args){
+            if(printObject instanceof Object[]){
+                for(Object innerObject : (Object[]) printObject) {
+                    System.out.println(innerObject);
                 }
             } else
-                System.out.println(text);
+                System.out.println(printObject);
         }
     }
 

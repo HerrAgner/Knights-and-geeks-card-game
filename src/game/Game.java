@@ -95,11 +95,11 @@ public class Game {
 
     public Response[] playCard(UUID id) {
         Response[] res = {null, null};
-        if (getCurrentPlayer().getCurrentMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
+        Card c = getCurrentPlayer().getCardFromHand(id);
+        if (getCurrentPlayer().getCurrentMana() < c.getCost()) {
             res[0] = Response.ERROR;
             res[1] = Response.COST;
-            System.out.println("mana" + getCurrentPlayer().getCurrentMana() + "/" + getCurrentPlayer().getMana());
-        } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
+        } else if (c instanceof UnitCard && getCurrentPlayer().getCardsOnTable().size() > 6) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_FULL;
         } else if (input.validateEmptyTable(id, getCurrentPlayer(), getDefendingPlayer())) {
@@ -107,12 +107,11 @@ public class Game {
             res[1] = Response.TABLE_EMPTY;
         } else {
             res[0] = Response.OK;
-            Card c = getCurrentPlayer().getCardFromHand(id);
-            getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 ((UnitCard) c).setFatigue(true);
                 getCurrentPlayer().removeCardFromHand(id);
+                getCurrentPlayer().changeMana(-c.getCost());
                 getCurrentPlayer().addCardToTable(c);
             } else if (c instanceof EffectCard) {
                 res[1] = Response.EFFECT_CARD;
@@ -130,10 +129,12 @@ public class Game {
         if (card.getType().equals("Atk") || card.getType().equals("Hp")) {
             if (card.getType().equals("Atk")) {
                 receivingCard.changeAttack(card.getEffectValue());
+                getCurrentPlayer().changeMana(-card.getCost());
                 getCurrentPlayer().removeCardFromHand(card.getId());
             }
             if (card.getType().equals("Hp")) {
                 receivingCard.changeMaxHealth(card.getEffectValue());
+                getCurrentPlayer().changeMana(-card.getCost());
                 getCurrentPlayer().removeCardFromHand(card.getId());
             }
             return true;
@@ -165,8 +166,10 @@ public class Game {
     public boolean useSpellSingleCard(SpellCard usedCard, UnitCard receivingCard) {
         if (usedCard.getType().equals("Healer")) {
             receivingCard.changeCurrentHealth(usedCard.getValue());
+            getCurrentPlayer().changeMana(-usedCard.getCost());
         } else if (usedCard.getType().equals("Attacker")) {
             receivingCard.changeCurrentHealth(-usedCard.getValue());
+            getCurrentPlayer().changeMana(-usedCard.getCost());
             if (receivingCard.getCurrentHealth() <= 0) {
                 trashPile.add(getDefendingPlayer().removeCardFromTable(receivingCard.getId()));
             }
@@ -193,6 +196,7 @@ public class Game {
             deadId.forEach(id -> trashPile.add(getDefendingPlayer().removeCardFromTable(id)));
         }
         getCurrentPlayer().removeCardFromHand(usedCard.getId());
+        getCurrentPlayer().changeMana(-usedCard.getCost());
         trashPile.add(usedCard);
         return true;
     }
