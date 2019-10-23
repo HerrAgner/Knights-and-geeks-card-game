@@ -110,5 +110,75 @@
     "type": "Attacker",
     "value": 4,
     "many": true
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
+  },
+  {
+    "name": "Proteum Feliseo",
+    "cost": 1,
+    "type": "Healer",
+    "value": 1,
+    "many": false
   }
 ]
