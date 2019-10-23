@@ -262,10 +262,12 @@ class GameTest {
         SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
         SpellCard attackerKill = new SpellCard("Attacker", true, 30, "Flopp", 2);
 
+        game.getCurrentPlayer().addCardToHand(healer);
         assertTrue(game.useSpellOnPlayer(healer));
         assertEquals(30, game.getCurrentPlayer().getHealth());
         assertTrue(game.getTrashPile().contains(healer));
 
+        game.getCurrentPlayer().addCardToHand(attacker);
         assertTrue(game.useSpellOnPlayer(attacker));
         assertEquals(28, game.getDefendingPlayer().getHealth());
         assertTrue(game.getTrashPile().contains(attacker));

@@ -8,6 +8,7 @@ import enums.Response;
 import utilities.Input;
 
 import java.util.Collection;
+
 import static utilities.Messages.*;
 import static utilities.Printer.print;
 
@@ -49,8 +50,8 @@ public class Program {
 
             boolean menu = true;
             while (menu) {
-                print(cli.printBoardAndCardsOnHand());
-                print(cli.printHpAndMana());
+                print(cli.infoBoardAndCardsOnHand());
+                print(cli.infoHpAndMana());
                 print(MENU);
                 menu = menuSwitch();
             }
@@ -68,7 +69,7 @@ public class Program {
 
         switch (userInput) {
             case 1:
-                print(cli.printBoardAndCardsOnHand());
+                print(cli.infoBoardAndCardsOnHand());
                 break;
             case 2:
                 playCard();
@@ -99,7 +100,7 @@ public class Program {
         int chosenDefendingCard;
 
         print(ENT_PLAY_CARD);
-        print(cli.printCards(cardsOnHand));
+        print(cli.infoCardRow(cardsOnHand));
         chosenCard = input.validateChosenCard(cardsOnHand.size());
 
         if (chosenCard != 0) {
@@ -111,13 +112,13 @@ public class Program {
                     case SPELL_CARD:
                         SpellCard spellCard = (SpellCard) card;
                         if (spellCard.getType().equals("Healer")) {
-                            print(cli.printCards(cardsOnTable));
+                            print(cli.infoCardRow(cardsOnTable));
                             if (!spellCard.isMany()) {
                                 print(ENT_HEAL_CARD);
                             }
                             useSpell(spellCard, cardsOnTable);
                         } else if (spellCard.getType().equals("Attacker")) {
-                            print(cli.printCards(enemyCardsOnTable));
+                            print(cli.infoCardRow(enemyCardsOnTable));
                             if (!spellCard.isMany()) {
                                 print(ENT_DEF_CARD);
                             }
@@ -127,7 +128,7 @@ public class Program {
                     case EFFECT_CARD:
                         EffectCard effectCard = (EffectCard) card;
                         if (effectCard.getEffectValue() < 0) {
-                            print(cli.printCards(enemyCardsOnTable));
+                            print(cli.infoCardRow(enemyCardsOnTable));
                             print(ENT_DEBUFF_CARD);
                             chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                             if (chosenDefendingCard == 0) {
@@ -138,7 +139,7 @@ public class Program {
                             cli.printEffectCardInfo(effectCard, unitCard);
 
                         } else {
-                            print(cli.printCards(cardsOnTable));
+                            print(cli.infoCardRow(cardsOnTable));
                             print(ENT_BUFF_CARD);
                             chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                             if (chosenDefendingCard == 0) {
@@ -148,7 +149,7 @@ public class Program {
                             game.useEffectCard(effectCard, unitCard);
                             cli.printEffectCardInfo(effectCard, unitCard);
                         }
-                        sleep(4000);
+                        sleep(2000);
                         break;
                     case UNIT_CARD:
                         print(UNIT_USED + card.getName());
@@ -161,17 +162,18 @@ public class Program {
                 switch (response[1]) {
                     case TABLE_FULL:
                         print(FULL_CARDS);
+                        sleep(2000);
                         break;
                     case TABLE_EMPTY:
                         print(NO_CARDS);
+                        sleep(2000);
                         break;
                     case COST:
                         print(NO_MANA);
+                        sleep(2000);
                         break;
                 }
             }
-        } else {
-            print(MENU);
         }
     }
 
@@ -180,7 +182,7 @@ public class Program {
         int chosenDefendingCard;
         if (cardsOnTable.size() >= 1) {
             print(ENT_ATK_CARD);
-            print(cli.printCards(cardsOnTable));
+            print(cli.infoCardRow(cardsOnTable));
             chosenCard = input.validateChosenCard(cardsOnTable.size());
             if (chosenCard != 0) {
                 var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
@@ -189,31 +191,32 @@ public class Program {
                     print(MENU);
                 } else {
                     print(ENT_DEF_CARD);
-                    print(cli.printCards(enemyCardsOnTable));
+                    print(cli.infoCardRow(enemyCardsOnTable));
                     chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
                     if (chosenDefendingCard != 0) {
                         if (chosenDefendingCard == 9) {
                             game.attackPlayer(attackingCard);
-                            print(cli.attackPlayerInfo(attackingCard));
+                            print(cli.infoAttackPlayer(attackingCard));
                             cli.hpBarAnimation(attackingCard);
                         } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                             var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                             game.attackCard(attackingCard, defendingCard);
-                            print(cli.printAttackInfo(attackingCard, defendingCard));
+                            print(cli.infoAttack(attackingCard, defendingCard));
                         }
                         sleep(2000);
                     }
                 }
             }
         } else {
-            print("", INV_NO_CARDS, "", MENU);
+            print("", INV_NO_CARDS, "");
+            sleep(2000);
         }
     }
-    
+
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
         if (spellCard.isMany()) {
             game.useSpellOnCard(spellCard);
-            print(cli.printAoeSpellInfo(spellCard));
+            print(cli.infoAoeSpell(spellCard));
             sleep(3000);
             return;
         }
@@ -221,12 +224,12 @@ public class Program {
         if (chosenDefendingCard != 0) {
             if (chosenDefendingCard == 9) {
                 game.useSpellOnPlayer(spellCard);
-                print(cli.printSpellOnPlayerInfo(spellCard));
+                print(cli.infoSpellOnPlayer(spellCard));
                 cli.hpBarAnimation(spellCard);
             } else {
                 UnitCard unitCard = (UnitCard) cards.toArray()[chosenDefendingCard - 1];
                 game.useSpellOnCard(spellCard, unitCard);
-                print(cli.printSpellOnCardInfo(spellCard, unitCard));
+                print(cli.infoSpellOnCard(spellCard, unitCard));
             }
             sleep(3000);
         } else {
@@ -236,8 +239,8 @@ public class Program {
 
     private void endGame() {
         System.out.println("Are you sure you want to end the game? (1 for yes, any other number for no)");
-        if (input.validatedInput(1) == 1){
-        System.exit(0);
+        if (input.validatedInput(1) == 1) {
+            System.exit(0);
         }
     }
 

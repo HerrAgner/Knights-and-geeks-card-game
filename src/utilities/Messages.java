@@ -62,11 +62,7 @@ public class Messages {
     public static final String ALL_HEAL = " hp to all your wounded cards.";
     public static final String LIGHT_MAGIC = " hp with light magic!";
     public static final String NO_HEAL = "You healed for nothing, you fool!";
-
-
-
-
-    public static final String LUR1 = "cheeta";
+    public static final String LUR1 = "cheetah";
     public static final String LUR2 = "zebra";
 
 }

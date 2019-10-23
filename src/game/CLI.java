@@ -4,7 +4,6 @@ import cards.Card;
 import cards.EffectCard;
 import cards.SpellCard;
 import cards.UnitCard;
-import utilities.CLIColors;
 import utilities.Input;
 import enums.*;
 import utilities.Messages;
@@ -83,14 +82,14 @@ public class CLI {
         return cardSize;
     }
 
-    Object[] printBoardAndCardsOnHand() {
+    Object[] infoBoardAndCardsOnHand() {
         return new Object[]{
                 DEF_CARD_TBL,
-                printCards(enemyCardsOnTable),
+                infoCardRow(enemyCardsOnTable),
                 OWN_CARD_TBL,
-                printCards(cardsOnTable),
+                infoCardRow(cardsOnTable),
                 OWN_CARD_HND,
-                printCards(cardsOnHand)
+                infoCardRow(cardsOnHand)
         };
     }
 
@@ -124,12 +123,8 @@ public class CLI {
         }
         return activeHp;
     }
-    
-    Object printHpAndMana() {
-        String activeHp = playerHpBar("GREEN", activePlayer);
-        String activeMana = playerManaBar();
-        String defendingHp = playerHpBar("RED", defendingPlayer);
 
+    Object infoHpAndMana() {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength + 1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
@@ -143,14 +138,14 @@ public class CLI {
         return new Object[]{"\n", activeHp + RESET, activeMana + RESET, defendingHp + RESET};
     }
 
-    Object printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
+    Object infoAttack(UnitCard attackingCard, UnitCard defendingCard) {
         if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
             return BOTH + attackingCard.getName() + AND + defendingCard.getName() + DIE_FIGHT;
-        } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
+        } else if (defendingCard.getCurrentHealth() <= 0) {
             return new Object[]{
                     attackingCard.getName() + KILLED + defendingCard.getName() + LETHAL_ATK,
                     attackingCard.getName() + NEW_HP + attackingCard.getCurrentHealth()};
-        } else if (attackingCard.getCurrentHealth() <= defendingCard.getAttack()) {
+        } else if (attackingCard.getCurrentHealth() <= 0) {
             return new Object[]{
                     attackingCard.getName() + DIE_ATK + defendingCard.getName() + ".",
                     defendingCard.getName() + LIVES + defendingCard.getCurrentHealth() + " hp."};
@@ -217,7 +212,7 @@ public class CLI {
 
     }
 
-    Object attackPlayerInfo(UnitCard attackingCard) {
+    Object infoAttackPlayer(UnitCard attackingCard) {
         if (defendingPlayer.getHealth() <= 0) {
             return attackingCard.getName() + KILLED + defendingPlayer.getName() + BLOW;
         } else {
@@ -225,7 +220,7 @@ public class CLI {
         }
     }
 
-    Object printSpellOnPlayerInfo(SpellCard spellCard) {
+    Object infoSpellOnPlayer(SpellCard spellCard) {
         if (spellCard.getType().equals("Attacker")) {
             if (defendingPlayer.getHealth() <= 0) {
                 return spellCard.getName() + KILLED + defendingPlayer.getName() + DARK_MAGIC;
@@ -239,7 +234,7 @@ public class CLI {
         }
     }
 
-    Object printAoeSpellInfo(SpellCard spell) {
+    Object infoAoeSpell(SpellCard spell) {
         if (spell.getType().equals("Attacker")) {
             return spell.getName() + INFLICT + spell.getValue() + ALL_DMG;
         } else {
@@ -247,7 +242,7 @@ public class CLI {
         }
     }
 
-    Object printSpellOnCardInfo(SpellCard spell, UnitCard card) {
+    Object infoSpellOnCard(SpellCard spell, UnitCard card) {
         if (spell.getType().equals("Attacker")) {
             if (card.getCurrentHealth() <= 0) {
                 return spell.getName() + KILLED + card.getName() + DARK_MAGIC;
@@ -283,7 +278,7 @@ public class CLI {
         }
     }
 
-    Object[] printCards(Collection<Card> cards) {
+    Object[] infoCardRow(Collection<Card> cards) {
         StringBuilder top = new StringBuilder();
         StringBuilder bottom = new StringBuilder();
         StringBuilder outputNumber = new StringBuilder();
