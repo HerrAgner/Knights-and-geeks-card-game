@@ -64,7 +64,6 @@ public class Program {
 
     private boolean menuSwitch() {
         int userInput;
-        boolean printAll = true;
 
         userInput = input.validatedInput(6);
 
@@ -73,20 +72,16 @@ public class Program {
                 print(cli.printBoardAndCardsOnHand());
                 break;
             case 2:
-                cli.printHpAndMana();
-                printAll = false;
-                break;
-            case 3:
                 playCard();
                 break;
-            case 4:
+            case 3:
                 attackWithCard();
                 break;
-            case 5:
+            case 4:
                 print(cli.endTurn);
                 game.finishTurn();
                 return false;
-            case 6:
+            case 5:
                 endGame();
                 break;
             default:
@@ -96,9 +91,7 @@ public class Program {
         if (!game.shouldGameContinue()) {
             running = false;
         }
-        if (printAll) {
-            cli.printBoardAndCardsOnHand();
-        }
+        print(cli.printBoardAndCardsOnHand());
         print(cli.printHpAndMana());
         print(cli.menu);
         return true;

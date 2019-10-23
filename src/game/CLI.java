@@ -26,11 +26,10 @@ public class CLI {
     Object[] menu = {
             "\nMake a move!",
             "1. Print cards from hand and table",
-            "2. Print hp and mana",
-            "3. Play card",
-            "4. Attack with card",
-            "5. End turn",
-            "6. End game"};
+            "2. Play card",
+            "3. Attack with card",
+            "4. End turn",
+            "5. End game"};
     Object[] endTurn = {
             "Ending turn.\n",
             String.format("%-200s", BLACK_BACKGROUND_BRIGHT
@@ -135,7 +134,7 @@ public class CLI {
                     defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth()};
     }
 
-    void hpBarAnimation(Card card) {
+    void hpBarAnimation(Card card, Card ... defendingCard) {
         String oneHp = String.format("%s", BLACK + RED_BACKGROUND + " ");
         String oneHpPlus = String.format("%s", BLACK + GREEN_BACKGROUND + " ");
         String hp = "";
@@ -143,7 +142,9 @@ public class CLI {
         int counter2 = 0;
         boolean healer = false;
 
-
+        if (defendingCard.length > 0) {
+            UnitCard defender = (UnitCard) defendingCard[0];
+        }
         if (card instanceof UnitCard) {
             UnitCard unitCard = (UnitCard) card;
             counter = defendingPlayer.getHealth() + unitCard.getAttack();
@@ -162,7 +163,6 @@ public class CLI {
         }
 
         if (healer) {
-            //TODO fix max hp
             for (int i = counter2; i <= activePlayer.getHealth(); i++) {
                 hp = "";
                 for (int j = 0; j < counter2; j++) {
