@@ -104,8 +104,7 @@ public class CLI {
                 printCards(cardsOnHand)
         };
     }
-
-                            }
+    
     Object printHpAndMana() {
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength + 1) + "s", activePlayer.getName()) + " HP: "
