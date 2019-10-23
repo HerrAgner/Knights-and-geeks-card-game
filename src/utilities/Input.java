@@ -47,6 +47,9 @@ public class Input {
                 if (input > 0 && input <= max || input == 0) {
                     return input;
                 }
+                else {
+                    System.out.println("Not a valid number");
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input");
             }

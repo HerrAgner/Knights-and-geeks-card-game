@@ -66,7 +66,7 @@ public class Program {
         int userInput;
         boolean printAll = true;
 
-        userInput = input.validatedInput(6);
+        userInput = input.validatedInput(5);
 
         switch (userInput) {
             case 1:
