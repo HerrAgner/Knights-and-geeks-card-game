@@ -94,7 +94,42 @@ public class CLI {
         };
     }
 
+    private String playerHpBar(String textColor, Player player) {
+        String activeHp = player == activePlayer ? "Your hp: \n" : "Enemy hp: \n";
+        String color = textColor.toUpperCase().equals("RED") ? RED_BACKGROUND : GREEN_BACKGROUND;
+        for (int i = 0; i < 30; i++) {
+            if (i == player.getHealth() / 2) {
+                activeHp = activeHp.concat(BLACK_BOLD + color + player.getHealth() + RESET);
+            }
+            if (player.getHealth() > i) {
+                activeHp = activeHp.concat(BLACK_BOLD + color + " " + RESET);
+            } else {
+                activeHp = activeHp.concat(BLACK_BOLD + WHITE_BACKGROUND + " " + RESET);
+            }
+        }
+        return activeHp;
+    }
+    private String playerManaBar() {
+        String activeHp = "Your mana: \n";
+        String color = BLUE_BACKGROUND;
+        for (int i = 0; i < 10; i++) {
+            if (i == activePlayer.getCurrentMana() / 2) {
+                activeHp = activeHp.concat(BLACK_BOLD + color + activePlayer.getCurrentMana() + RESET);
+            }
+            if (activePlayer.getCurrentMana() > i) {
+                activeHp = activeHp.concat(BLACK_BOLD + color + " " + RESET);
+            } else {
+                activeHp = activeHp.concat(BLACK_BOLD + WHITE_BACKGROUND + " " + RESET);
+            }
+        }
+        return activeHp;
+    }
+
     Object infoHpAndMana() {
+        String activeHp = playerHpBar("GREEN", activePlayer);
+        String activeMana = playerManaBar();
+        String defendingHp = playerHpBar("RED", defendingPlayer);
+
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength + 1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
@@ -104,7 +139,8 @@ public class CLI {
                 + String.format("%-" + (maxNameLength + 1) + "s", defendingPlayer.getName()) + " HP: "
                 + String.format("%-20s", defendingPlayer.getHealth() + "/30");
 
-        return new Object[]{"\n", active + RESET, defending + RESET};
+
+        return new Object[]{"\n", activeHp + RESET, activeMana + RESET, defendingHp + RESET};
     }
 
     Object infoAttack(UnitCard attackingCard, UnitCard defendingCard) {
