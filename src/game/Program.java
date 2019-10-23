@@ -149,7 +149,7 @@ public class Program {
                             game.useEffectCard(effectCard, unitCard);
                             cli.printEffectCardInfo(effectCard, unitCard);
                         }
-                        sleep(4000);
+                        sleep(2000);
                         break;
                     case UNIT_CARD:
                         print(UNIT_USED + card.getName());
@@ -162,12 +162,15 @@ public class Program {
                 switch (response[1]) {
                     case TABLE_FULL:
                         print(FULL_CARDS);
+                        sleep(2000);
                         break;
                     case TABLE_EMPTY:
                         print(NO_CARDS);
+                        sleep(2000);
                         break;
                     case COST:
                         print(NO_MANA);
+                        sleep(2000);
                         break;
                 }
             }
@@ -206,6 +209,7 @@ public class Program {
             }
         } else {
             print("", INV_NO_CARDS, "");
+            sleep(2000);
         }
     }
 
