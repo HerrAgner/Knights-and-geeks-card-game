@@ -109,11 +109,11 @@ public class CLI {
     Object printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
         if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
             return BOTH + attackingCard.getName() + AND + defendingCard.getName() + DIE_FIGHT;
-        } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
+        } else if (defendingCard.getCurrentHealth() <= 0) {
             return new Object[]{
                     attackingCard.getName() + KILLED + defendingCard.getName() + LETHAL_ATK,
                     attackingCard.getName() + NEW_HP + attackingCard.getCurrentHealth()};
-        } else if (attackingCard.getCurrentHealth() <= defendingCard.getAttack()) {
+        } else if (attackingCard.getCurrentHealth() <= 0) {
             return new Object[]{
                     attackingCard.getName() + DIE_ATK + defendingCard.getName() + ".",
                     defendingCard.getName() + LIVES + defendingCard.getCurrentHealth() + " hp."};
