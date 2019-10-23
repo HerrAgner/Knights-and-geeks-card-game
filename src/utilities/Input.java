@@ -23,7 +23,7 @@ public class Input {
                 input = Integer.parseInt(scan.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.printf("Not a valid choice. Please enter a number between 1 and %s\n", max);
+                System.out.printf("Not a valid choice. Please enter a number between 0 and %s\n", max);
             }
         }
         if (inputValidation(max, input)) {
