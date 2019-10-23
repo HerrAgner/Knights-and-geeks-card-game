@@ -153,8 +153,7 @@ public class CLI {
             SpellCard spellCard = (SpellCard) card;
             if (spellCard.getType().equals("Healer")) {
                 healer = true;
-                counter = activePlayer.getHealth() - spellCard.getValue();
-                counter2 = counter;
+                counter2 = game.getHpBeforeHeal();
             } else {
                 healer = false;
                 counter = defendingPlayer.getHealth() + spellCard.getValue();

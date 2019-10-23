@@ -18,6 +18,7 @@ public class Game {
     private ArrayList<Card> cardPile;
     private ArrayList<Card> trashPile = new ArrayList<>();
     private Player[] players;
+    private int hpBeforeHeal;
     private int activePlayer;
     private int round;
     private Input input = new Input();
@@ -214,6 +215,7 @@ public class Game {
     public boolean useSpellOnPlayer(SpellCard usedCard) {
         if (usedCard.isMany()) return false;
         if (usedCard.getType().equals("Healer")) {
+            hpBeforeHeal = getCurrentPlayer().getHealth();
             getCurrentPlayer().changeHealth(usedCard.getValue());
         } else if (usedCard.getType().equals("Attacker")) {
             getDefendingPlayer().changeHealth(-usedCard.getValue());
@@ -320,6 +322,10 @@ public class Game {
         Collections.shuffle(this.cardPile);
 
         return true;
+    }
+
+    public int getHpBeforeHeal() {
+        return hpBeforeHeal;
     }
 
     public boolean startTurn() {
