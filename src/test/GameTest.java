@@ -330,8 +330,8 @@ class GameTest {
 
     @Test
     void createCardPile() {
-        Game game = new Game("Ted", "Anton", 80);
         int amountOfCards = 80;
+        Game game = new Game("Ted", "Anton", amountOfCards);
 
         assertTrue(game.createCardPile(amountOfCards));
         var ref = new Object() {

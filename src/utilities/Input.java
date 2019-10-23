@@ -44,7 +44,7 @@ public class Input {
         while (true) {
             try {
                 input = Integer.parseInt(scan.nextLine());
-                if (input > 0 && input <= max) {
+                if (input > 0 && input <= max || input == 0) {
                     return input;
                 }
             } catch (NumberFormatException e) {
@@ -58,13 +58,13 @@ public class Input {
         while (true) {
             try {
                 input = Integer.parseInt(scan.nextLine());
-                if (input == 0 || input <= max && input > -1) {
+                if (input == 9 || input == 0 || input <= max && input >= 1 ) {
                     return input;
                 } else {
                     if (max == 0) {
-                        System.out.println("You can only attack the player, option 0.");
+                        System.out.println("You can only attack the player, option 9.");
                     } else {
-                        System.out.println("Select a number between 0 and " + max);
+                        System.out.println("Select a number between 1 and " + max + "or 9 to attack player");
                     }
                 }
             } catch (NumberFormatException e) {
