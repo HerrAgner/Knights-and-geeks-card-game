@@ -235,7 +235,10 @@ public class Program {
     }
 
     private void endGame() {
+        System.out.println("Are you sure you want to end the game? (1 for yes, anything else for no)");
+        if (input.validatedInput(1) == 1){
         System.exit(0);
+        }
     }
 
     void sleep(int ms) {
