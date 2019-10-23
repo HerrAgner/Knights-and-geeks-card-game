@@ -6,9 +6,12 @@ import cards.SpellCard;
 import cards.UnitCard;
 import utilities.Input;
 import enums.*;
+import utilities.Messages;
+
 import java.util.Collection;
 import java.util.Scanner;
 import static utilities.CLIColors.*;
+import static utilities.Messages.*;
 import static utilities.Printer.print;
 import static utilities.Printer.printf;
 
@@ -17,27 +20,13 @@ public class CLI {
     private Scanner scan;
     private Program program;
     private Input input;
+    private Messages msg;
     private Player activePlayer;
     private Player defendingPlayer;
     private Collection<Card> cardsOnHand;
     private Collection<Card> cardsOnTable;
     private Collection<Card> enemyCardsOnTable;
     private Game game;
-    Object[] menu = {
-            "\nMake a move!",
-            "1. Print cards from hand and table",
-            "2. Print hp and mana",
-            "3. Play card",
-            "4. Attack with card",
-            "5. End turn",
-            "6. End game"};
-    Object[] endTurn = {
-            "Ending turn.\n",
-            String.format("%-200s", BLACK_BACKGROUND_BRIGHT
-                    + "\n" + YELLOW_BACKGROUND
-                    + "\n" + BLACK_BACKGROUND_BRIGHT),
-            RESET};
-
 
     public CLI(Program program) {
         scan = new Scanner(System.in);
@@ -53,26 +42,25 @@ public class CLI {
     void createPlayers() {
         String playerOneName;
         String playerTwoName;
-        System.out.println("Enter name for player 1");
+        print(ENTER_NAME + "1");
         playerOneName = scan.nextLine();
         while (playerOneName.length() == 0 || playerOneName.length() > 10) {
-            print("Invalid name. Max length is 10 characters, please enter a new one.");
+            print(INV_NAME_1);
             playerOneName = scan.nextLine();
         }
-        print("Enter name for player 2");
+        print(ENTER_NAME + "2");
         playerTwoName = scan.nextLine();
         while (playerTwoName.length() == 0 || playerTwoName.length() > 10 || playerOneName.equals(playerTwoName)) {
-            print("Invalid name. Max length is 10 characters and has to be different from Player One. " +
-                    "\nPlease enter a new name!");
+            print(INV_NAME_2);
             playerTwoName = scan.nextLine();
         }
-        if (playerOneName.toLowerCase().equals("cheetah") && playerTwoName.toLowerCase().equals("zebra")) {
+        if (playerOneName.toLowerCase().equals(LUR1) && playerTwoName.toLowerCase().equals(LUR2)) {
             Lurig lurig = new Lurig();
         }
         maxNameLength = Math.max(playerOneName.length(), playerTwoName.length());
 
         program.startGame(playerOneName, playerTwoName, choseCardPileSize());
-        print(activePlayer.getName() + "'s turn");
+        print(activePlayer.getName() + TURN);
 
     }
 
@@ -85,10 +73,10 @@ public class CLI {
     }
 
     public int choseCardPileSize() {
-        print("Enter your desired card pile size");
+        print(ENTER_SIZE);
         int cardSize = input.validatedInput(100);
         while (cardSize < 45 || cardSize > 100) {
-            print("Invalid size, chose number between 45-100");
+            print(INV_SIZE);
             cardSize = input.validatedInput(100);
         }
         return cardSize;
@@ -96,11 +84,11 @@ public class CLI {
 
     Object[] printBoardAndCardsOnHand() {
         return new Object[]{
-                "\nDefending cards on table:",
+                DEF_CARD_TBL,
                 printCards(enemyCardsOnTable),
-                "\nYour cards on table: ",
+                OWN_CARD_TBL,
                 printCards(cardsOnTable),
-                "\nCards on hand:",
+                OWN_CARD_HND,
                 printCards(cardsOnHand)
         };
     }
@@ -120,19 +108,19 @@ public class CLI {
 
     Object printAttackInfo(UnitCard attackingCard, UnitCard defendingCard) {
         if (defendingCard.getCurrentHealth() <= 0 && attackingCard.getCurrentHealth() <= 0) {
-            return "Both " + attackingCard.getName() + " and " + defendingCard.getName() + " died fighting. ";
+            return BOTH + attackingCard.getName() + AND + defendingCard.getName() + DIE_FIGHT;
         } else if (attackingCard.getAttack() >= defendingCard.getCurrentHealth()) {
             return new Object[]{
-                    attackingCard.getName() + " killed " + defendingCard.getName() + " with a lethal attack.",
-                    attackingCard.getName() + "s' health is now: " + attackingCard.getCurrentHealth()};
+                    attackingCard.getName() + KILLED + defendingCard.getName() + LETHAL_ATK,
+                    attackingCard.getName() + NEW_HP + attackingCard.getCurrentHealth()};
         } else if (attackingCard.getCurrentHealth() <= defendingCard.getAttack()) {
             return new Object[]{
-                    attackingCard.getName() + " died while attacking " + defendingCard.getName() + ".",
-                    defendingCard.getName() + " lives with " + defendingCard.getCurrentHealth() + " hp."};
+                    attackingCard.getName() + DIE_ATK + defendingCard.getName() + ".",
+                    defendingCard.getName() + LIVES + defendingCard.getCurrentHealth() + " hp."};
         } else return new Object[]{
-                    attackingCard.getName() + " attacked " + defendingCard.getName() + ".",
-                    attackingCard.getName() + " new health: " + attackingCard.getCurrentHealth(),
-                    defendingCard.getName() + " new health: " + defendingCard.getCurrentHealth()};
+                    attackingCard.getName() + ATTACKED + defendingCard.getName() + ".",
+                    attackingCard.getName() + NEW_HP + attackingCard.getCurrentHealth(),
+                    defendingCard.getName() + NEW_HP + defendingCard.getCurrentHealth()};
     }
 
     void hpBarAnimation(Card card) {
@@ -196,50 +184,50 @@ public class CLI {
 
     Object attackPlayerInfo(UnitCard attackingCard) {
         if (defendingPlayer.getHealth() <= 0) {
-            return attackingCard.getName() + " killed " + defendingPlayer.getName() + " with a deadly blow!";
+            return attackingCard.getName() + KILLED + defendingPlayer.getName() + BLOW;
         } else {
-            return defendingPlayer.getName() + " took " + attackingCard.getAttack() + " damage ";
+            return defendingPlayer.getName() + TOOK + attackingCard.getAttack() + DMG;
         }
     }
 
     Object printSpellOnPlayerInfo(SpellCard spellCard) {
         if (spellCard.getType().equals("Attacker")) {
             if (defendingPlayer.getHealth() <= 0) {
-                return spellCard.getName() + " killed " + defendingPlayer.getName() + " with dark magic!";
+                return spellCard.getName() + KILLED + defendingPlayer.getName() + DARK_MAGIC;
             } else {
                 return new Object[]{
-                        spellCard.getName() + " inflicted " + spellCard.getValue() + " to " + defendingPlayer.getName(),
-                        "New health: " + defendingPlayer.getHealth()};
+                        spellCard.getName() + INFLICT + spellCard.getValue() + TO + defendingPlayer.getName(),
+                        NEW_HP + defendingPlayer.getHealth()};
             }
         } else {
-            return spellCard.getName() + " healed " + activePlayer.getName() + " with " + spellCard.getValue() + " hp.";
+            return spellCard.getName() + HEAL + activePlayer.getName() + WITH + spellCard.getValue() + " hp.";
         }
     }
 
     Object printAoeSpellInfo(SpellCard spell) {
         if (spell.getType().equals("Attacker")) {
-            return spell.getName() + " inflicted " + spell.getValue() + " dmg to all enemy cards.";
+            return spell.getName() + INFLICT + spell.getValue() + ALL_DMG;
         } else {
-            return spell.getName() + " healed " + spell.getValue() + " hp to all your wounded cards.";
+            return spell.getName() + HEAL + spell.getValue() + ALL_HEAL;
         }
     }
 
     Object printSpellOnCardInfo(SpellCard spell, UnitCard card) {
         if (spell.getType().equals("Attacker")) {
             if (card.getCurrentHealth() <= 0) {
-                return spell.getName() + " killed " + card.getName() + " with dark magic.";
+                return spell.getName() + KILLED + card.getName() + DARK_MAGIC;
             } else {
                 return new Object[]{
-                        spell.getName() + " inflicted " + spell.getValue() + " dmg with dark magic",
-                        card.getName() + "'s new hp: " + card.getCurrentHealth()};
+                        spell.getName() + INFLICT + spell.getValue() + DMG + DARK_MAGIC,
+                        card.getName() + NEW_HP + card.getCurrentHealth()};
             }
         } else {
             if (card.getCurrentHealth() == card.getMaxHealth()) {
-                return ("You healed for nothing, you fool!");
+                return (NO_HEAL);
             } else {
                 return new Object[]{
-                        spell.getName() + " healed " + spell.getValue() + " hp with light magic",
-                        card.getName() + "'s new hp: " + card.getCurrentHealth()};
+                        spell.getName() + HEAL + spell.getValue() + LIGHT_MAGIC,
+                        card.getName() + NEW_HP + card.getCurrentHealth()};
             }
         }
     }
@@ -247,15 +235,15 @@ public class CLI {
     void printEffectCardInfo(EffectCard effectCard, UnitCard unitCard) {
         if (effectCard.getEffectValue() > 0) {
             if (effectCard.getType().equals("Hp")) {
-                printf("You buffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+                printf(BUFF_HP, unitCard.getName(), effectCard.getEffectValue());
             } else {
-                printf("You buffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+                printf(BUFF_ATK, unitCard.getName(), effectCard.getEffectValue());
             }
         } else {
             if (effectCard.getType().equals("Hp")) {
-                printf("You debuffed the card %s with %s hp", unitCard.getName(), effectCard.getEffectValue());
+                printf(DEBUFF_HP, unitCard.getName(), effectCard.getEffectValue());
             } else {
-                printf("You debuffed the card %s with %s attack", unitCard.getName(), effectCard.getEffectValue());
+                printf(DEBUFF_ATK, unitCard.getName(), effectCard.getEffectValue());
             }
         }
     }
