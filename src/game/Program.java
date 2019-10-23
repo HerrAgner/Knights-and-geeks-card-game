@@ -8,6 +8,8 @@ import enums.Response;
 import utilities.Input;
 
 import java.util.Collection;
+
+import static utilities.Messages.*;
 import static utilities.Printer.print;
 
 public class Program {
@@ -44,11 +46,11 @@ public class Program {
             cli.setVariables();
             game.startTurn();
 
-            System.out.println(activePlayer.getName() + "'s turn");
+            System.out.println(activePlayer.getName() + TURN);
 
             print(cli.printBoardAndCardsOnHand());
             print(cli.printHpAndMana());
-            print(cli.menu);
+            print(MENU);
 
             boolean menu = true;
             while (menu) {
@@ -82,14 +84,14 @@ public class Program {
                 attackWithCard();
                 break;
             case 5:
-                print(cli.endTurn);
+                print(END_TURN);
                 game.finishTurn();
                 return false;
             case 6:
                 endGame();
                 break;
             default:
-                print(cli.menu);
+                print(MENU);
                 break;
         }
         if (!game.shouldGameContinue()) {
@@ -99,7 +101,7 @@ public class Program {
             cli.printBoardAndCardsOnHand();
         }
         print(cli.printHpAndMana());
-        print(cli.menu);
+        print(MENU);
         return true;
     }
 
@@ -107,7 +109,7 @@ public class Program {
         int chosenCard;
         int chosenDefendingCard;
 
-        print("Which card do you want to play?");
+        print(ENT_PLAY_CARD);
         print(cli.printCards(cardsOnHand));
 
         chosenCard = input.validateChosenCard(cardsOnHand.size());
@@ -124,13 +126,13 @@ public class Program {
                     if (spellCard.getType().equals("Healer")) {
                         print(cli.printCards(cardsOnTable));
                         if (!spellCard.isMany()) {
-                            print("Which card do you want to heal? (0 to heal you)");
+                            print(ENT_HEAL_CARD);
                         }
                         useSpell(spellCard, cardsOnHand);
                     } else if (spellCard.getType().equals("Attacker")) {
                         print(cli.printCards(enemyCardsOnTable));
                         if (!spellCard.isMany()) {
-                            print("Which card do you want to attack? (0 to attack player)");
+                            print(ENT_DEF_CARD);
                         }
                         useSpell(spellCard, enemyCardsOnTable);
                     }
@@ -139,7 +141,7 @@ public class Program {
                     EffectCard effectCard = (EffectCard) card;
                     if (effectCard.getEffectValue() < 0) {
                         print(cli.printCards(enemyCardsOnTable));
-                        print("Which card do you want to debuff?");
+                        print(ENT_DEBUFF_CARD);
 
                         chosenDefendingCard = input.validateChosenCard(enemyCardsOnTable.size());
                         unitCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
@@ -149,7 +151,7 @@ public class Program {
 
                     } else {
                         print(cli.printCards(cardsOnTable));
-                        print("Which card do you want to buff?");
+                        print(ENT_BUFF_CARD);
                         chosenDefendingCard = input.validateChosenCard(cardsOnTable.size());
                         unitCard = (UnitCard) cardsOnTable.toArray()[chosenDefendingCard - 1];
                         game.useEffectCard(effectCard, unitCard);
@@ -158,7 +160,7 @@ public class Program {
                     sleep(4000);
                     break;
                 case UNIT_CARD:
-                    print("Played card " + card.getName());
+                    print(UNIT_USED + card.getName());
                     break;
                 default:
                     // Crazy place! How did you get here?
@@ -167,13 +169,13 @@ public class Program {
         } else if (response[0] == Response.ERROR) {
             switch (response[1]) {
                 case TABLE_FULL:
-                    print("To many cards on the table. Max 7.");
+                    print(FULL_CARDS);
                     break;
                 case TABLE_EMPTY:
-                    print("No cards on table");
+                    print(NO_CARDS);
                     break;
                 case COST:
-                    print("Not enough mana.");
+                    print(NO_MANA);
                     break;
             }
         }
@@ -183,15 +185,15 @@ public class Program {
         int chosenCard;
         int chosenDefendingCard;
         if (cardsOnTable.size() >= 1) {
-            print("Choose card: ");
+            print(ENT_ATK_CARD);
             print(cli.printCards(cardsOnTable));
             chosenCard = input.validateChosenCard(cardsOnTable.size());
             var attackingCard = (UnitCard) cardsOnTable.toArray()[chosenCard - 1];
             if (attackingCard.getFatigue()) {
-                print("\nCard is fatigue, wait one turn to attack!\n");
-                print(cli.menu);
+                print(INV_FATIGUE);
+                print(MENU);
             } else {
-                print("Attack card or player (0 for player): ");
+                print(ENT_DEF_CARD);
                 print(cli.printCards(enemyCardsOnTable));
                 chosenDefendingCard = input.validateActionOnPlayerOrCard(enemyCardsOnTable.size());
 
@@ -208,11 +210,7 @@ public class Program {
                 }
             }
         } else {
-            print(
-                    "",
-                    "No cards on table. Choose another option",
-                    "",
-                    cli.menu);
+            print("", INV_NO_CARDS, "", MENU);
         }
     }
 

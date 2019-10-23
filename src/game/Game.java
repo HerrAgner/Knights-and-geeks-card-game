@@ -97,7 +97,6 @@ public class Game {
         if (getCurrentPlayer().getCurrentMana() < getCurrentPlayer().getCardFromHand(id).getCost()) {
             res[0] = Response.ERROR;
             res[1] = Response.COST;
-            System.out.println("mana" + getCurrentPlayer().getCurrentMana() + "/" + getCurrentPlayer().getMana());
         } else if (getCurrentPlayer().getCardsOnTable().size() > 6) {
             res[0] = Response.ERROR;
             res[1] = Response.TABLE_FULL;
