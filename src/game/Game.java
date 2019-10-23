@@ -220,7 +220,7 @@ public class Game {
         } else if (usedCard.getType().equals("Attacker")) {
             getDefendingPlayer().changeHealth(-usedCard.getValue());
         }
-        trashPile.add(usedCard);
+        trashPile.add(getCurrentPlayer().getCardFromHand(usedCard.getId()));
         return true;
     }
 
