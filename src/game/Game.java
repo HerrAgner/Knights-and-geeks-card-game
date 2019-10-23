@@ -135,6 +135,7 @@ public class Game {
             }
             getCurrentPlayer().changeMana(-card.getCost());
             getCurrentPlayer().removeCardFromHand(card.getId());
+            trashPile.add(card);
             return true;
         }
         return false;
