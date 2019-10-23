@@ -1,6 +1,7 @@
 import cards.SpellCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -15,7 +16,7 @@ class SpellCardTest {
     }
 
     @Test
-    void constructorTest(){
+    void constructorTest() {
         assertNotNull(healer);
         assertNotNull(attacker);
 

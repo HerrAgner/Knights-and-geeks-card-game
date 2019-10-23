@@ -1,4 +1,5 @@
 package cards;
+
 import enums.*;
 
 public class UnitCard extends Card {
@@ -10,7 +11,7 @@ public class UnitCard extends Card {
     private Rarity rarity;
 
     public UnitCard() {
-        this("", 0, 0 , 0,"");
+        this("", 0, 0, 0, "");
     }
 
     public UnitCard(String name, int cost, int hp, int attack, String rarity) {
@@ -24,16 +25,16 @@ public class UnitCard extends Card {
     }
 
     public void changeCurrentHealth(int hpChange) {
-        if(currentHealth+hpChange <= 0) setCurrentHealth(0);
-        else if(currentHealth+hpChange > health) {
+        if (currentHealth + hpChange <= 0) setCurrentHealth(0);
+        else if (currentHealth + hpChange > health) {
             setCurrentHealth(health);
-        } else setCurrentHealth(currentHealth+hpChange);
+        } else setCurrentHealth(currentHealth + hpChange);
     }
 
     public void changeMaxHealth(int hpChange) {
         if (getMaxHealth() + hpChange <= 0) {
             setMaxHealth(1);
-            if(getCurrentHealth() + hpChange <= 0) {
+            if (getCurrentHealth() + hpChange <= 0) {
                 setCurrentHealth(1);
             } else currentHealth = currentHealth + hpChange;
         } else {
@@ -46,7 +47,7 @@ public class UnitCard extends Card {
         return currentHealth;
     }
 
-    private void setCurrentHealth(int hp){
+    private void setCurrentHealth(int hp) {
         currentHealth = hp;
     }
 
@@ -54,7 +55,7 @@ public class UnitCard extends Card {
         return health;
     }
 
-    private void setMaxHealth(int maxHealth){
+    private void setMaxHealth(int maxHealth) {
         this.health = maxHealth;
     }
 
@@ -70,7 +71,7 @@ public class UnitCard extends Card {
         return attack;
     }
 
-    private void setAttack(int attack){
+    private void setAttack(int attack) {
         this.attack = attack;
     }
 
@@ -86,7 +87,7 @@ public class UnitCard extends Card {
         this.fatigue = fatigue;
     }
 
-    public Rarity getRarity(){
+    public Rarity getRarity() {
         return rarity;
     }
 }

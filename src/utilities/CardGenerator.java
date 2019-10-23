@@ -26,8 +26,9 @@ public class CardGenerator {
 
         try {
             cards.removeIf(card -> card.getName().length() > 28);
-        } catch (Exception e){
-            e.printStackTrace();;
+        } catch (Exception e) {
+            e.printStackTrace();
+            ;
         }
 
         Collections.shuffle(cards);

@@ -12,8 +12,6 @@ public class EffectCard extends Card {
         super(name, cost);
         this.type = type;
         this.effectValue = effectValue;
-
-
     }
 
     public String getType() {

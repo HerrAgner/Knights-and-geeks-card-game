@@ -128,7 +128,7 @@ class GameTest {
 
         while (game.getCardPile().size() > 1) {
             UUID id = game.drawCard();
-            if(id == null) {
+            if (id == null) {
                 System.out.println("HAND FULL");
                 break;
             }
@@ -143,7 +143,7 @@ class GameTest {
         Game game = new Game("Ted", "Anton", 46);
         game.getCurrentPlayer().changeMana(10);
         Card[] testCards = {
-                new UnitCard("UnitCard", 1, 1, 1,"COMMON"),
+                new UnitCard("UnitCard", 1, 1, 1, "COMMON"),
                 new UnitCard("UnitCard", 11, 1, 1, "COMMON"),
                 new EffectCard("EffectCard", 1, "type", 1),
                 new EffectCard("EffectCard", 11, "type", 1)
@@ -152,7 +152,7 @@ class GameTest {
         game.getPlayers()[0].addCardToHand(testCards[0]);
         game.playCard(testCards[0].getId());
         assertSame(testCards[0], game.getCurrentPlayer().getCardFromTable(testCards[0].getId()));
-        assertEquals(10-testCards[0].getCost(), game.getCurrentPlayer().getCurrentMana());
+        assertEquals(10 - testCards[0].getCost(), game.getCurrentPlayer().getCurrentMana());
         game.getPlayers()[0].addCardToHand(testCards[1]);
         game.playCard(testCards[1].getId());
         assertNull(game.getCurrentPlayer().getCardFromTable(testCards[1].getId()));
@@ -197,7 +197,7 @@ class GameTest {
     }
 
     @Test
-    void useSpellOnCard(){
+    void useSpellOnCard() {
         Game game = new Game("eric", "nisse", 46);
         Player players[] = game.getPlayers();
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
@@ -256,7 +256,7 @@ class GameTest {
     }
 
     @Test
-    void useSpellOnPlayer(){
+    void useSpellOnPlayer() {
         Game game = new Game("eric", "nisse", 46);
         SpellCard healer = new SpellCard("Healer", false, 2, "Eric", 2);
         SpellCard attacker = new SpellCard("Attacker", false, 2, "Ted", 2);
@@ -340,7 +340,7 @@ class GameTest {
             int cheapCards = 0;
         };
         game.getCardPile().stream().filter(card -> card instanceof UnitCard).forEach(c -> {
-            if (c.getCost() <= 1){
+            if (c.getCost() <= 1) {
                 ref.cheapCards++;
             }
         });
@@ -408,9 +408,9 @@ class GameTest {
         assertEquals(2, unitCard2.getCurrentHealth());
 
         game.useEffectCard(decreaseHealth, unitCard2);
-        assertTrue(unitCard2.getMaxHealth()>0);
+        assertTrue(unitCard2.getMaxHealth() > 0);
         assertEquals(1, unitCard2.getCurrentHealth());
-        assertTrue(unitCard2.getCurrentHealth()<=unitCard2.getMaxHealth());
+        assertTrue(unitCard2.getCurrentHealth() <= unitCard2.getMaxHealth());
     }
 
     @Test
@@ -442,7 +442,7 @@ class GameTest {
         assertEquals(3, game.getCurrentPlayer().getCurrentMana());
         assertEquals(5, game.getCurrentPlayer().getCardsOnHand().size());
 
-        for(int i=0; i<15; i++){
+        for (int i = 0; i < 15; i++) {
             game.startTurn();
         }
         assertEquals(10, game.getCurrentPlayer().getMana());

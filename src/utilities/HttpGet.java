@@ -16,26 +16,26 @@ public class HttpGet {
     }
 
     public void sendGet() {
-        try{
-        String url = "http://artii.herokuapp.com/make?text=" + name + "+won+the+game+in+" + round +"+rounds";
-        URL obj = new URL(url);
+        try {
+            String url = "http://artii.herokuapp.com/make?text=" + name + "+won+the+game+in+" + round + "+rounds";
+            URL obj = new URL(url);
 
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-        con.setRequestMethod("GET");
+            con.setRequestMethod("GET");
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
 
-        while ((inputLine = in.readLine()) != null) {
-            System.out.println(inputLine);
-            response.append(inputLine);
-        }
-        in.close();}
-        catch (Exception e){
-            System.out.println(name + " won the game in " + round +" rounds");
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+                response.append(inputLine);
+            }
+            in.close();
+        } catch (Exception e) {
+            System.out.println(name + " won the game in " + round + " rounds");
         }
 
     }

@@ -1,6 +1,8 @@
 package utilities;
+
 import cards.EffectCard;
 import game.Player;
+
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -46,8 +48,7 @@ public class Input {
                 input = Integer.parseInt(scan.nextLine());
                 if (input > 0 && input <= max || input == 0) {
                     return input;
-                }
-                else {
+                } else {
                     System.out.println("Not a valid number");
                 }
             } catch (NumberFormatException e) {
@@ -61,7 +62,7 @@ public class Input {
         while (true) {
             try {
                 input = Integer.parseInt(scan.nextLine());
-                if (input == 9 || input == 0 || input <= max && input >= 1 ) {
+                if (input == 9 || input == 0 || input <= max && input >= 1) {
                     return input;
                 } else {
                     if (max == 0) {
