@@ -125,6 +125,10 @@ public class CLI {
     }
 
     Object infoHpAndMana() {
+        String activeHp = playerHpBar("GREEN", activePlayer);
+        String activeMana = playerManaBar();
+        String defendingHp = playerHpBar("RED", defendingPlayer);
+
         String active = BLACK_BOLD + GREEN_BACKGROUND + " "
                 + String.format("%-" + (maxNameLength + 1) + "s", activePlayer.getName()) + " HP: "
                 + String.format("%-20s", activePlayer.getHealth() + "/30  |  Mana: "
