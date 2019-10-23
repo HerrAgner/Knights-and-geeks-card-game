@@ -107,7 +107,6 @@ public class Game {
             res[1] = Response.TABLE_EMPTY;
         } else {
             res[0] = Response.OK;
-            getCurrentPlayer().changeMana(-c.getCost());
             if (c instanceof UnitCard) {
                 res[1] = Response.UNIT_CARD;
                 ((UnitCard) c).setFatigue(true);
