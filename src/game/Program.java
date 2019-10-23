@@ -8,6 +8,7 @@ import enums.Response;
 import utilities.Input;
 
 import java.util.Collection;
+
 import static utilities.Messages.*;
 import static utilities.Printer.print;
 
@@ -170,8 +171,6 @@ public class Program {
                         break;
                 }
             }
-        } else {
-            print(MENU);
         }
     }
 
@@ -206,10 +205,10 @@ public class Program {
                 }
             }
         } else {
-            print("", INV_NO_CARDS, "", MENU);
+            print("", INV_NO_CARDS, "");
         }
     }
-    
+
     private void useSpell(SpellCard spellCard, Collection<Card> cards) {
         if (spellCard.isMany()) {
             game.useSpellOnCard(spellCard);
@@ -236,8 +235,8 @@ public class Program {
 
     private void endGame() {
         System.out.println("Are you sure you want to end the game? (1 for yes, any other number for no)");
-        if (input.validatedInput(1) == 1){
-        System.exit(0);
+        if (input.validatedInput(1) == 1) {
+            System.exit(0);
         }
     }
 
