@@ -71,7 +71,6 @@ public class CLI {
         maxNameLength = Math.max(playerOneName.length(), playerTwoName.length());
 
         program.startGame(playerOneName, playerTwoName, choseCardPileSize());
-        print(activePlayer.getName() + "'s turn");
 
     }
 

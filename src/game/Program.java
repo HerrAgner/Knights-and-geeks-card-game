@@ -45,14 +45,13 @@ public class Program {
             cli.setVariables();
             game.startTurn();
 
-            System.out.println(activePlayer.getName() + "'s turn");
-
-            print(cli.printBoardAndCardsOnHand());
-            print(cli.printHpAndMana());
-            print(cli.menu);
 
             boolean menu = true;
             while (menu) {
+                System.out.println(activePlayer.getName() + "'s turn");
+                print(cli.printBoardAndCardsOnHand());
+                print(cli.printHpAndMana());
+                print(cli.menu);
                 menu = menuSwitch();
             }
         }
@@ -90,10 +89,8 @@ public class Program {
         }
         if (!game.shouldGameContinue()) {
             running = false;
+            return false;
         }
-        print(cli.printBoardAndCardsOnHand());
-        print(cli.printHpAndMana());
-        print(cli.menu);
         return true;
     }
 
