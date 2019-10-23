@@ -288,8 +288,8 @@ public class Game {
 
         double amountOfUnitCards = amountOfCards * 0.7;
         double amountOfCheapCards = amountOfCards * 0.1;
-//        double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
-        double amountOfSpellCards = Math.floor(amountOfCards * 0.2);
+        double amountOfEffectCards = Math.floor(amountOfCards * 0.1);
+        double amountOfSpellCards = Math.floor(amountOfCards * 0.1);
 
         for (int i = 0; i < amountOfUnitCards; i++) {
             cardPile.add(unitCards.get(i));
@@ -299,9 +299,9 @@ public class Game {
             cardPile.add(cheapUnitCards.get(i));
         }
 
-//        for (int i = 0; i < amountOfEffectCards; i++) {
-//            cardPile.add(effectCards.get(i));
-//        }
+        for (int i = 0; i < amountOfEffectCards; i++) {
+            cardPile.add(effectCards.get(i));
+        }
         for (int i = 0; i < amountOfSpellCards; i++) {
             cardPile.add(spellCards.get(i));
         }
