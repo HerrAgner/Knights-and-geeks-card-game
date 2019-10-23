@@ -1,14 +1,26 @@
 package cards;
 
+import java.util.UUID;
+
 public abstract class Card {
     private String name;
     private int cost;
-    private String type;
+    private UUID id;
 
-    public Card(String name, int cost, String type) {
-        this.name = name;
-        this.cost = cost;
-        this.type = type;
+    public Card() {
+    }
+
+    public Card(String name, int cost) {
+
+        if (name.length() <= 0) {
+            this.name = null;
+            this.cost = 0;
+            this.id = UUID.randomUUID();
+        } else {
+            this.name = name;
+            this.cost = cost;
+            this.id = UUID.randomUUID();
+        }
     }
 
     public String getName() {
@@ -19,7 +31,7 @@ public abstract class Card {
         return cost;
     }
 
-    public String getType() {
-        return type;
+    public UUID getId() {
+        return id;
     }
 }
