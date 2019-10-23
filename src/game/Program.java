@@ -162,12 +162,12 @@ public class Program {
                         break;
                     case UNIT_CARD:
                         print(UNIT_USED + card.getName());
-                        print(cli.printBoardAndCardsOnHand());
                         break;
                     default:
                         // Crazy place! How did you get here?
                         break;
                 }
+                print(cli.printBoardAndCardsOnHand());
             } else if (response[0] == Response.ERROR) {
                 switch (response[1]) {
                     case TABLE_FULL:
@@ -207,13 +207,13 @@ public class Program {
                             game.attackPlayer(attackingCard);
                             print(cli.attackPlayerInfo(attackingCard));
                             cli.hpBarAnimation(attackingCard);
-                            sleep(3000);
                         } else if (chosenDefendingCard <= enemyCardsOnTable.toArray().length) {
                             var defendingCard = (UnitCard) enemyCardsOnTable.toArray()[chosenDefendingCard - 1];
                             game.attackCard(attackingCard, defendingCard);
                             print(cli.printAttackInfo(attackingCard, defendingCard));
-                            sleep(3000);
                         }
+                        sleep(2000);
+                        print(cli.printBoardAndCardsOnHand());
                     }
                 }
             }

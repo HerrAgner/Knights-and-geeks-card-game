@@ -22,7 +22,7 @@ public class Messages {
             "\nPlease enter a new name!";
     public static final String ENTER_SIZE = "Enter your desired card pile size";
     public static final String INV_SIZE = "Invalid size, chose number between 45-100";
-    public static final String DEF_CARD_TBL = "\nDefending cards on table:";
+    public static final String DEF_CARD_TBL = "\n\nDefending cards on table:";
     public static final String OWN_CARD_TBL = "\nYour cards on table: ";
     public static final String OWN_CARD_HND = "\nCards on hand: ";
     public static final String BUFF_HP = "You buffed the card %s with %s hp";
